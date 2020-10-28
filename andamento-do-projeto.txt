@@ -2,8 +2,11 @@
 
 ---------------------------------------------------------------
 Lucas
-1. CRUD e tela de cadastro de planos -
+1. CRUD e tela de cadastro de planos - TELA CONCLUÍDA
 - Métodos: 
+  Dentro da pasta br.com.torrentz.model criar a classe "Plano" de acordo com o
+     Modelo Conceitual
+
   DAL getAll, getById, getByName, search
   BLL add, update, validate
 	
@@ -13,6 +16,7 @@ Lucas
   search = pesquisar um texto qualquer nos nomes dos planos
   BLL add, update, validate
 
+   Pesquisa
    SELECT * FROM planos WHERE LOWER(pla_nome) LIKE %texto%;
 
 2. Cronograma Resumido
@@ -20,7 +24,7 @@ Lucas
 ---------------------------------------------------------------
 
 Calebe
-1. CRUD e tela de cadastro de categorias - 
+1. CRUD e tela de cadastro de categorias - TELA CONCLUÍDA
   DAL getAll, getById, getByName, search
   BLL add, update, validate
 2. CRUD e tela de cadastro de filmes - 
@@ -30,7 +34,7 @@ Calebe
 
 ---------------------------------------------------------------
 Marcos
-1. CRUD e tela de visualizaçao - 
+1. CRUD e tela de visualizações - TELA CONCLUÍDA
   DAL getAll(Object object), getByUser, getByFilm, add, update
 
 	if(object instanceof Usuario)
@@ -46,7 +50,7 @@ Marcos
 3. TAP
 ---------------------------------------------------------------
 Vinicius
-1. CRUD e tela de cadastro de usuario - 
+1. CRUD e tela de cadastro de usuario - TELA CONCLUÍDA
   DAL getAll, getById, getByName, search
   BLL add, update, validate
 
@@ -56,3 +60,5 @@ Vinicius
 
 3.Modelo Físico
   Só alegria
+
+4. Conexão e configuração do BD
