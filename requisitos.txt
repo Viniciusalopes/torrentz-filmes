@@ -1,0 +1,58 @@
+27-10-2020
+
+---------------------------------------------------------------
+Lucas
+1. CRUD e tela de cadastro de planos -
+- Métodos: 
+  DAL getAll, getById, getByName, search
+  BLL add, update, validate
+	
+  getAll = Buscar todos
+  getById = Buscar pelo ID do plano
+  getByName = Buscar pelo nome do plano
+  search = pesquisar um texto qualquer nos nomes dos planos
+  BLL add, update, validate
+
+   SELECT * FROM planos WHERE LOWER(pla_nome) LIKE %texto%;
+
+2. Cronograma Resumido
+3. Riscos
+---------------------------------------------------------------
+
+Calebe
+1. CRUD e tela de cadastro de categorias - 
+  DAL getAll, getById, getByName, search
+  BLL add, update, validate
+2. CRUD e tela de cadastro de filmes - 
+  DAL getAll, getById, getByName, search
+  BLL add, update, validate
+3. Orçamento e Prazo do Projeto
+
+---------------------------------------------------------------
+Marcos
+1. CRUD e tela de visualizaçao - 
+  DAL getAll(Object object), getByUser, getByFilm, add, update
+
+	if(object instanceof Usuario)
+	{
+
+	}else
+	{
+
+	}
+
+
+2. Modelo Lógico
+3. TAP
+---------------------------------------------------------------
+Vinicius
+1. CRUD e tela de cadastro de usuario - 
+  DAL getAll, getById, getByName, search
+  BLL add, update, validate
+
+2. CRUD e tela de cadastro de contrato - 
+  DAL getAll, getById, search
+  BLL add, update, validate
+
+3.Modelo Físico
+  Só alegria
