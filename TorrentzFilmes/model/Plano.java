@@ -13,12 +13,12 @@ public class Plano {
     //----------------------------------------------------------------------------------------------
     //atributos 
     //atributos com valores em String
-    private String NomeDoPlano;
-    private float PreçoPlano;
+    private String pla_nome;
+    private float pla_preço;
 
     //Atributos com valores em int
-    private int AcesoSimultaneoPlano;
-    private int PlanoId;
+    private int pla_acesso_simultaneo;
+    private int pls_id;
     //-----------------------------------------------------------------------------------------------
 
     //contrutor vazio 
@@ -28,49 +28,51 @@ public class Plano {
 
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
-    public Plano(String StausDoPlano, String NomeDoPlano, float PreçoPlano, int AcesoSimultaneoPlano, int PlanoId) {
-
-        this.NomeDoPlano = NomeDoPlano;
-        this.PreçoPlano = PreçoPlano;
-        this.AcesoSimultaneoPlano = AcesoSimultaneoPlano;
-        this.PlanoId = PlanoId;
+    public Plano(String pla_nome, float pla_preço, int pla_acesso_simultaneo, int pls_id) {
+        this.pla_nome = pla_nome;
+        this.pla_preço = pla_preço;
+        this.pla_acesso_simultaneo = pla_acesso_simultaneo;
+        this.pls_id = pls_id;
     }
+
     //--------------------------------------------------------------------------------------------------
-
     //geter's
-    public String getNomeDoPlano() {
-        return NomeDoPlano;
+
+    public String getPla_nome() {
+        return pla_nome;
     }
 
-    public float getPreçoPlano() {
-        return PreçoPlano;
+    public float getPla_preço() {
+        return pla_preço;
     }
 
-    public int getAcesoSimultaneoPlano() {
-        return AcesoSimultaneoPlano;
+    public int getPla_acesso_simultaneo() {
+        return pla_acesso_simultaneo;
     }
 
-    public int getPlanoId() {
-        return PlanoId;
+    public int getPls_id() {
+        return pls_id;
     }
+   
 
     //---------------------------------------------------------------------------------------------
     //setr's
-    public void setNomeDoPlano(String NomeDoPlano) {
-        this.NomeDoPlano = NomeDoPlano;
+    public void setPla_nome(String pla_nome) {
+        this.pla_nome = pla_nome;
     }
 
-    public void setPreçoPlano(float PreçoPlano) {
-        this.PreçoPlano = PreçoPlano;
+    public void setPla_preço(float pla_preço) {
+        this.pla_preço = pla_preço;
     }
 
-    public void setAcesoSimultaneoPlano(int AcesoSimultaneoPlano) {
-        this.AcesoSimultaneoPlano = AcesoSimultaneoPlano;
+    public void setPla_acesso_simultaneo(int pla_acesso_simultaneo) {
+        this.pla_acesso_simultaneo = pla_acesso_simultaneo;
     }
 
-    public void setPlanoId(int PlanoId) {
-        this.PlanoId = PlanoId;
+    public void setPls_id(int pls_id) {
+        this.pls_id = pls_id;
     }
-
     //--------------------------------------------------------------------------------------
+
+    
 }
