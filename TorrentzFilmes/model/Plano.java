@@ -12,41 +12,37 @@ public class Plano {
 
     //----------------------------------------------------------------------------------------------
     //atributos 
-    //atributos com valores em String 
-    private String StausDoPlano;
+    //atributos com valores em String
     private String NomeDoPlano;
-    private String PreçoPlano;
+    private float PreçoPlano;
 
     //Atributos com valores em int
     private int AcesoSimultaneoPlano;
     private int PlanoId;
     //-----------------------------------------------------------------------------------------------
-    
+
     //contrutor vazio 
     public Plano() {
 
     }
+
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
-    public Plano(String StausDoPlano, String NomeDoPlano, String PreçoPlano, int AcesoSimultaneoPlano, int PlanoId) {
-        this.StausDoPlano = StausDoPlano;
+    public Plano(String StausDoPlano, String NomeDoPlano, float PreçoPlano, int AcesoSimultaneoPlano, int PlanoId) {
+
         this.NomeDoPlano = NomeDoPlano;
         this.PreçoPlano = PreçoPlano;
         this.AcesoSimultaneoPlano = AcesoSimultaneoPlano;
         this.PlanoId = PlanoId;
     }
     //--------------------------------------------------------------------------------------------------
-    
-    //geter's
-    public String getStausDoPlano() {
-        return StausDoPlano;
-    }
 
+    //geter's
     public String getNomeDoPlano() {
         return NomeDoPlano;
     }
 
-    public String getPreçoPlano() {
+    public float getPreçoPlano() {
         return PreçoPlano;
     }
 
@@ -57,20 +53,14 @@ public class Plano {
     public int getPlanoId() {
         return PlanoId;
     }
-    
+
     //---------------------------------------------------------------------------------------------
-    
     //setr's
-
-    public void setStausDoPlano(String StausDoPlano) {
-        this.StausDoPlano = StausDoPlano;
-    }
-
     public void setNomeDoPlano(String NomeDoPlano) {
         this.NomeDoPlano = NomeDoPlano;
     }
 
-    public void setPreçoPlano(String PreçoPlano) {
+    public void setPreçoPlano(float PreçoPlano) {
         this.PreçoPlano = PreçoPlano;
     }
 
@@ -81,7 +71,6 @@ public class Plano {
     public void setPlanoId(int PlanoId) {
         this.PlanoId = PlanoId;
     }
-    
-    //--------------------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------------------
 }
