@@ -14,11 +14,13 @@ public class Plano {
     //atributos 
     //atributos com valores em String
     private String pla_nome;
-    private float pla_preço;
+    
+    //atrbutos em float
+    private float pla_preco;
 
     //Atributos com valores em int
     private int pla_acesso_simultaneo;
-    private int pls_id;
+    private int pla_id;
     //-----------------------------------------------------------------------------------------------
 
     //contrutor vazio 
@@ -28,32 +30,30 @@ public class Plano {
 
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
-    public Plano(String pla_nome, float pla_preço, int pla_acesso_simultaneo, int pls_id) {
+    public Plano(String pla_nome, float pla_preco, int pla_acesso_simultaneo, int pla_id) {
         this.pla_nome = pla_nome;
-        this.pla_preço = pla_preço;
+        this.pla_preco = pla_preco;
         this.pla_acesso_simultaneo = pla_acesso_simultaneo;
-        this.pls_id = pls_id;
+        this.pla_id = pla_id;
     }
 
     //--------------------------------------------------------------------------------------------------
     //geter's
-
     public String getPla_nome() {
         return pla_nome;
     }
 
-    public float getPla_preço() {
-        return pla_preço;
+    public float getPla_preco() {
+        return pla_preco;
     }
 
     public int getPla_acesso_simultaneo() {
         return pla_acesso_simultaneo;
     }
 
-    public int getPls_id() {
-        return pls_id;
+    public int getPla_id() {
+        return pla_id;
     }
-   
 
     //---------------------------------------------------------------------------------------------
     //setr's
@@ -61,18 +61,17 @@ public class Plano {
         this.pla_nome = pla_nome;
     }
 
-    public void setPla_preço(float pla_preço) {
-        this.pla_preço = pla_preço;
+    public void setPla_preco(float pla_preco) {
+        this.pla_preco = pla_preco;
     }
 
     public void setPla_acesso_simultaneo(int pla_acesso_simultaneo) {
         this.pla_acesso_simultaneo = pla_acesso_simultaneo;
     }
 
-    public void setPls_id(int pls_id) {
-        this.pls_id = pls_id;
+    public void setPla_id(int pla_id) {
+        this.pla_id = pla_id;
     }
-    //--------------------------------------------------------------------------------------
 
-    
+    //--------------------------------------------------------------------------------------
 }
