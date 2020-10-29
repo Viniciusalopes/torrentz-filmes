@@ -59,6 +59,7 @@ public class Plano {
     }
     
     //---------------------------------------------------------------------------------------------
+    
     //setr's
 
     public void setStausDoPlano(String StausDoPlano) {
