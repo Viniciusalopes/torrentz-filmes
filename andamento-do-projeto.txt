@@ -61,4 +61,4 @@ Vinicius
 3.Modelo Físico
   Só alegria
 
-4. Conexão e configuração do BD
+[CONCLUÍDO] 4. Conexão e configuração do BD
