@@ -48,8 +48,10 @@
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
-              <Group type="102" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jProgressBar1" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButtonPause" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButtonPlay" min="-2" max="-2" attributes="0"/>
@@ -65,6 +67,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jButtonPause" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonPlay" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jProgressBar1" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="20" max="32767" attributes="0"/>
               </Group>
@@ -75,7 +78,7 @@
         <Component class="javax.swing.JButton" name="jButtonPlay">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/botao-play.png"/>
+              <Image iconType="3" name="/br/com/torrentz/assets/botao-play.png"/>
             </Property>
           </Properties>
           <Events>
@@ -117,9 +120,14 @@
         <Component class="javax.swing.JButton" name="jButtonPause">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/simbolo-de-pausa.png"/>
+              <Image iconType="3" name="/br/com/torrentz/assets/pare.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPauseActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JProgressBar" name="jProgressBar1">
         </Component>
       </SubComponents>
     </Container>

@@ -1,4 +1,6 @@
-package br.com.torrentz.app;
+package br.com.torrentz;
+
+import br.com.torrentz.app.AppVisualizar;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,6 +19,7 @@ public class Principal {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        new AppVisualizar().setVisible(true);
     }
     
 }

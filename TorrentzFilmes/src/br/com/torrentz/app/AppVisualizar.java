@@ -1,12 +1,16 @@
 package br.com.torrentz.app;
 
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import br.com.torrentz.util.TemporizadorJProgressBar;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,11 +23,20 @@ import javax.swing.Timer;
  * @author marcos
  */
 public class AppVisualizar extends javax.swing.JFrame {
+    
+    private TemporizadorJProgressBar modelBarra = null;
+    
     /**
      * Creates new form AppVisualizacao
      */
     public AppVisualizar() {
         initComponents();
+        
+        
+        jProgressBar1.setStringPainted(true); 
+        modelBarra = new TemporizadorJProgressBar(jProgressBar1);
+        //p.setValue(50); 
+        
     }
 
     /**
@@ -40,10 +53,11 @@ public class AppVisualizar extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButtonPause = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonPlay.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/botao-play.png")); // NOI18N
+        jButtonPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/torrentz/assets/botao-play.png"))); // NOI18N
         jButtonPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPlayActionPerformed(evt);
@@ -69,7 +83,12 @@ public class AppVisualizar extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jButtonPause.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/simbolo-de-pausa.png")); // NOI18N
+        jButtonPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/torrentz/assets/pare.png"))); // NOI18N
+        jButtonPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPauseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,7 +98,9 @@ public class AppVisualizar extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonPause)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonPlay)
@@ -92,7 +113,8 @@ public class AppVisualizar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonPause)
-                    .addComponent(jButtonPlay))
+                    .addComponent(jButtonPlay)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -115,9 +137,52 @@ public class AppVisualizar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
-
+        if(jProgressBar1.getValue() == 0){
+            try {
+                modelBarra.start();
+                setIconPlayPause("../assets/simbolo-de-pausa.png");
+            } catch (IOException ex) {
+                Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            if(modelBarra.isPausa()){
+                try {
+                    modelBarra.resumir();                
+                    setIconPlayPause("../assets/simbolo-de-pausa.png");
+                } catch (IOException ex) {
+                    Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    setIconPlayPause("../assets/botao-play.png");
+                    modelBarra.suspender();
+                } catch (IOException ex) {
+                    Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+            
     }//GEN-LAST:event_jButtonPlayActionPerformed
-
+    
+    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        try {
+            setIconPlayPause("../assets/botao-play.png");
+            modelBarra.parar();
+        } catch (IOException ex) {
+            Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonPauseActionPerformed
+    
+    
+    private void setIconPlayPause(String imgPath)throws IOException{
+        Image img;
+        try {
+            img = ImageIO.read(getClass().getResource(imgPath));
+            jButtonPlay.setIcon(new ImageIcon(img));
+        } catch (IOException error) {
+            throw error;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -160,5 +225,6 @@ public class AppVisualizar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
 }
