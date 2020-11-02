@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author Computador
  */
-public class PlanoDal {
+public class DalPlano {
     
     
       //metodo getall
