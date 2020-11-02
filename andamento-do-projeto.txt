@@ -46,7 +46,7 @@ Marcos
 	}
 
 
-2. Modelo Lógico
+[CONCLUÍDO] 2. Modelo Lógico
 3. TAP
 ---------------------------------------------------------------
 Vinicius
@@ -58,7 +58,7 @@ Vinicius
   DAL getAll, getById, search
   BLL add, update, validate
 
-3.Modelo Físico
+[CONCLUÍDO] 3.Modelo Físico
   Só alegria
 
 [CONCLUÍDO] 4. Conexão e configuração do BD
