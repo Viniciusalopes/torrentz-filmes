@@ -42,21 +42,21 @@ public class DalPlano {
       //metodo getall
       public List<Plano> getall() {
         List<Plano> planos = new ArrayList<Plano>();
-        String sql = "select * from planos";
-        try {
-            Statement statement = .createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while (rs.next()) {
-                Plano plano = new Plano();//   tem_iden
-                plano.setPla_id(rs.getInt("pla_id"));
-                plano.setPla_nome(rs.getString("pla_nome"));
-                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
-                plano.setPla_preco(rs.getFloat("pla_preco"));
-                planos.add(plano);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        String sql = "select * from planos";
+//        try {
+//            Statement statement = .createStatement();
+//            ResultSet rs = statement.executeQuery(sql);
+//            while (rs.next()) {
+//                Plano plano = new Plano();//   tem_iden
+//                plano.setPla_id(rs.getInt("pla_id"));
+//                plano.setPla_nome(rs.getString("pla_nome"));
+//                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
+//                plano.setPla_preco(rs.getFloat("pla_preco"));
+//                planos.add(plano);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         return planos;
     }
@@ -66,21 +66,21 @@ public class DalPlano {
       //getById
       public Plano getByid(int pla_id) {
         Plano plano = new Plano();
-        try {
-            PreparedStatement preparedStatement = conexao.
-                    prepareStatement("select * from planos where pla_id=?");
-            preparedStatement.setInt(1, pla_id);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                plano.setPla_id(rs.getInt("pla_id"));
-                plano.setPla_nome(rs.getString("pla_nome"));
-                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
-                plano.setPla_preco(rs.getFloat("pla_preco"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            PreparedStatement preparedStatement = conexao.
+//                    prepareStatement("select * from planos where pla_id=?");
+//            preparedStatement.setInt(1, pla_id);
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                plano.setPla_id(rs.getInt("pla_id"));
+//                plano.setPla_nome(rs.getString("pla_nome"));
+//                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
+//                plano.setPla_preco(rs.getFloat("pla_preco"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         return plano;
     }

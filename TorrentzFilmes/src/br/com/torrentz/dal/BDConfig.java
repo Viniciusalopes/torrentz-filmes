@@ -29,7 +29,7 @@ public class BDConfig {
     private static BDConfig config = null;
     private final String server = "//localhost";
     private final String port = "5432";
-    private final String database = "bdacervo043";
+    private final String database = "bdtorrentz01";
     private final String user = "admin";
     private final String password = "secret"; // Bem secret mesmo...
     private final String driver = "org.postgresql.Driver";
