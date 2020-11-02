@@ -1,6 +1,6 @@
 package br.com.torrentz;
 
-import br.com.torrentz.app.AppVisualizar;
+import br.com.torrentz.app.AppTelaPrincipal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,7 +19,7 @@ public class Principal {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new AppVisualizar().setVisible(true);
+        new AppTelaPrincipal().setVisible(true);
     }
     
 }
