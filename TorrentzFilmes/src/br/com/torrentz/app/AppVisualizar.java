@@ -3,13 +3,10 @@ package br.com.torrentz.app;
 
 import br.com.torrentz.util.TemporizadorJProgressBar;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /*
@@ -64,7 +61,7 @@ public class AppVisualizar extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/Pantera-Negra.jpg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/torrentz/assets/Pantera-Negra.jpg"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

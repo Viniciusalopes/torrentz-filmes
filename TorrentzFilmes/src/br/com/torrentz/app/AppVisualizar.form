@@ -111,7 +111,7 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/Pantera-Negra.jpg"/>
+                  <Image iconType="3" name="/br/com/torrentz/assets/Pantera-Negra.jpg"/>
                 </Property>
               </Properties>
             </Component>
