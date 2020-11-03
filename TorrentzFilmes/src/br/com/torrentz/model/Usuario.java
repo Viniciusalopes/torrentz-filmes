@@ -9,6 +9,7 @@ import java.util.Date;
 public class Usuario {
 
     private int id = 0;
+    private char perfil = 'U';
     private String nome = "";
     private String cpf = "";
     private String email = "";
@@ -21,7 +22,7 @@ public class Usuario {
     }
 
     public Usuario(int id, String nome, String cpf, String email, String senha, float porcentagem,
-            Date dataGeracao) throws Exception {
+            Date dataGeracao, char perfil) throws Exception {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -29,6 +30,7 @@ public class Usuario {
         this.senha = senha;
         this.porcentagem = porcentagem;
         this.dataGeracao = dataGeracao;
+        this.perfil = perfil;
     }
 
     public int getId() {
@@ -59,6 +61,10 @@ public class Usuario {
         return dataGeracao;
     }
 
+    public char getPerfil() {
+        return perfil;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -86,4 +92,9 @@ public class Usuario {
     public void setDataGeracao(Date dataGeracao) {
         this.dataGeracao = dataGeracao;
     }
+
+    public void setPerfil(char perfil) {
+        this.perfil = perfil;
+    }
+
 }
