@@ -17,9 +17,11 @@ CREATE TABLE Usuarios
 	usu_nome VARCHAR(100) NOT NULL
 		CONSTRAINT usu_nome_curto CHECK (length(usu_nome) >= 2)
 		CONSTRAINT usu_nome_longo CHECK (length(usu_nome) <= 100),
+        usu_perfil CHAR(1) NOT NULL
+                CONSTRAINT usu_perfil_invalido CHECK(usu_perfil IN('A', 'U')),
 	usu_cpf CHAR(11) UNIQUE NOT NULL
 		CONSTRAINT usu_cpf_invalido CHECK (length(usu_cpf) = 11),
-	usu_email VARCHAR(100) NOT NULL
+	usu_email VARCHAR(100) UNIQUE NOT NULL
 		CONSTRAINT usu_email_curto CHECK (length(usu_email) >= 5) -- a@b.c
 		CONSTRAINT usu_email_longo CHECK (length(usu_email) <= 100),
 	usu_senha CHAR(64) NOT NULL
