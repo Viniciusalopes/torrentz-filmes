@@ -45,7 +45,7 @@ public class AppLogin extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("EMAIL");
+        jLabel1.setText("LOGIN");
 
         jLabel2.setText("SENHA");
 
