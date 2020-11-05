@@ -1,6 +1,8 @@
 
 package br.com.torrentz.dal;
 
+import br.com.torrentz.generic.Where;
+import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
 import java.sql.ResultSet;
 import java.util.ArrayList;

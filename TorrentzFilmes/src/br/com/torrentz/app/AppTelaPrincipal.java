@@ -28,88 +28,55 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonVisualizacoes = new javax.swing.JButton();
-        jPanelIncluir = new javax.swing.JPanel();
-        jButtonIncluirCategoria = new javax.swing.JButton();
-        jButtonIncluirPlano = new javax.swing.JButton();
-        jButtonIncluirUsuario = new javax.swing.JButton();
-        jButtonIncluirContrato = new javax.swing.JButton();
-        jButtonVisualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonVisualizacoes.setText("Visualizações");
-        jButtonVisualizacoes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVisualizacoesActionPerformed(evt);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
-        jPanelIncluir.setBorder(javax.swing.BorderFactory.createTitledBorder("Incluir"));
+        jMenu1.setText("Cadastro");
 
-        jButtonIncluirCategoria.setText("Categoria");
-        jButtonIncluirCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIncluirCategoriaActionPerformed(evt);
-            }
-        });
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
+        jMenuItem1.setText("Categorias");
+        jMenu1.add(jMenuItem1);
 
-        jButtonIncluirPlano.setText("Plano");
-        jButtonIncluirPlano.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIncluirPlanoActionPerformed(evt);
-            }
-        });
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
+        jMenuItem2.setText("Planos");
+        jMenu1.add(jMenuItem2);
 
-        jButtonIncluirUsuario.setText("Usuario");
-        jButtonIncluirUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIncluirUsuarioActionPerformed(evt);
-            }
-        });
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, 0));
+        jMenuItem3.setText("Usuários");
+        jMenu1.add(jMenuItem3);
 
-        jButtonIncluirContrato.setText("Contratos");
-        jButtonIncluirContrato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIncluirContratoActionPerformed(evt);
-            }
-        });
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
+        jMenuItem4.setText("Contratos");
+        jMenu1.add(jMenuItem4);
 
-        jButtonVisualizar.setText("Visualização");
-        jButtonVisualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVisualizarActionPerformed(evt);
-            }
-        });
+        jMenuBar1.add(jMenu1);
 
-        javax.swing.GroupLayout jPanelIncluirLayout = new javax.swing.GroupLayout(jPanelIncluir);
-        jPanelIncluir.setLayout(jPanelIncluirLayout);
-        jPanelIncluirLayout.setHorizontalGroup(
-            jPanelIncluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIncluirLayout.createSequentialGroup()
-                .addComponent(jButtonIncluirCategoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonIncluirPlano)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonIncluirUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonIncluirContrato)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonVisualizar)
-                .addContainerGap(119, Short.MAX_VALUE))
-        );
-        jPanelIncluirLayout.setVerticalGroup(
-            jPanelIncluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIncluirLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelIncluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonIncluirCategoria)
-                    .addComponent(jButtonIncluirPlano)
-                    .addComponent(jButtonIncluirUsuario)
-                    .addComponent(jButtonIncluirContrato)
-                    .addComponent(jButtonVisualizar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,49 +84,19 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelIncluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonVisualizacoes)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 929, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelIncluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonVisualizacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(117, 117, 117)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonIncluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirCategoriaActionPerformed
-        new AppCategoria().setVisible(true);
-    }//GEN-LAST:event_jButtonIncluirCategoriaActionPerformed
-
-    private void jButtonIncluirPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirPlanoActionPerformed
-        new AppPlano().setVisible(true);
-    }//GEN-LAST:event_jButtonIncluirPlanoActionPerformed
-
-    private void jButtonIncluirUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirUsuarioActionPerformed
-        new AppUsuario(this, true).setVisible(true);
-    }//GEN-LAST:event_jButtonIncluirUsuarioActionPerformed
-
-    private void jButtonIncluirContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirContratoActionPerformed
-        new AppContrato(this, true).setVisible(true);
-    }//GEN-LAST:event_jButtonIncluirContratoActionPerformed
-
-    private void jButtonVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisualizarActionPerformed
-        new AppVisualizar().setVisible(true);
-    }//GEN-LAST:event_jButtonVisualizarActionPerformed
-
-    private void jButtonVisualizacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisualizacoesActionPerformed
-        new AppVisualizacoes().setVisible(true);
-    }//GEN-LAST:event_jButtonVisualizacoesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,12 +134,14 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonIncluirCategoria;
-    private javax.swing.JButton jButtonIncluirContrato;
-    private javax.swing.JButton jButtonIncluirPlano;
-    private javax.swing.JButton jButtonIncluirUsuario;
-    private javax.swing.JButton jButtonVisualizacoes;
-    private javax.swing.JButton jButtonVisualizar;
-    private javax.swing.JPanel jPanelIncluir;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

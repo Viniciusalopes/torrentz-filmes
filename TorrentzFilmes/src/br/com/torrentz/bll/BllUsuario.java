@@ -2,6 +2,7 @@ package br.com.torrentz.bll;
 
 import br.com.torrentz.dal.DalUsuario;
 import br.com.torrentz.model.Usuario;
+import java.util.ArrayList;
 
 /**
  *
@@ -39,5 +40,10 @@ public class BllUsuario extends DalUsuario {
 
     public boolean isAdmin(String login, String password) throws Exception {
         return validUser(login, password).getPerfil() == 'A';
+    }
+
+    public Usuario searchByLogin(String login) throws Exception {
+        ArrayList<Usuario> ret = search(login);
+        return (ret.size() > 0) ? ret.get(0) : new Usuario();
     }
 }

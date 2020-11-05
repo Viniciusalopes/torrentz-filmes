@@ -1,6 +1,4 @@
-package br.com.torrentz;
-
-import br.com.torrentz.app.AppLogin;
+package br.com.torrentz.app;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,7 +8,7 @@ import br.com.torrentz.app.AppLogin;
 
 /**
  *
- * @author marcos
+ * @author vovolinux
  */
 public class Principal {
 
@@ -18,7 +16,6 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         new AppLogin().setVisible(true);
     }
     
