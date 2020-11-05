@@ -1,8 +1,9 @@
-27-10-2020
+Projeto Torrentz Filmes
+2020-11-03
 
 ---------------------------------------------------------------
-Lucas
-1. CRUD e tela de cadastro de planos - TELA CONCLUÍDA
+Lucas Araujo
+1. TELA CRUD e tela de cadastro de planos - TELA CONCLUÍDA
 - Métodos: 
   Dentro da pasta br.com.torrentz.model criar a classe "Plano" de acordo com o
      Modelo Conceitual
@@ -33,7 +34,7 @@ Calebe
 3. Orçamento e Prazo do Projeto
 
 ---------------------------------------------------------------
-Marcos
+Marcos Paulo
 1. CRUD e tela de visualizações - TELA CONCLUÍDA
   DAL getAll(Object object), getByUser, getByFilm, add, update
 
@@ -48,6 +49,7 @@ Marcos
 
 [CONCLUÍDO] 2. Modelo Lógico
 3. TAP
+[CONCLUÍDO] 4. Servidor de e-mail para recuperação de senha de usuário.
 ---------------------------------------------------------------
 Vinicius
 1. CRUD e tela de cadastro de usuario - TELA CONCLUÍDA
