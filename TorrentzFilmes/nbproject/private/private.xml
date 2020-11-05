@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/mnt/HD-500/projetos/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/util/TemporizadorJProgressBar.java</file>
             <file>file:/mnt/HD-500/projetos/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalUsuario.java</file>
@@ -10,5 +13,6 @@
             <file>file:/mnt/HD-500/projetos/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/model/Usuario.java</file>
             <file>file:/mnt/HD-500/projetos/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/util/SendMail.java</file>
         </group>
+>>>>>>> df99a8287917808dee68c0cef5d34fc2b8e1c890
     </open-files>
 </project-private>
