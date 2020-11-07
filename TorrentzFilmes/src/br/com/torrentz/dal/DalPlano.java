@@ -25,6 +25,7 @@ Lucas
 package br.com.torrentz.dal;
 
 import br.com.torrentz.generic.DalGeneric;
+import br.com.torrentz.generic.Where;
 import br.com.torrentz.model.Plano;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -68,12 +69,10 @@ public class DalPlano extends DalGeneric<Plano> {
                     rs.getString("pla_nome"),
                     rs.getFloat("pla_preco")
             ));
-            
 
         }
         return ret;
     }
-
 
     public Plano getById(int id) throws Exception {
         sql = sqlSelect + sqlWhere;
@@ -84,6 +83,40 @@ public class DalPlano extends DalGeneric<Plano> {
             throw new Exception("Nenhum plano cadastrado com o id [ " + id + "] !");
         }
         return ret.get(0);
+
+    }
+
+    protected ArrayList<Plano> getBy(Where[] where) throws Exception {
+
+        sql = sqlSelect;
+
+        return getByFields(where);
+
+    }
+
+    /*
+    Eu estou com um problema para entender o 
+    ArrayList e a aplicação de seus métodos. 
+    em especial o alcanse do ArrayList.contains()
+    Eu tenho uma estrutura de dados que possui
+    alguns ArrayLists (objetodaminhaclasse).
+    esse (objetodaminhaclasse) possui um nome 
+    (static int) para cada objeto que for criado poder ser 
+    identificado. E a estrutura de dados possui um metodo 
+    Search que busca dentro da "ArrayList(objetodaminhaclasse)
+    “um” (objetodaminhaclasse) através de seu nome. ou seja:  
+  
+     */
+    public ArrayList<Plano> search(String text) throws Exception {
+        String t = "%" + text.toLowerCase().trim() + "%";
+        sql = sqlSelect
+                + "WHERE LOVER(  pla_acesso_simultaneo LIKE ?"
+                + "  OR pla_nome LIKE ?"
+                + "OR LOWER pla_preco LIKE ? "
+                + orderBy;
+        args = new Object[]{t, t, t};
+        return select();
+
 
     }
 }

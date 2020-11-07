@@ -5,11 +5,21 @@
  */
 package br.com.torrentz.app;
 
+import static br.com.torrentz.generic.GenMensagem.*;
+import static br.com.torrentz.bll.BllRedefinirSenha.*;
+import br.com.torrentz.bll.BllUsuario;
+import br.com.torrentz.model.Usuario;
+import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
+
 /**
  *
  * @author vovolinux
  */
 public class AppRedefinirSenha extends javax.swing.JDialog {
+
+    private String email;
+    private String codigo;
+    private Usuario usuario;
 
     /**
      * Creates new form AppRedefinir
@@ -18,6 +28,10 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+        this.email = "";
+        this.codigo = "";
+        this.usuario = null;
+        this.jPasswordField.setVisible(false);
     }
 
     /**
@@ -29,14 +43,15 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelInstrucao = new javax.swing.JLabel();
         jTextFieldEmail = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        jPasswordField = new javax.swing.JPasswordField();
+        jButtonRecuperar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Informe seu e-mail");
+        jLabelInstrucao.setText("Informe seu e-mail");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -44,22 +59,29 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelInstrucao)
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(jPasswordField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelInstrucao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jButton2.setText("Recuperar");
+        jButtonRecuperar.setText("Recuperar");
+        jButtonRecuperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRecuperarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,7 +91,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButtonRecuperar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -77,13 +99,51 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonRecuperar)
                 .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecuperarActionPerformed
+        try {
+            codigo = "";
+
+            switch (jButtonRecuperar.getText()) {
+                case "Recuperar":
+                    if (emailValido(jTextFieldEmail.getText())) {
+                        codigo = redefinir(jTextFieldEmail.getText());
+                        email = jTextFieldEmail.getText();
+                        jTextFieldEmail.setText(null);
+                        jLabelInstrucao.setText("Informe o código de verificação");
+                        jButtonRecuperar.setText("Verificar");
+                    }
+                    break;
+
+                case "Verificar":
+                    if (jTextFieldEmail.getText().trim().equalsIgnoreCase(codigo)) {
+                        // Altera a senha
+                        usuario = new BllUsuario().searchByLogin(email);
+                        jLabelInstrucao.setText("Informe sua nova senha");
+                        jTextFieldEmail.setText(null);
+                        jTextFieldEmail.setVisible(false);
+                        jPasswordField.setVisible(true);
+                        jButtonRecuperar.setText("Confirmar");
+                    }
+                    break;
+                case "Confirmar":
+                    if (usuario != null) {
+                        usuario.setSenha(getHexStringSha256(jPasswordField.getPassword() + ""));
+                        new BllUsuario().update(usuario);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonRecuperarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -129,9 +189,10 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButtonRecuperar;
+    private javax.swing.JLabel jLabelInstrucao;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField;
     public javax.swing.JTextField jTextFieldEmail;
     // End of variables declaration//GEN-END:variables
 }

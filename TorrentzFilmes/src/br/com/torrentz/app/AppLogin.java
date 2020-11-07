@@ -6,8 +6,9 @@
 package br.com.torrentz.app;
 
 import br.com.torrentz.bll.BllUsuario;
-import static br.com.torrentz.generic.GenMensagem.mensagemErro;
+import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
+import static br.com.torrentz.util.UtilString.*;
 
 /**
  *
@@ -142,11 +143,13 @@ public class AppLogin extends javax.swing.JFrame {
 
     private void jMenuItemRedefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedefinirSenhaActionPerformed
         try {
-            Usuario u = bll.searchByLogin(jTextFieldLogin.getText());
             modal = new AppRedefinirSenha(this, true);
-
-            if (u.getId() > 0){
-                modal.jTextFieldEmail.setText(u.getEmail());
+            
+            // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
+            if (jTextFieldLogin.getText().trim().length() > 0) {
+                modal.jTextFieldEmail.setText((jTextFieldLogin.getText().contains("@"))
+                        ? jTextFieldLogin.getText().toLowerCase() : ""
+                );
             }
             modal.setVisible(true);
             dispose();
