@@ -60,7 +60,16 @@ public class DalPlano extends DalGeneric<Plano> {
 
     @Override
     protected ArrayList<Plano> build(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        ArrayList<Plano> ret = new ArrayList<>();
+        while (rs.next()){
+            ret.add(new Plano(
+                    rs.getInt(fieldPK),
+                    rs.getInt("pla_acesso_simultaneo"),
+                    rs.getString("pla_nome"),
+                    rs.getFloat("pla_preco")
+            ));
+        }
+    
 
-}
+
+
