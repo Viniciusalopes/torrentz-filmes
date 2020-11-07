@@ -24,19 +24,99 @@ Lucas
  */
 package br.com.torrentz.dal;
 
+import br.com.torrentz.generic.DalGeneric;
+import br.com.torrentz.generic.Where;
 import br.com.torrentz.model.Plano;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Computador
  */
-public class DalPlano  {
-    
+public class DalPlano extends DalGeneric<Plano> {
 
+    //contrutor protegido 
+    /**
+     *
+     * O modificador protected torna o membro acessível às classes do mesmo
+     * pacote ou através de herança, seus membros herdados não são acessíveis a
+     * outras classes fora do pacote em que foram declarados.
+     */
+    protected DalPlano() throws Exception {
+        super("Planos ", "pla_nome");
+
+        sqlInsert = "INSERT INTO " + table
+                + "(pla_id, pla_acesso_simultaneo, pla_nome, pla_preco"
+                + "VALUES (?, ?, ?, ?)";
+
+        sqlSelect = "SELECT * FROM " + table + " ";
+
+        sqlUpdate = " UPDATE " + table + " SET "
+                + "pla_acesso_simultaneo = ?, pla_nome = ?, pla_preco " + sqlWhere;
+
+        orderBy = " ORDER BY pla_nome";
+
+    }
+
+    @Override
+    protected ArrayList<Plano> build(ResultSet rs) throws Exception {
+        ArrayList<Plano> ret = new ArrayList<>();
+        while (rs.next()) {
+            ret.add(new Plano(
+                    rs.getInt(fieldPK),
+                    rs.getInt("pla_acesso_simultaneo"),
+                    rs.getString("pla_nome"),
+                    rs.getFloat("pla_preco")
+            ));
+
+        }
+        return ret;
+    }
+
+    public Plano getById(int id) throws Exception {
+        sql = sqlSelect + sqlWhere;
+        args = new Object[]{id};
+
+        ArrayList<Plano> ret = select();
+        if (ret.size() == 0) {
+            throw new Exception("Nenhum plano cadastrado com o id [ " + id + "] !");
+        }
+        return ret.get(0);
+
+    }
+
+    protected ArrayList<Plano> getBy(Where[] where) throws Exception {
+
+        sql = sqlSelect;
+
+        return getByFields(where);
+
+    }
+
+    /*
+    Eu estou com um problema para entender o 
+    ArrayList e a aplicação de seus métodos. 
+    em especial o alcanse do ArrayList.contains()
+    Eu tenho uma estrutura de dados que possui
+    alguns ArrayLists (objetodaminhaclasse).
+    esse (objetodaminhaclasse) possui um nome 
+    (static int) para cada objeto que for criado poder ser 
+    identificado. E a estrutura de dados possui um metodo 
+    Search que busca dentro da "ArrayList(objetodaminhaclasse)
+    “um” (objetodaminhaclasse) através de seu nome. ou seja:  
+  
+     */
+    public ArrayList<Plano> search(String text) throws Exception {
+        String t = "%" + text.toLowerCase().trim() + "%";
+        sql = sqlSelect
+                + "WHERE LOVER(  pla_acesso_simultaneo LIKE ?"
+                + "  OR pla_nome LIKE ?"
+                + "OR LOWER pla_preco LIKE ? "
+                + orderBy;
+        args = new Object[]{t, t, t};
+        return select();
+
+
+    }
 }

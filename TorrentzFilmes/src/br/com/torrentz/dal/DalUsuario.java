@@ -30,7 +30,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
     }
 
     @Override
-    protected ArrayList<Usuario> build(ResultSet rs) throws Exception {
+    protected ArrayList<Usuario> build(ResultSet rs) throws Exception  {
         ArrayList<Usuario> ret = new ArrayList<>();
         while (rs.next()) {
             ret.add(new Usuario(
