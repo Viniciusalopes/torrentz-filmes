@@ -94,4 +94,29 @@ public class DalPlano extends DalGeneric<Plano> {
 
     }
 
+    /*
+    Eu estou com um problema para entender o 
+    ArrayList e a aplicação de seus métodos. 
+    em especial o alcanse do ArrayList.contains()
+    Eu tenho uma estrutura de dados que possui
+    alguns ArrayLists (objetodaminhaclasse).
+    esse (objetodaminhaclasse) possui um nome 
+    (static int) para cada objeto que for criado poder ser 
+    identificado. E a estrutura de dados possui um metodo 
+    Search que busca dentro da "ArrayList(objetodaminhaclasse)
+    “um” (objetodaminhaclasse) através de seu nome. ou seja:  
+  
+     */
+    public ArrayList<Plano> search(String text) throws Exception {
+        String t = "%" + text.toLowerCase().trim() + "%";
+        sql = sqlSelect
+                + "WHERE LOVER(  pla_acesso_simultaneo LIKE ?"
+                + "  OR pla_nome LIKE ?"
+                + "OR LOWER pla_preco LIKE ? "
+                + orderBy;
+        args = new Object[]{t, t, t};
+        return select();
+
+
+    }
 }
