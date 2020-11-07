@@ -2,6 +2,6 @@
 /TorrentzFilmes/manifest.mf
 /TorrentzFilmes/nbproject
 /TorrentzFilmes/test
-/EmailService/nbproject/private/
-/EmailService/build/
-/EmailService/dist/
+/EmailService/build*
+/EmaliService/manifest.mf
+/EmailService/nbproject/
