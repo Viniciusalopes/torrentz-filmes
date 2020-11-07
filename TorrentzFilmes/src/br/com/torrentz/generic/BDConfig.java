@@ -26,6 +26,13 @@ public class BDConfig {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     //Conexão Local                
+//    private static BDConfig config = null;
+//    private final String server = "//localhost";
+//    private final String port = "5432";
+//    private final String database = "bdtorrentz01";
+//    private final String user = "admin";
+//    private final String password = "secret"; // Bem secret mesmo...
+//    private final String driver = "org.postgresql.Driver";
     private static BDConfig config = null;
     private final String server = "//18.224.5.197";
     private final String port = "5432";

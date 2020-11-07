@@ -5,19 +5,49 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllCategoria;
+import br.com.torrentz.generic.DalIdGeneric;
+import br.com.torrentz.model.Categoria;
+import br.com.torrentz.util.Imprimir;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author calebaum
  */
 public class AppCategoria extends javax.swing.JFrame {
-
+    private DefaultTableModel model = null;
+    private BllCategoria bll = null;
+    private Categoria categoria = null;
     /**
      * Creates new form telaCategorias
      */
     public AppCategoria() {
         initComponents();
+        this.model = (DefaultTableModel) jTableCategorias.getModel();
+        try {
+            bll = new BllCategoria();
+            atualizaGrid();
+            jTextFieldId.setText(new DalIdGeneric("categorias").lastValue()+"");
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
     }
-
+    
+    public void atualizaGrid() throws Exception{
+        model.setNumRows(0);
+        try {
+            for (Categoria categoria : bll.getAll()) {
+                model.addRow(new String[]{
+                        categoria.getId()+"",
+                        categoria.getNome()    
+                });
+            }
+        } catch (Exception error) {
+            throw error;
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,26 +58,81 @@ public class AppCategoria extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jTextFieldCategoria = new javax.swing.JTextField();
+        jTextFieldNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldId = new javax.swing.JTextField();
+        jButtonAdicionar = new javax.swing.JButton();
+        jButtonRemover = new javax.swing.JButton();
+        jButtonAtualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableCategorias = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jTextFieldDescricao = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jButtonLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Categorias");
+        setResizable(false);
 
-        jLabel2.setText("Categoria:");
+        jLabel2.setText("Nome:");
 
         jLabel3.setText("Id:");
 
-        jButton1.setText("Adicionar");
+        jTextFieldId.setEditable(false);
 
-        jLabel4.setText("Descrição");
+        jButtonAdicionar.setText("Adicionar");
+        jButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdicionarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Remover");
+        jButtonRemover.setText("Remover");
+        jButtonRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverActionPerformed(evt);
+            }
+        });
+
+        jButtonAtualizar.setText("Atualizar");
+        jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizarActionPerformed(evt);
+            }
+        });
+
+        jTableCategorias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "NOME"
+            }
+        ));
+        jTableCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableCategoriasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableCategorias);
+        if (jTableCategorias.getColumnModel().getColumnCount() > 0) {
+            jTableCategorias.getColumnModel().getColumn(0).setMinWidth(40);
+            jTableCategorias.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jTableCategorias.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
+
+        jButton1.setText("Voltar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimparActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,25 +140,26 @@ public class AppCategoria extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAdicionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAtualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonRemover))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel2)
+                            .addComponent(jTextFieldNome)))
+                    .addComponent(jScrollPane1))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -82,23 +168,101 @@ public class AppCategoria extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel2))
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdicionar)
+                    .addComponent(jButtonAtualizar)
+                    .addComponent(jButtonRemover)
                     .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonLimpar))
                 .addGap(20, 20, 20))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTableCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCategoriasMouseClicked
+        try {
+            // TODO add your handling code here:
+            
+            int id = Integer.parseInt((String) model.getValueAt(jTableCategorias.getSelectedRow(), 0));
+            categoria = bll.getById(id);
+            
+            jTextFieldId.setText(categoria.getId()+"");
+            jTextFieldNome.setText(categoria.getNome());
+            
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jTableCategoriasMouseClicked
+
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        // TODO add your handling code here:
+        try {
+           limpaForm();
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonLimparActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new AppTelaPrincipal().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
+        // TODO add your handling code here:
+        try {
+            categoria = new Categoria(jTextFieldNome.getText());
+            bll.add(categoria);
+            atualizaGrid();
+            limpaForm();
+        } catch  (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAdicionarActionPerformed
+
+    private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
+        // TODO add your handling code here:
+        try {
+            bll.delete(categoria.getId());
+            atualizaGrid();
+            limpaForm();
+        } catch  (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonRemoverActionPerformed
+
+    private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
+        // TODO add your handling code here:
+        try {
+            categoria.setNome(jTextFieldNome.getText());
+            bll.update(categoria);
+            atualizaGrid();
+            limpaForm();
+        } catch  (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAtualizarActionPerformed
+    public void limpaForm() throws Exception{
+            try {
+            categoria = null;
+            jTextFieldId.setText(new DalIdGeneric("categorias").lastValue()+"");
+            jTextFieldNome.setText("");
+            jTableCategorias.clearSelection();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -126,6 +290,12 @@ public class AppCategoria extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -137,12 +307,15 @@ public class AppCategoria extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonAdicionar;
+    private javax.swing.JButton jButtonAtualizar;
+    private javax.swing.JButton jButtonLimpar;
+    private javax.swing.JButton jButtonRemover;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextFieldCategoria;
-    private javax.swing.JTextField jTextFieldDescricao;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableCategorias;
     private javax.swing.JTextField jTextFieldId;
+    private javax.swing.JTextField jTextFieldNome;
     // End of variables declaration//GEN-END:variables
 }

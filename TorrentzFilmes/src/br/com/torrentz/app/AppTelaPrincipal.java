@@ -5,20 +5,70 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllCategoria;
+import br.com.torrentz.bll.BllFilme;
+import br.com.torrentz.generic.DalIdGeneric;
+import br.com.torrentz.model.Categoria;
+import br.com.torrentz.model.Filme;
+import br.com.torrentz.util.Imprimir;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vovolinux
  */
 public class AppTelaPrincipal extends javax.swing.JFrame {
-
+    private DefaultTableModel model = null;
+    private BllFilme  filmeBll = null;
+    private BllCategoria  categoriabll = null;
+    private Filme filme = null;
+    private Categoria categoria = null;
     /**
      * Creates new form AppTelaPrincipal
      */
     public AppTelaPrincipal() {
+        super("Cadastro de Filmes");
         initComponents();
         this.setLocationRelativeTo(null);
+        try {
+            model = (DefaultTableModel) jTableFilmes.getModel();
+            filmeBll = new BllFilme();
+            categoriabll = new BllCategoria();
+            jTextFieldId.setText(new DalIdGeneric("filmes").lastValue()+"");
+            atualizaGrid();
+            atualizaComboBox();
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
     }
-
+    
+    public void atualizaGrid() throws Exception{
+        try {
+            model.setNumRows(0);
+            for (Filme filme : filmeBll.getAll()) {
+                model.addRow(new String[]{
+                    filme.getId()+"",
+                    filme.getTitulo(),
+                    filme.getAno()+"",
+                    filme.getCategoria().getNome()
+                });
+            }
+            
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    public void atualizaComboBox() throws Exception{
+       try {
+           for (Categoria categoria : categoriabll.getAll()) {
+               jComboBoxCategoria.addItem(categoria.getNome());
+           }
+            
+        } catch (Exception error) {
+            throw error;
+        }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +79,22 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableFilmes = new javax.swing.JTable();
+        jButtonAdicionar = new javax.swing.JButton();
+        jButtonAlterar = new javax.swing.JButton();
+        jButtonDeletar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldId = new javax.swing.JTextField();
+        jTextFieldTitulo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldAno = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxCategoria = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaSinopse = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        jButtonLimpar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -39,8 +104,9 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFilmes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -48,15 +114,86 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "TITULO", "ANO", "CATEGORIA"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTableFilmes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableFilmesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableFilmes);
+        if (jTableFilmes.getColumnModel().getColumnCount() > 0) {
+            jTableFilmes.getColumnModel().getColumn(0).setMinWidth(40);
+            jTableFilmes.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jTableFilmes.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
+
+        jButtonAdicionar.setText("Adicionar");
+        jButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdicionarActionPerformed(evt);
+            }
+        });
+
+        jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
+
+        jButtonDeletar.setText("Deletar");
+        jButtonDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeletarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Id:");
+
+        jTextFieldId.setEditable(false);
+
+        jLabel2.setText("Titulo:");
+
+        jLabel3.setText("Ano:");
+
+        jComboBoxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--" }));
+        jComboBoxCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCategoriaActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Categoria:");
+
+        jTextAreaSinopse.setColumns(20);
+        jTextAreaSinopse.setRows(5);
+        jTextAreaSinopse.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextAreaSinopseKeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTextAreaSinopse);
+
+        jLabel5.setText("Sinopse:");
+
+        jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimparActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Cadastro");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
         jMenuItem1.setText("Categorias");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
@@ -83,21 +220,190 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 929, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextFieldTitulo)
+                                        .addGap(18, 18, 18))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jComboBoxCategoria, 0, 178, Short.MAX_VALUE)
+                            .addComponent(jTextFieldAno)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonAdicionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonAlterar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonDeletar)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdicionar)
+                    .addComponent(jButtonAlterar)
+                    .addComponent(jButtonDeletar)
+                    .addComponent(jButtonLimpar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new AppCategoria().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(jComboBoxCategoria.getSelectedItem().equals("--")){throw new Exception("Selecione a categoria!");}
+            
+            filme = new Filme(jTextFieldTitulo.getText(),jTextAreaSinopse.getText(),Integer.parseInt(jTextFieldAno.getText()),categoria);
+            filmeBll.add(filme);
+            atualizaGrid();
+            limpaForm();
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAdicionarActionPerformed
+
+    private void jComboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCategoriaActionPerformed
+        try {
+            // TODO add your handling code here:
+            if(!jComboBoxCategoria.getSelectedItem().equals("--")){
+                categoria = categoriabll.getByNome((String)jComboBoxCategoria.getSelectedItem());
+            }
+        } catch (Exception error) {
+           Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jComboBoxCategoriaActionPerformed
+
+    private void jTextAreaSinopseKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAreaSinopseKeyReleased
+        // TODO add your handling code here:
+        jTextAreaSinopse.setLineWrap(true);
+    }//GEN-LAST:event_jTextAreaSinopseKeyReleased
+
+    private void jTableFilmesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFilmesMouseClicked
+        // TODO add your handling code here:
+        int id = Integer.parseInt((String)model.getValueAt(jTableFilmes.getSelectedRow(), 0));
+        try {
+            
+            filme = filmeBll.getById(id);
+            jTextFieldId.setText(filme.getId()+"");
+            jTextFieldTitulo.setText(filme.getTitulo());
+            jTextAreaSinopse.setText(filme.getSinopse());
+            jTextFieldAno.setText(filme.getAno()+"");
+            jTextAreaSinopse.setLineWrap(true);
+            categoria = filme.getCategoria();
+            jComboBoxCategoria.setSelectedItem(categoria.getNome());
+            
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jTableFilmesMouseClicked
+
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        // TODO add your handling code here:
+         try {
+          limpaForm();          
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonLimparActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(jComboBoxCategoria.getSelectedItem().equals("--")){throw new Exception("Selecione a categoria!");}
+            if(filme == null){throw new Exception("Selecione o filme para alterar!");}
+            
+            filme.setTitulo(jTextFieldTitulo.getText());
+            filme.setSinopse(jTextAreaSinopse.getText());
+            filme.setAno(Integer.parseInt(jTextFieldAno.getText()));
+            filme.setCategoria(categoria);
+            
+            filmeBll.update(filme);
+            atualizaGrid();
+            limpaForm();
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
+        // TODO add your handling code here:
+           try {
+            if(filme == null){throw new Exception("Selecione o filme para deletar!");}
+            
+            filmeBll.delete(filme.getId());
+            
+            atualizaGrid();
+            limpaForm();
+        } catch (Exception error) {
+            Imprimir.mensagemDeErro(error.getMessage());
+        }
+    }//GEN-LAST:event_jButtonDeletarActionPerformed
+    public void limpaForm() throws Exception{
+        try {
+            jTextFieldId.setText(new DalIdGeneric("filmes").lastValue()+"");
+            jTextFieldTitulo.setText("");
+            jTextAreaSinopse.setText("");
+            jTextFieldAno.setText("");
+            jComboBoxCategoria.setSelectedItem("--");
+            jTableFilmes.clearSelection();
+            filme = null;
+            categoria = null;
+        } catch (Exception error) {
+            throw error;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -124,6 +430,13 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AppTelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -134,6 +447,16 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdicionar;
+    private javax.swing.JButton jButtonAlterar;
+    private javax.swing.JButton jButtonDeletar;
+    private javax.swing.JButton jButtonLimpar;
+    private javax.swing.JComboBox<String> jComboBoxCategoria;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -142,6 +465,11 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableFilmes;
+    private javax.swing.JTextArea jTextAreaSinopse;
+    private javax.swing.JTextField jTextFieldAno;
+    private javax.swing.JTextField jTextFieldId;
+    private javax.swing.JTextField jTextFieldTitulo;
     // End of variables declaration//GEN-END:variables
 }
