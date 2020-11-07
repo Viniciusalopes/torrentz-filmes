@@ -1,0 +1,45 @@
+uso: git [--version] [--help] [-C <caminho>] [-c <nome> = <valor>]
+           [--exec-path [= <path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir = <caminho>] [--work-tree = <caminho>] [--namespace = <nome>]
+           <comando> [<args>]
+
+Estes são comandos Git comuns usados ​​em várias situações:
+
+iniciar uma área de trabalho (veja também: tutorial de ajuda do git)
+   clone Clone um repositório em um novo diretório
+   init Crie um repositório Git vazio ou reinicialize um existente
+
+trabalhar na mudança atual (ver também: git help todos os dias)
+   add Adiciona o conteúdo do arquivo ao índice
+   mv Mover ou renomear um arquivo, diretório ou link simbólico
+   restaurar Restaurar arquivos da árvore de trabalho
+   rm Remove os arquivos da árvore de trabalho e do índice
+   sparse-checkout Inicializa e modifica o sparse-checkout
+
+examine o histórico e o estado (veja também: revisões do git help)
+   bisect Use a pesquisa binária para encontrar o commit que introduziu um bug
+   diff Mostra mudanças entre commits, commit e árvore de trabalho, etc
+   grep Imprimir linhas que combinam com um padrão
+   log Mostrar logs de confirmação
+   mostrar Mostra vários tipos de objetos
+   status Mostra o status da árvore de trabalho
+
+crescer, marcar e ajustar sua história comum
+   branch Listar, criar ou excluir branches
+   commitar mudanças de registro para o repositório
+   mesclar Junte dois ou mais históricos de desenvolvimento juntos
+   realocar Reapply commits em cima de outra base tip
+   redefinir Redefina o HEAD atual para o estado especificado
+   switch Mudar ramos
+   tag Criar, listar, excluir ou verificar um objeto de tag assinado com GPG
+
+colaborar (ver também: fluxos de trabalho git help)
+   buscar objetos de download e referências de outro repositório
+   puxar buscar de e integrar com outro repositório ou um branch local
+   push Atualizar referências remotas junto com objetos associados
+
+  'git help - a' e 'git help -g' listam os subcomandos disponíveis e alguns
+guias de conceito. Veja 'git help <command>' ou 'git help <concept>'
+para ler sobre um subcomando ou conceito específico.
+Veja 'git help git' para uma visão geral do sistema.

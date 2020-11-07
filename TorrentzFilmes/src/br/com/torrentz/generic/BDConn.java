@@ -15,7 +15,7 @@
  *               MANTER INDENTAÇÃO DE LINHAS ABAIXO DA PRIMEIRA LINHA E O LIMITE DE COLUNAS AQUI -->
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.torrentz.dal;
+package br.com.torrentz.generic;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

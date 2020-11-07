@@ -1,6 +1,8 @@
 
 package br.com.torrentz.dal;
 
+import br.com.torrentz.generic.Where;
+import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -22,13 +24,13 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
 
         sqlUpdate = " UPDATE " + table + " SET "
                 + "usu_nome = ?, usu_cpf = ?, usu_email = ?, usu_senha = ?, usu_cup_porcentagem = ?, "
-                + "usu_cup_data_geracao = ?, usu_perfil = ? ";
+                + "usu_cup_data_geracao = ?, usu_perfil = ? " + sqlWhere;
         
         orderBy = " ORDER BY usu_nome";
     }
 
     @Override
-    protected ArrayList<Usuario> build(ResultSet rs) throws Exception {
+    protected ArrayList<Usuario> build(ResultSet rs) throws Exception  {
         ArrayList<Usuario> ret = new ArrayList<>();
         while (rs.next()) {
             ret.add(new Usuario(

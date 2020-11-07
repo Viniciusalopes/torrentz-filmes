@@ -52,6 +52,36 @@ CREATE TABLE Categorias
 		CONSTRAINT cat_nome_longo CHECK (length(cat_nome) <= 50)
 );
 
+INSERT INTO categorias(cat_nome) VALUES
+	('Ação'),
+    ('Animação'),
+    ('Aventura'),
+    ('Cinema de arte'),
+    ('Chanchada'),
+    ('Comédia'),
+    ('Comédia de ação'),
+    ('Comédia de terror'),
+    ('Comédia dramática'),
+    ('Comédia romântica'),
+    ('Dança'),
+    ('Documentário'),
+    ('Docuficção'),
+    ('Drama'),
+    ('Espionagem'),
+    ('Faroeste'),
+    ('Fantasia científica'),
+    ('Ficção científica'),
+    ('Filmes com truques'),
+    ('Filmes de guerra'),
+    ('Musical'),
+    ('Filme policial'),
+    ('Romance'),
+    ('Seriado'),
+    ('Suspense'),
+    ('Terror'),
+    ('Thriller');
+
+
 CREATE TABLE Filmes
 (
 	fil_id SERIAL PRIMARY KEY,
@@ -59,8 +89,8 @@ CREATE TABLE Filmes
 		CONSTRAINT fil_sinopse_curto CHECK (length(fil_sinopse) >= 10)
 		CONSTRAINT fil_sinopse_longo CHECK (length(fil_sinopse) <= 500),
 	fil_titulo VARCHAR(50) UNIQUE NOT NULL
-		CONSTRAINT fil_titulo_curto CHECK (length(fil_sinopse) >= 2)
-		CONSTRAINT fil_titulo_longo CHECK (length(fil_sinopse) <= 50),
+		CONSTRAINT fil_titulo_curto CHECK (length(fil_titulo) >= 2)
+		CONSTRAINT fil_titulo_longo CHECK (length(fil_titulo) <= 50),
 	fil_ano INTEGER NOT NULL
 		CONSTRAINT fil_ano_invalido CHECK (fil_ano >= 1890)
 		CONSTRAINT fil_ano_futuro CHECK (fil_ano <= date_part('year', CURRENT_DATE)::int),
