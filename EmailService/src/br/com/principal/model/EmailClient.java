@@ -6,7 +6,8 @@
  * Version: 1.0.0
  * @LicenseHeader
  */
-package br.principal.model;
+
+package br.com.principal.model;
 
 import java.io.Serializable;
 
