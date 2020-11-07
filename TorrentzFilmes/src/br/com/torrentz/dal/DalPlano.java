@@ -61,15 +61,29 @@ public class DalPlano extends DalGeneric<Plano> {
     @Override
     protected ArrayList<Plano> build(ResultSet rs) throws Exception {
         ArrayList<Plano> ret = new ArrayList<>();
-        while (rs.next()){
+        while (rs.next()) {
             ret.add(new Plano(
                     rs.getInt(fieldPK),
                     rs.getInt("pla_acesso_simultaneo"),
                     rs.getString("pla_nome"),
                     rs.getFloat("pla_preco")
             ));
+            
+
         }
-    
+        return ret;
+    }
 
 
+    public Plano getById(int id) throws Exception {
+        sql = sqlSelect + sqlWhere;
+        args = new Object[]{id};
 
+        ArrayList<Plano> ret = select();
+        if (ret.size() == 0) {
+            throw new Exception("Nenhum plano cadastrado com o id [ " + id + "] !");
+        }
+        return ret.get(0);
+
+    }
+}
