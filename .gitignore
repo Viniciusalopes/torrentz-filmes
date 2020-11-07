@@ -1,7 +1,3 @@
 /TorrentzFilmes/build/
-/TorrentzFilmes/nbproject/
-/TorrentzFilmes/nbproject/private
-/TorrentzFilmes/dist/
+/TorrentzFilmes/nbproject/*
 /TorrentzFilmes_/build/
-/TorrentzFilmes_/dist/
-/TorrentzFilmes_/nbproject/private/
