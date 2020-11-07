@@ -30,11 +30,11 @@ public class Plano {
 
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
-    public Plano(String pla_nome, float pla_preco, int pla_acesso_simultaneo, int pla_id) {
+    public Plano(int pla_id, int pla_acesso_simultaneo, String pla_nome, float pla_preco ) {
+        this.pla_id = pla_id;
+        this.pla_acesso_simultaneo = pla_acesso_simultaneo;
         this.pla_nome = pla_nome;
         this.pla_preco = pla_preco;
-        this.pla_acesso_simultaneo = pla_acesso_simultaneo;
-        this.pla_id = pla_id;
     }
 
     //--------------------------------------------------------------------------------------------------

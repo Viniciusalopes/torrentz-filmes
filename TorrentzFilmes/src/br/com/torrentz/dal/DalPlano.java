@@ -24,65 +24,66 @@ Lucas
  */
 package br.com.torrentz.dal;
 
+import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Plano;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Computador
  */
-public class DalPlano {
-    
-    
-      //metodo getall
-      public List<Plano> getall() {
-        List<Plano> planos = new ArrayList<Plano>();
-//        String sql = "select * from planos";
-//        try {
-//            Statement statement = .createStatement();
-//            ResultSet rs = statement.executeQuery(sql);
-//            while (rs.next()) {
-//                Plano plano = new Plano();//   tem_iden
-//                plano.setPla_id(rs.getInt("pla_id"));
-//                plano.setPla_nome(rs.getString("pla_nome"));
-//                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
-//                plano.setPla_preco(rs.getFloat("pla_preco"));
-//                planos.add(plano);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+public class DalPlano extends DalGeneric<Plano> {
 
-        return planos;
-    }
-      
-   
-      
-      //getById
-      public Plano getByid(int pla_id) {
-        Plano plano = new Plano();
-//        try {
-//            PreparedStatement preparedStatement = conexao.
-//                    prepareStatement("select * from planos where pla_id=?");
-//            preparedStatement.setInt(1, pla_id);
-//            ResultSet rs = preparedStatement.executeQuery();
-//
-//            if (rs.next()) {
-//                plano.setPla_id(rs.getInt("pla_id"));
-//                plano.setPla_nome(rs.getString("pla_nome"));
-//                plano.setPla_acesso_simultaneo(rs.getInt("pla_acesso_simultaneo"));
-//                plano.setPla_preco(rs.getFloat("pla_preco"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    //contrutor protegido 
+    /**
+     *
+     * O modificador protected torna o membro acessível às classes do mesmo
+     * pacote ou através de herança, seus membros herdados não são acessíveis a
+     * outras classes fora do pacote em que foram declarados.
+     */
+    protected DalPlano() throws Exception {
+        super("Planos ", "pla_nome");
 
-        return plano;
+        sqlInsert = "INSERT INTO " + table
+                + "(pla_id, pla_acesso_simultaneo, pla_nome, pla_preco"
+                + "VALUES (?, ?, ?, ?)";
+
+        sqlSelect = "SELECT * FROM " + table + " ";
+
+        sqlUpdate = " UPDATE " + table + " SET "
+                + "pla_acesso_simultaneo = ?, pla_nome = ?, pla_preco " + sqlWhere;
+
+        orderBy = " ORDER BY pla_nome";
+
     }
-      //getByName
+
+    @Override
+    protected ArrayList<Plano> build(ResultSet rs) throws Exception {
+        ArrayList<Plano> ret = new ArrayList<>();
+        while (rs.next()) {
+            ret.add(new Plano(
+                    rs.getInt(fieldPK),
+                    rs.getInt("pla_acesso_simultaneo"),
+                    rs.getString("pla_nome"),
+                    rs.getFloat("pla_preco")
+            ));
+            
+
+        }
+        return ret;
+    }
+
+
+    public Plano getById(int id) throws Exception {
+        sql = sqlSelect + sqlWhere;
+        args = new Object[]{id};
+
+        ArrayList<Plano> ret = select();
+        if (ret.size() == 0) {
+            throw new Exception("Nenhum plano cadastrado com o id [ " + id + "] !");
+        }
+        return ret.get(0);
+
+    }
 }

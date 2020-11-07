@@ -1,3 +1,4 @@
-/TorrentzFilmes/build/
-/TorrentzFilmes/nbproject/*
-/TorrentzFilmes_/build/
+/TorrentzFilmes/build*
+/TorrentzFilmes/manifest.mf
+/TorrentzFilmes/nbproject
+/TorrentzFilmes/test
