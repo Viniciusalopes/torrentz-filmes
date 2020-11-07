@@ -25,6 +25,7 @@ Lucas
 package br.com.torrentz.dal;
 
 import br.com.torrentz.generic.DalGeneric;
+import br.com.torrentz.generic.Where;
 import br.com.torrentz.model.Plano;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -68,12 +69,10 @@ public class DalPlano extends DalGeneric<Plano> {
                     rs.getString("pla_nome"),
                     rs.getFloat("pla_preco")
             ));
-            
 
         }
         return ret;
     }
-
 
     public Plano getById(int id) throws Exception {
         sql = sqlSelect + sqlWhere;
@@ -86,4 +85,13 @@ public class DalPlano extends DalGeneric<Plano> {
         return ret.get(0);
 
     }
+
+    protected ArrayList<Plano> getBy(Where[] where) throws Exception {
+
+        sql = sqlSelect;
+
+        return getByFields(where);
+
+    }
+
 }
