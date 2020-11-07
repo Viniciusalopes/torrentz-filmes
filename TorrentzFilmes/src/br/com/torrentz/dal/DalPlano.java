@@ -94,7 +94,7 @@ Exceção {
 
         retornaPeguePorCampo(onde);
 
-    }
+    ddd}
      */
     protected ArrayList<Plano> getBy(Where[] where) throws Exception {
 
