@@ -59,7 +59,7 @@ public class DalPlano extends DalGeneric<Plano> {
 
     }
 
-    @Override
+    @Override //array list palno 
     protected ArrayList<Plano> build(ResultSet rs) throws Exception {
         ArrayList<Plano> ret = new ArrayList<>();
         while (rs.next()) {
@@ -72,7 +72,7 @@ public class DalPlano extends DalGeneric<Plano> {
 
         }
         return ret;
-    }
+    }//colado na orden de atributos da tabela 
 
     public Plano getById(int id) throws Exception {
         sql = sqlSelect + sqlWhere;
@@ -86,6 +86,16 @@ public class DalPlano extends DalGeneric<Plano> {
 
     }
 
+    /*
+    protected ListaMatriz<Plano> peguePor(Onde[] onde) lança 
+Exceção {
+
+        sql = sqlSelect;
+
+        retornaPeguePorCampo(onde);
+
+    }
+     */
     protected ArrayList<Plano> getBy(Where[] where) throws Exception {
 
         sql = sqlSelect;
@@ -93,6 +103,7 @@ public class DalPlano extends DalGeneric<Plano> {
         return getByFields(where);
 
     }
+
 
     /*
     Eu estou com um problema para entender o 
@@ -117,19 +128,27 @@ public class DalPlano extends DalGeneric<Plano> {
         args = new Object[]{t, t, t};
         return select();
 
-
     }
-    
-    protected void add (Plano plano) throws Exception{
-        args  = new  Object []{
-            plano.getPla_id(), 
+
+    protected void add(Plano plano) throws Exception {
+        args = new Object[]{
+            plano.getPla_id(),
             plano.getPla_acesso_simultaneo(),
             plano.getPla_nome(),
             plano.getPla_preco()
         };
         sql = sqlInsert;
         execute();
-        
+
     }
-    
+
+    protected void update(Plano plano) throws Exception {
+        args = new Object[]{plano.getPla_id(),
+            plano.getPla_acesso_simultaneo(),
+            plano.getPla_nome(),
+            plano.getPla_preco()
+        };
+        sql = sqlUpdate;
+        execute();
+    }
 }
