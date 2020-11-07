@@ -24,19 +24,43 @@ Lucas
  */
 package br.com.torrentz.dal;
 
+import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Plano;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Computador
  */
-public class DalPlano  {
-    
+public class DalPlano extends DalGeneric<Plano> {
+
+    //contrutor protegido 
+    /**
+     *
+     * O modificador protected torna o membro acessível às classes do mesmo
+     * pacote ou através de herança, seus membros herdados não são acessíveis a
+     * outras classes fora do pacote em que foram declarados.
+     */
+    protected DalPlano() throws Exception {
+        super("Planos ", "pla_nome");
+
+        sqlInsert = "INSERT INTO " + table
+                + "(pla_id, pla_acesso_simultaneo, pla_nome, pla_preco"
+                + "VALUES (?, ?, ?, ?)";
+
+        sqlSelect = "SELECT * FROM " + table + " ";
+
+        sqlUpdate = " UPDATE " + table + " SET "
+                + "pla_acesso_simultaneo = ?, pla_nome = ?, pla_preco " + sqlWhere;
+
+        orderBy = " ORDER BY pla_nome";
+
+    }
+
+    @Override
+    protected ArrayList<Plano> build(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
