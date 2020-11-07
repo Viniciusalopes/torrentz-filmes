@@ -1,0 +1,14 @@
+Sequencia de comandos para o projeto TorrentzFilmes
+
+ANTES DE INICIAR QUALQUER ALTERAÇÃO NO PROJETO
+1- Abrir o GitBash
+2- Executar o comando: git pull
+
+FAZER AS ALTERAÇÕES
+
+APÓS CONCLUIR AS ALTERAÇÕES
+3- git status    <-- Para ver os arquivos que foram alterados
+4- git add [caminho/do/arquivo/alterado/nome_arquivo.java*]
+5- git commit -m "Texto curto explicando o que foi alterado ou criado"
+6- git pull
+7- git push
