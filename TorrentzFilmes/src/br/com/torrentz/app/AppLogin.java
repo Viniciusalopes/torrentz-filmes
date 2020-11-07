@@ -8,7 +8,7 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
-import static br.com.torrentz.util.UtilString.*;
+import javax.swing.JFrame;
 
 /**
  *
@@ -47,7 +47,7 @@ public class AppLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        jButtonEntrar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu = new javax.swing.JMenu();
         jMenuItemRedefinirSenha = new javax.swing.JMenuItem();
@@ -88,10 +88,10 @@ public class AppLogin extends javax.swing.JFrame {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEntrar.setText("Entrar");
+        jButtonEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonEntrarActionPerformed(evt);
             }
         });
 
@@ -119,7 +119,7 @@ public class AppLogin extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -128,7 +128,7 @@ public class AppLogin extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(jButtonEntrar)
                 .addGap(20, 20, 20))
         );
 
@@ -136,15 +136,23 @@ public class AppLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new AppTelaPrincipal().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
+        try {
+            Usuario u = bll.validUser(jTextFieldLogin.getText(), jPasswordField.getPassword() + "");
+            if (u != null) {
+                AppTelaPrincipal tela = new AppTelaPrincipal();
+                tela.setUsuario(u);
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+
+    }//GEN-LAST:event_jButtonEntrarActionPerformed
 
     private void jMenuItemRedefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedefinirSenhaActionPerformed
         try {
             modal = new AppRedefinirSenha(this, true);
-            
+
             // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
             if (jTextFieldLogin.getText().trim().length() > 0) {
                 modal.jTextFieldEmail.setText((jTextFieldLogin.getText().contains("@"))
@@ -152,7 +160,9 @@ public class AppLogin extends javax.swing.JFrame {
                 );
             }
             modal.setVisible(true);
-            dispose();
+            jTextFieldLogin.setText(modal.jTextFieldEmail.getText());
+            jPasswordField.setText(null);
+            jPasswordField.requestFocus();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -194,7 +204,7 @@ public class AppLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonEntrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu;
