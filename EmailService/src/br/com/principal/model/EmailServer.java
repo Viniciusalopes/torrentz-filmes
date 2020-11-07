@@ -6,7 +6,7 @@
  * Version: 1.0.0
  * @LicenseHeader
  */
-package br.principal.model;
+package br.com.principal.model;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
@@ -65,7 +65,9 @@ public class EmailServer {
             email.setMsg(message);
             email.addTo(emailRecipient);
             email.send();
-            return "Email enviado para " + emailRecipient +" com sucesso!";
+            message = "Email enviado para " + emailRecipient +" com sucesso!";
+            System.out.println(message);
+            return message;
         } catch (EmailException e) {
             return e.getMessage();
         }

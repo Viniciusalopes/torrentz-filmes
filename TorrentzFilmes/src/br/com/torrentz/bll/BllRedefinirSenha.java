@@ -5,9 +5,9 @@
  */
 package br.com.torrentz.bll;
 
+import br.com.principal.model.EmailServer;
 import br.com.torrentz.model.Usuario;
 import br.com.torrentz.util.UtilEmail;
-import br.principal.model.EmailServer;
 import java.util.Random;
 
 /**
