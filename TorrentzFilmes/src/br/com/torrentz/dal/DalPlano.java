@@ -119,4 +119,17 @@ public class DalPlano extends DalGeneric<Plano> {
 
 
     }
+    
+    protected void add (Plano plano) throws Exception{
+        args  = new  Object []{
+            plano.getPla_id(), 
+            plano.getPla_acesso_simultaneo(),
+            plano.getPla_nome(),
+            plano.getPla_preco()
+        };
+        sql = sqlInsert;
+        execute();
+        
+    }
+    
 }
