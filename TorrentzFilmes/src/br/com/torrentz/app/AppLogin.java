@@ -19,7 +19,7 @@ public class AppLogin extends javax.swing.JFrame {
     private BllUsuario bll = null;
     private ArrayList<Usuario> usuarios = null;
     private AppRedefinirSenha modal = null;
-    
+
     /**
      * Creates new form AppLogin
      */
@@ -146,10 +146,12 @@ public class AppLogin extends javax.swing.JFrame {
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         try {
-            Usuario u = bll.validUser(jTextFieldLogin.getText(), jPasswordField.getPassword() + "");
+            Usuario u = bll.validUser(jTextFieldLogin.getText(), new String(jPasswordField.getPassword()));
             if (u != null) {
                 AppTelaPrincipal tela = new AppTelaPrincipal();
                 tela.setUsuario(u);
+                tela.setVisible(true);
+                this.dispose();
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -161,7 +163,7 @@ public class AppLogin extends javax.swing.JFrame {
         try {
             modal = new AppRedefinirSenha(this, true);
             modal.setUsuarios(usuarios);
-            
+
             // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
             if (jTextFieldLogin.getText().trim().length() > 0) {
                 modal.jTextFieldEmail.setText((jTextFieldLogin.getText().contains("@"))
@@ -170,9 +172,8 @@ public class AppLogin extends javax.swing.JFrame {
             }
             modal.setVisible(true);
             jTextFieldLogin.setText(modal.jTextFieldEmail.getText());
-            modal.dispose();
-            jPasswordField.setText(null);
-            jPasswordField.requestFocus();
+            jPasswordField.setText(new String(modal.jPasswordField.getPassword()));
+            jButtonEntrarActionPerformed(evt);
         } catch (Exception e) {
             mensagemErro(e);
         }

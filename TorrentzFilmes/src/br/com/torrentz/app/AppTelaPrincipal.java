@@ -20,6 +20,7 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
 
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
+        jLabelUsuario.setText(usuario.getNome());
     }
 
     /**
@@ -44,6 +45,7 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButtonIncluir = new javax.swing.JButton();
@@ -51,14 +53,20 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
+        jLabelUsuario = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuSistema = new javax.swing.JMenu();
+        jMenuItemNovoLogin = new javax.swing.JMenuItem();
+        jMenuItemSair = new javax.swing.JMenuItem();
         jMenuFilmes = new javax.swing.JMenu();
         jMenuItemCategorias = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItemContratos = new javax.swing.JMenuItem();
         jMenuItemPlanos = new javax.swing.JMenuItem();
         jMenuItemUsuarios = new javax.swing.JMenuItem();
-        jMenuSobre = new javax.swing.JMenu();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +116,33 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setText("Contratos");
 
+        jLabelUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabelUsuario.setText("jLabelUsuario");
+
+        jLabel1.setText("USUÁRIO:");
+
+        jMenuSistema.setText("Sistema");
+
+        jMenuItemNovoLogin.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, 0));
+        jMenuItemNovoLogin.setText("Novo Login");
+        jMenuItemNovoLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemNovoLoginActionPerformed(evt);
+            }
+        });
+        jMenuSistema.add(jMenuItemNovoLogin);
+
+        jMenuItemSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, 0));
+        jMenuItemSair.setText("Sair");
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
+        jMenuSistema.add(jMenuItemSair);
+
+        jMenuBar1.add(jMenuSistema);
+
         jMenuFilmes.setText("Cadastro");
 
         jMenuItemCategorias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
@@ -152,9 +187,6 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuFilmes);
 
-        jMenuSobre.setText("Sobre");
-        jMenuBar1.add(jMenuSobre);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -166,15 +198,21 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 929, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonIncluir)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonIncluir)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelUsuario)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -189,8 +227,12 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(jLabel1))
+                .addContainerGap())
         );
 
         pack();
@@ -215,6 +257,20 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
         mensagem("Atenção, DEV!", "Implementar carregamento do grid com o cadastro de " + evt + "!");
     }//GEN-LAST:event_jButtonIncluirActionPerformed
+
+    private void jMenuItemNovoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNovoLoginActionPerformed
+        try {
+            this.setVisible(false);
+            new AppLogin().setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jMenuItemNovoLoginActionPerformed
+
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -254,14 +310,19 @@ public class AppTelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonIncluir;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFilmes;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemCategorias;
     private javax.swing.JMenuItem jMenuItemContratos;
+    private javax.swing.JMenuItem jMenuItemNovoLogin;
     private javax.swing.JMenuItem jMenuItemPlanos;
+    private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemUsuarios;
-    private javax.swing.JMenu jMenuSobre;
+    private javax.swing.JMenu jMenuSistema;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;

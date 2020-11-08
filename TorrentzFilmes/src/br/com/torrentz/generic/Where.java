@@ -45,44 +45,43 @@ public class Where {
 
     }
 
-    public Where(String preField, String fieldName, String comparer, int value) {
+    private Where(String preField, String fieldName, String comparer){
+        this.preField = preField;
         this.fieldName = fieldName;
         this.comparer = comparer;
+    }
+    public Where(String preField, String fieldName, String comparer, int value) {
+        this(preField, fieldName, comparer);
         this.intValue = value;
         this.objValue = value;
     }
 
     public Where(String preField, String fieldName, String comparer, float value) {
-        this.fieldName = fieldName;
-        this.comparer = comparer;
+        this(preField, fieldName, comparer);
         this.floatValue = value;
         this.objValue = value;
     }
 
     public Where(String preField, String fieldName, String comparer, double value) {
-        this.fieldName = fieldName;
-        this.comparer = comparer;
+        this(preField, fieldName, comparer);
         this.doubleValue = value;
         this.objValue = value;
     }
 
     public Where(String preField, String fieldName, String comparer, String value) {
-        this.fieldName = fieldName;
-        this.comparer = comparer;
+        this(preField, fieldName, comparer);
         this.strValue = value;
         this.objValue = value;
     }
 
     public Where(String preField, String fieldName, String comparer, Date value) {
-        this.fieldName = fieldName;
-        this.comparer = comparer;
+        this(preField, fieldName, comparer);
         this.dateValue = value;
         this.objValue = value;
     }
 
     public Where(String preField, String fieldName, String comparer, Object value) {
-        this.fieldName = fieldName;
-        this.comparer = comparer;
+        this(preField, fieldName, comparer);
         this.objValue = value;
     }
 
