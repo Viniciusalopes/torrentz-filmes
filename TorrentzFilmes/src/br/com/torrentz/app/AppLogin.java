@@ -148,7 +148,7 @@ public class AppLogin extends javax.swing.JFrame {
         try {
             Usuario u = bll.validUser(jTextFieldLogin.getText(), new String(jPasswordField.getPassword()));
             if (u != null) {
-                AppTelaPrincipal tela = new AppTelaPrincipal();
+                AppPrincipal tela = new AppPrincipal();
                 tela.setUsuario(u);
                 tela.setVisible(true);
                 this.dispose();
