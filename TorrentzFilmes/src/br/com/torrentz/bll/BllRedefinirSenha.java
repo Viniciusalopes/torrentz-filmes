@@ -30,7 +30,9 @@ public class BllRedefinirSenha {
                 throw new Exception("Nenhum usuário cadastrado com este e-mail!");
             } else {
                 // Enviar e-mail com código de verificação
-                String codigo = new Random(9999).nextInt() + "";
+                int minValor = 1000;
+                int maxValor = 9999;
+                String codigo = String.format("%d", (int) (Math.random() * (maxValor - minValor) + minValor));
 
                 EmailServer mail = new EmailServer();
                 mail.enviar(email, "Recuperação de Senha",
