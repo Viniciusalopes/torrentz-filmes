@@ -5,9 +5,11 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Contrato;
+import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Object> colecao = null;
     private Iterable<Usuario> usuarios = null;
     private Iterable<Contrato> contratos = null;
+    private Iterable<Plano> planos = null;
+
+    private String cadastro = "";
 
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
@@ -30,14 +35,15 @@ public class AppPrincipal extends javax.swing.JFrame {
     }
 
     public void atualizarColecoes() throws Exception {
-
         usuarios = (Iterable) new BllUsuario().getAll();
-
+        planos = (Iterable) new BllPlano().getAll();
     }
 
     private void jRadioButtonActionPerformed(ActionEvent evt) {
         try {
             atualizarGrid(evt.getActionCommand());
+            jButtonIncluir.setEnabled(usuario.getPerfil() == 'A');
+            cadastro = evt.getActionCommand();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -72,6 +78,24 @@ public class AppPrincipal extends javax.swing.JFrame {
         new AppGridPrincipal<>().preencherGrid(colecao, jTablePrincipal);
     }
 
+    private void incluirCadastro() {
+        try {
+
+            switch (cadastro) {
+                case "Usuario":
+                    AppUsuarioIncluir modal = new AppUsuarioIncluir(this, true);
+                    modal.setTitle("Cadastro de Usuários");
+                    modal.planos = planos;
+                    modal.setVisible(true);
+                    break;
+            }
+            atualizarColecoes();
+            atualizarGrid("");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+
     /**
      * Creates new form AppTelaPrincipal
      */
@@ -80,6 +104,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             atualizarColecoes();
+            atualizarGrid("");
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -145,12 +170,14 @@ public class AppPrincipal extends javax.swing.JFrame {
         }
 
         jButtonIncluir.setText("Incluir");
+        jButtonIncluir.setEnabled(false);
         jButtonIncluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonIncluirActionPerformed(evt);
             }
         });
 
+        buttonGroup1.add(jRadioButtonUsuarios);
         jRadioButtonUsuarios.setText("Usuários");
         jRadioButtonUsuarios.setActionCommand("Usuario");
         jRadioButtonUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -349,7 +376,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemContratosActionPerformed
 
     private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
-        mensagem("Atenção, DEV!", "Implementar carregamento do grid com o cadastro de " + evt + "!");
+        incluirCadastro();
     }//GEN-LAST:event_jButtonIncluirActionPerformed
 
     private void jMenuItemNovoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNovoLoginActionPerformed
@@ -367,51 +394,27 @@ public class AppPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jRadioButtonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonUsuariosActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonUsuariosActionPerformed
 
     private void jRadioButtonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCategoriasActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonCategoriasActionPerformed
 
     private void jRadioButtonFilmesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonFilmesActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonFilmesActionPerformed
 
     private void jRadioButtonPlanosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPlanosActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonPlanosActionPerformed
 
     private void jRadioButtonContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonContratosActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonContratosActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        try {
-            atualizarGrid(evt.getActionCommand());
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
+        jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**

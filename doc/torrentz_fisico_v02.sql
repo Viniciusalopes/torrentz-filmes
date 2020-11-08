@@ -1,16 +1,17 @@
 --
--- bdtorrentz01_20-11-02
---
+-- torrentz_fisico_v02.sql
+-- 
 --
 
 DROP TABLE IF EXISTS
+	Visualizacoes,
+	Contratos,
 	Usuarios,
 	Planos,
 	Categorias,
-	Filmes,
-	Visualizacoes,
-	Contratos;
-
+	Filmes
+;
+	
 CREATE TABLE Usuarios
 (
 	usu_id SERIAL PRIMARY KEY,
@@ -32,6 +33,55 @@ CREATE TABLE Usuarios
 		CONSTRAINT usu_cup_data_geracao_invalida CHECK (usu_cup_data_geracao <= CURRENT_DATE)
 );
 
+INSERT INTO Usuarios
+(
+	usu_nome,
+	usu_perfil,
+	usu_cpf,
+	usu_email,
+	usu_senha,
+	usu_cup_porcentagem, 
+	usu_cup_data_geracao
+) VALUES
+	(
+		'Marcos Paulo',
+		'A',
+		'27981108071',
+		'contato.marcospaulo1@gmail.com',
+		'1234567890123456789012345678901234567890123456789012345678901234',
+		10.00,
+		TO_DATE('DD/MM/YYYY','07/11/2020')
+	),
+
+	(
+		'Vinicius Araujo Lopes',
+		'A',
+		'93830651090',
+		'suporte@viniciusalopes.com.br',
+		'1234567890123456789012345678901234567890123456789012345678901234',
+		12.00,
+		TO_DATE('07/11/2020', 'DD/MM/YYYY')
+	),
+	(
+		'Lucas Araujo',
+		'A',
+		'53869888083',
+		'lucasgoias1@gmail.com',
+		'1234567890123456789012345678901234567890123456789012345678901234',
+		04.00,
+		TO_DATE('07/11/2020', 'DD/MM/YYYY')
+	),
+	(
+		'Calebe de Costa',
+		'A',
+		'41164832069',
+		'calebaum@gmail.com',
+		'1234567890123456789012345678901234567890123456789012345678901234',
+		20.00,
+		TO_DATE('07/11/2020', 'DD/MM/YYYY')
+	)
+;
+
 CREATE TABLE Planos
 (
 	pla_id SERIAL PRIMARY KEY,
@@ -44,6 +94,10 @@ CREATE TABLE Planos
 		CONSTRAINT pla_preco_invalido CHECK (pla_preco >= 0.01 AND pla_preco <= 999999.99)
 );
 
+INSERT INTO Planos (pla_acesso_simultaneo, pla_nome, pla_preco) VALUES
+	(2, 'Básico', 9.99)
+;
+
 CREATE TABLE Categorias
 (
 	cat_id SERIAL PRIMARY KEY,
@@ -52,7 +106,7 @@ CREATE TABLE Categorias
 		CONSTRAINT cat_nome_longo CHECK (length(cat_nome) <= 50)
 );
 
-INSERT INTO categorias(cat_nome) VALUES
+INSERT INTO Categorias(cat_nome) VALUES
 	('Ação'),
     ('Animação'),
     ('Aventura'),
