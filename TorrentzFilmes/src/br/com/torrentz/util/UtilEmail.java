@@ -23,7 +23,8 @@ public class UtilEmail {
     public static void validarEmail(String email) throws Exception {
         // FONTE: https://receitasdecodigo.com.br/java/validar-email-em-java
         boolean emailValido = false;
-
+        email = email.trim();
+        
         if (email != null && email.length() > 0) {
             String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);

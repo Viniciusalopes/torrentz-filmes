@@ -8,18 +8,16 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
-import br.com.torrentz.interfaces.IAppPrincipal;
 
 /**
  *
  * @author vovolinux
  */
-public class AppTelaPrincipal extends javax.swing.JFrame implements IAppPrincipal {
+public class AppTelaPrincipal extends javax.swing.JFrame {
 
     private Usuario usuario = null;
     private BllUsuario bllUsuario = null;
 
-    @Override
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
     }

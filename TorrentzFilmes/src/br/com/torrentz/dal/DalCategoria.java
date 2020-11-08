@@ -8,7 +8,6 @@ package br.com.torrentz.dal;
 import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.generic.Where;
 import br.com.torrentz.model.Categoria;
-import br.com.torrentz.model.Usuario;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public class DalCategoria extends DalGeneric<Categoria> {
 
     protected DalCategoria() throws Exception {
-        super("Categorias", "cat_id");
+        super("categorias", "cat_id");
 
         sqlInsert = "INSERT INTO " + table
                 + " (cat_nome) "

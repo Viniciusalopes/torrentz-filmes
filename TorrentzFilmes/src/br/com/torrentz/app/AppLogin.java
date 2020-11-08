@@ -8,7 +8,7 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,8 +17,9 @@ import javax.swing.JFrame;
 public class AppLogin extends javax.swing.JFrame {
 
     private BllUsuario bll = null;
+    private ArrayList<Usuario> usuarios = null;
     private AppRedefinirSenha modal = null;
-
+    
     /**
      * Creates new form AppLogin
      */
@@ -29,6 +30,7 @@ public class AppLogin extends javax.swing.JFrame {
 
         try {
             bll = new BllUsuario();
+            usuarios = bll.getAll();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -56,6 +58,12 @@ public class AppLogin extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldLoginKeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("Login");
 
@@ -152,7 +160,8 @@ public class AppLogin extends javax.swing.JFrame {
     private void jMenuItemRedefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedefinirSenhaActionPerformed
         try {
             modal = new AppRedefinirSenha(this, true);
-
+            modal.setUsuarios(usuarios);
+            
             // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
             if (jTextFieldLogin.getText().trim().length() > 0) {
                 modal.jTextFieldEmail.setText((jTextFieldLogin.getText().contains("@"))
@@ -161,12 +170,21 @@ public class AppLogin extends javax.swing.JFrame {
             }
             modal.setVisible(true);
             jTextFieldLogin.setText(modal.jTextFieldEmail.getText());
+            modal.dispose();
             jPasswordField.setText(null);
             jPasswordField.requestFocus();
         } catch (Exception e) {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jMenuItemRedefinirSenhaActionPerformed
+
+    private void jTextFieldLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLoginKeyReleased
+        try {
+            jTextFieldLogin.setText(jTextFieldLogin.getText().toLowerCase());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTextFieldLoginKeyReleased
 
     /**
      * @param args the command line arguments

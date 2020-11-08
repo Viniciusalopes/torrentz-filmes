@@ -9,7 +9,6 @@ import static br.com.torrentz.generic.GenMensagem.*;
 import static br.com.torrentz.bll.BllRedefinirSenha.*;
 import br.com.torrentz.bll.BllUsuario;
 import br.com.torrentz.model.Usuario;
-import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +22,10 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     private Usuario usuario = null;
     private ArrayList<Usuario> usuarios = null;
 
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
     /**
      * Creates new form AppRedefinir
      */
@@ -30,15 +33,13 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
-        this.email = "";
-        this.codigo = "";
-        this.usuario = null;
-        this.jTextFieldEmail.setVisible(true);
-        this.jTextFieldCodigo.setVisible(false);
-        this.jPasswordField.setVisible(false);
-        
-        
-
+        this.setTitle("Redefinir Senha");
+        email = "";
+        codigo = "";
+        usuario = null;
+        jTextFieldEmail.setVisible(true);
+        jTextFieldCodigo.setVisible(false);
+        jPasswordField.setVisible(false);
     }
 
     /**
@@ -49,51 +50,28 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabelInstrucao = new javax.swing.JLabel();
-        jTextFieldEmail = new javax.swing.JTextField();
-        jTextFieldCodigo = new javax.swing.JTextField();
+        jButtonRedefinir = new javax.swing.JButton();
         jPasswordField = new javax.swing.JPasswordField();
-        jButtonRecuperar = new javax.swing.JButton();
+        jTextFieldCodigo = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
+        jLabelInstrucao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
 
-        jLabelInstrucao.setText("Informe seu e-mail");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPasswordField)
-                    .addComponent(jLabelInstrucao, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                .addContainerGap(11, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelInstrucao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jButtonRecuperar.setText("Recuperar");
-        jButtonRecuperar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRedefinir.setText("Redefinir");
+        jButtonRedefinir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRecuperarActionPerformed(evt);
+                jButtonRedefinirActionPerformed(evt);
             }
         });
+
+        jTextFieldEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldEmailKeyReleased(evt);
+            }
+        });
+
+        jLabelInstrucao.setText("Informe seu e-mail");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,67 +79,84 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(236, 236, 236)
-                .addComponent(jButtonRecuperar)
-                .addGap(30, 30, 30))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonRedefinir)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelInstrucao)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelInstrucao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRecuperar)
+                .addComponent(jButtonRedefinir)
                 .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecuperarActionPerformed
+    private void jButtonRedefinirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRedefinirActionPerformed
         try {
-            switch (jButtonRecuperar.getText()) {
-                case "Recuperar":
+            switch (jButtonRedefinir.getText()) {
+                case "Redefinir":
                     if (emailValido(jTextFieldEmail.getText())) {
-                        codigo = redefinir(jTextFieldEmail.getText());
-                        email = jTextFieldEmail.getText();
+                        email = jTextFieldEmail.getText().trim();
+                        codigo = redefinir(email, usuarios);
+                        usuario = getUsuario();
                         jLabelInstrucao.setText("Informe o código de verificação");
-                        this.jTextFieldEmail.setVisible(false);
-                        this.jTextFieldCodigo.setVisible(true);
-                        this.jPasswordField.setVisible(false);
-                        jButtonRecuperar.setText("Verificar");
+                        jTextFieldEmail.setVisible(false);
+                        jTextFieldCodigo.setVisible(true);
+                        jPasswordField.setVisible(false);
+                        jButtonRedefinir.setText("Verificar");
+                        jTextFieldCodigo.requestFocus();
                     }
                     break;
 
                 case "Verificar":
                     if (jTextFieldCodigo.getText().trim().equalsIgnoreCase(codigo)) {
-                        usuario = new BllUsuario().searchByLogin(email);
                         jLabelInstrucao.setText("Informe sua nova senha");
-                        jTextFieldEmail.setText(null);
-                        this.jTextFieldEmail.setVisible(false);
-                        this.jTextFieldCodigo.setVisible(false);
-                        this.jPasswordField.setVisible(true);
-                        jButtonRecuperar.setText("Confirmar");
+                        jTextFieldEmail.setVisible(false);
+                        jTextFieldCodigo.setVisible(false);
+                        jPasswordField.setVisible(true);
+                        jButtonRedefinir.setText("Confirmar");
+                        jPasswordField.requestFocus();
                     } else {
                         throw new Exception("Código de verificação não confere com o enviado por e-mail!");
                     }
                     break;
                 case "Confirmar":
                     if (usuario != null) {
-                        usuario.setSenha(getHexStringSha256(jPasswordField.getPassword() + ""));
+                        usuario.setSenha(new String(jPasswordField.getPassword()));
                         new BllUsuario().update(usuario);
-                        mensagem("Sucesso!", "Senha redefinida com sucesso!");
-                        this.dispose();
+                        mensagem("Sucesso!", "Sua senha foi redefinida com sucesso!");
+                        this.setVisible(false);
                     }
                     break;
             }
         } catch (Exception e) {
             mensagemErro(e);
         }
-    }//GEN-LAST:event_jButtonRecuperarActionPerformed
+    }//GEN-LAST:event_jButtonRedefinirActionPerformed
+
+    private void jTextFieldEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmailKeyReleased
+        try{ 
+            jTextFieldEmail.setText(jTextFieldEmail.getText().toLowerCase());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTextFieldEmailKeyReleased
 
     /**
      * @param args the command line arguments
@@ -207,9 +202,8 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonRecuperar;
+    private javax.swing.JButton jButtonRedefinir;
     private javax.swing.JLabel jLabelInstrucao;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldCodigo;
     public javax.swing.JTextField jTextFieldEmail;

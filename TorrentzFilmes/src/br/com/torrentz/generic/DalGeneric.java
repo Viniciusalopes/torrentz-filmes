@@ -108,8 +108,7 @@ public abstract class DalGeneric<T> {
         args = new Object[]{};
         return select();
     }
-    
-    
+
     /**
      * Executa uma consulta em uma tabela.
      *
@@ -301,7 +300,12 @@ public abstract class DalGeneric<T> {
                 + "FROM information_schema.columns "
                 + "WHERE table_name = ? AND column_name = ?";
         args = new Object[]{table, column_name};
-        return executeQuery().getInt("maxLength");
+        
+        ResultSet rs = executeQuery();
+        if (rs.next()) {
+            return rs.getInt("maxLength");
+        }
+        return 0;
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
