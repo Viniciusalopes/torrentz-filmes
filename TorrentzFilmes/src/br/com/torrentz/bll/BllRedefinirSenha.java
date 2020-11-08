@@ -31,7 +31,13 @@ public class BllRedefinirSenha {
                 throw new Exception("Nenhum usuário cadastrado com este e-mail!");
             } else {
                 // Enviar e-mail com código de verificação
+<<<<<<< HEAD
                 String codigo = String.format("%04d",new Random().nextInt(4));
+=======
+                int minValor = 1000;
+                int maxValor = 9999;
+                String codigo = String.format("%d", (int) (Math.random() * (maxValor - minValor) + minValor));
+>>>>>>> 585591fb67aad4cd79cbfe281e7ff92852a1ab35
 
                 EmailServer mail = new EmailServer();
                 mail.enviar(email, "Torrentz Filmes - Recuperação de Senha",
