@@ -70,7 +70,7 @@ public class AppLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Senha");
 
-        jPasswordField.setText("1111");
+        jPasswordField.setText("123456");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

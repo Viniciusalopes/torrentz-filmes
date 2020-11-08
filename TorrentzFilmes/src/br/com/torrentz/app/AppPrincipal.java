@@ -84,7 +84,7 @@ public class AppPrincipal extends javax.swing.JFrame {
             switch (cadastro) {
                 case "Usuario":
                     AppUsuarioIncluir modal = new AppUsuarioIncluir(this, true);
-                    modal.setTitle("Cadastro de Usuários");
+                    modal.setTitle("Incluir cadastro de Usuário");
                     modal.planos = planos;
                     modal.setVisible(true);
                     break;

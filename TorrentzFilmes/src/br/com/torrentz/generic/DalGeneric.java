@@ -22,7 +22,9 @@ package br.com.torrentz.generic;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -144,7 +146,11 @@ public abstract class DalGeneric<T> {
             prepare();
 
             for (int i = 0; i < args.length; i++) {
-                pstm.setObject((i + 1), args[i]);
+                if (args[i] instanceof Date) {
+                    pstm.setDate((i + 1), new java.sql.Date(((Date) args[i]).getTime()));
+                } else {
+                    pstm.setObject((i + 1), args[i]);
+                }
             }
             if (isQuery) {
                 return pstm.executeQuery();
@@ -300,7 +306,7 @@ public abstract class DalGeneric<T> {
                 + "FROM information_schema.columns "
                 + "WHERE table_name = ? AND column_name = ?";
         args = new Object[]{table, column_name};
-        
+
         ResultSet rs = executeQuery();
         if (rs.next()) {
             return rs.getInt("maxLength");

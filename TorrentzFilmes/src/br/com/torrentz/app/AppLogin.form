@@ -133,7 +133,7 @@
         </Component>
         <Component class="javax.swing.JPasswordField" name="jPasswordField">
           <Properties>
-            <Property name="text" type="java.lang.String" value="1111"/>
+            <Property name="text" type="java.lang.String" value="123456"/>
           </Properties>
         </Component>
       </SubComponents>

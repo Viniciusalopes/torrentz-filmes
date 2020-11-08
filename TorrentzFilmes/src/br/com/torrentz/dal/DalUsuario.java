@@ -6,6 +6,7 @@ import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
 import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -87,6 +88,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
     }
 
     protected void add(Usuario usuario) throws Exception {
+        sql = sqlInsert;
         args = new Object[]{
             usuario.getNome(),
             usuario.getCpf(),
@@ -96,7 +98,6 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             usuario.getDataGeracao(),
             usuario.getPerfil()
         };
-        sql = sqlInsert;
         execute();
     }
 

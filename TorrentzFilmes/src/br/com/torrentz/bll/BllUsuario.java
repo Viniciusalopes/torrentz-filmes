@@ -2,8 +2,8 @@ package br.com.torrentz.bll;
 
 import br.com.torrentz.dal.DalUsuario;
 import br.com.torrentz.model.Usuario;
-import br.com.torrentz.util.UtilSenha;
 import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
+import static br.com.torrentz.util.UtilString.somenteNumeros;
 import java.util.ArrayList;
 
 /**
@@ -60,6 +60,11 @@ public class BllUsuario extends DalUsuario {
 
     public Usuario searchByLogin(String login) throws Exception {
         ArrayList<Usuario> ret = search(login);
+        return (ret.size() > 0) ? ret.get(0) : null;
+    }
+
+    public Usuario searchByCPF(String cpf) throws Exception {
+        ArrayList<Usuario> ret = search(cpf);
         return (ret.size() > 0) ? ret.get(0) : null;
     }
 }
