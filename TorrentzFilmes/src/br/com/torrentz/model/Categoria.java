@@ -3,81 +3,60 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.torrentz.model;
 
 /**
  *
-<<<<<<< HEAD
- * @author marcos
+ * @author calebaum
  */
 public class Categoria {
     
-    /* Atributos */
-    private int id =0;
-    private String nome = "";
+    //----------------------------------------------------------------------------------------------
+    //atributos 
+    //atributos com valores em String
+    private String cat_nome;
+    //Atributos com valores em int
+    private int cat_id;
     
-    /* Métodos */
-    /**
-     * @default
-     */
-    public Categoria() {
-        this(0,"");
+    //construtor vazio
+    public  Categoria(){
     }
     
-<<<<<<< HEAD
-    /**
-     * 
-     * @param nome 
-     */
-    public Categoria(String nome){
-        this(0,nome);
-=======
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
     public Categoria(int cat_id, String cat_nome) {
         this.cat_id = cat_id;
         this.cat_nome = cat_nome;
         
->>>>>>> main
     }
-    
+    //get e set
+
     /**
-     * 
-     * @param id
-     * @param nome 
+     * @return the cat_nome
      */
-    public Categoria(int id, String nome){
-        this.id = id;
-        this.nome = nome;    
+    public String geNome() {
+        return cat_nome;
     }
 
     /**
-     * @return the id
+     * @param cat_nome the cat_nome to set
+     */
+    public void setNome(String cat_nome) {
+        this.cat_nome = cat_nome;
+    }
+
+    /**
+     * @return the cat_id
      */
     public int getId() {
-        return id;
+        return cat_id;
     }
 
     /**
-     * @param id the id to set
+     * @param cat_id the cat_id to set
      */
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int cat_id) {
+        this.cat_id = cat_id;
     }
-
-    /**
-     * @return the nome
-     */
-    public String getNome() {
-        return nome;
-    }
-
-    /**
-     * @param nome the nome to set
-     */
-    public void setNome(String nome) {
-        this.nome = nome;
-    }     
-
+    
 }
