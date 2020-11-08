@@ -7,7 +7,11 @@ package br.com.torrentz.app;
 
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
+import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Usuario;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,12 +19,57 @@ import br.com.torrentz.model.Usuario;
  */
 public class AppPrincipal extends javax.swing.JFrame {
 
-    private Usuario usuario = null;
-    private BllUsuario bllUsuario = null;
+    private Usuario usuario = null; // Usuário da sessão
+    private Iterable<Object> colecao = null;
+    private Iterable<Usuario> usuarios = null;
+    private Iterable<Contrato> contratos = null;
 
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
         jLabelUsuario.setText(usuario.getNome());
+    }
+
+    public void atualizarColecoes() throws Exception {
+
+        usuarios = (Iterable) new BllUsuario().getAll();
+
+    }
+
+    private void jRadioButtonActionPerformed(ActionEvent evt) {
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+
+    private void atualizarGrid(String objectName) throws Exception {
+        colecao = new ArrayList<>();
+
+        switch (objectName) {
+            case "Plano":
+                jTablePrincipal.setModel(new DefaultTableModel());
+                throw new Exception("Pergunte ao Lucas!");
+
+            case "Categoria":
+            case "Filme":
+                jTablePrincipal.setModel(new DefaultTableModel());
+                throw new Exception("Pergunte ao Calebe!");
+
+            case "Visualizacoes":
+                jTablePrincipal.setModel(new DefaultTableModel());
+                throw new Exception("Pergunte ao Marcos Paulo!");
+
+            case "Usuario":
+                colecao = (Iterable) usuarios;
+                break;
+
+            case "Contrato":
+                colecao = (Iterable) contratos;
+                break;
+
+        }
+        new AppGridPrincipal<>().preencherGrid(colecao, jTablePrincipal);
     }
 
     /**
@@ -30,7 +79,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         try {
-            bllUsuario = new BllUsuario();
+            atualizarColecoes();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -47,14 +96,16 @@ public class AppPrincipal extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jMenuItem2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePrincipal = new javax.swing.JTable();
         jButtonIncluir = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButtonUsuarios = new javax.swing.JRadioButton();
+        jRadioButtonCategorias = new javax.swing.JRadioButton();
+        jRadioButtonFilmes = new javax.swing.JRadioButton();
+        jRadioButtonPlanos = new javax.swing.JRadioButton();
+        jRadioButtonContratos = new javax.swing.JRadioButton();
         jLabelUsuario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSistema = new javax.swing.JMenu();
         jMenuItemNovoLogin = new javax.swing.JMenuItem();
@@ -70,31 +121,27 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "ID", "Nome"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(80);
+        jScrollPane1.setViewportView(jTablePrincipal);
+        if (jTablePrincipal.getColumnModel().getColumnCount() > 0) {
+            jTablePrincipal.getColumnModel().getColumn(0).setMinWidth(80);
+            jTablePrincipal.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTablePrincipal.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         jButtonIncluir.setText("Incluir");
@@ -104,22 +151,63 @@ public class AppPrincipal extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Categorias");
+        jRadioButtonUsuarios.setText("Usuários");
+        jRadioButtonUsuarios.setActionCommand("Usuario");
+        jRadioButtonUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonUsuariosActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Filmes");
+        buttonGroup1.add(jRadioButtonCategorias);
+        jRadioButtonCategorias.setText("Categorias");
+        jRadioButtonCategorias.setActionCommand("Categoria");
+        jRadioButtonCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonCategoriasActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Planos");
+        buttonGroup1.add(jRadioButtonFilmes);
+        jRadioButtonFilmes.setText("Filmes");
+        jRadioButtonFilmes.setActionCommand("Filme");
+        jRadioButtonFilmes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonFilmesActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Contratos");
+        buttonGroup1.add(jRadioButtonPlanos);
+        jRadioButtonPlanos.setText("Planos");
+        jRadioButtonPlanos.setActionCommand("Plano");
+        jRadioButtonPlanos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonPlanosActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButtonContratos);
+        jRadioButtonContratos.setText("Contratos");
+        jRadioButtonContratos.setActionCommand("Contrato");
+        jRadioButtonContratos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonContratosActionPerformed(evt);
+            }
+        });
 
         jLabelUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabelUsuario.setText("jLabelUsuario");
 
         jLabel1.setText("USUÁRIO:");
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("Visualizações");
+        jRadioButton1.setActionCommand("Visualizacoes");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         jMenuSistema.setText("Sistema");
 
@@ -200,19 +288,23 @@ public class AppPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonIncluir)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton4))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelUsuario)))
+                                .addComponent(jLabelUsuario))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonIncluir)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButtonUsuarios)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonCategorias)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonFilmes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonPlanos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonContratos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -222,10 +314,12 @@ public class AppPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonIncluir)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(jRadioButtonCategorias)
+                    .addComponent(jRadioButtonFilmes)
+                    .addComponent(jRadioButtonPlanos)
+                    .addComponent(jRadioButtonContratos)
+                    .addComponent(jRadioButtonUsuarios)
+                    .addComponent(jRadioButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -271,6 +365,54 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
+
+    private void jRadioButtonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonUsuariosActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButtonUsuariosActionPerformed
+
+    private void jRadioButtonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCategoriasActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButtonCategoriasActionPerformed
+
+    private void jRadioButtonFilmesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonFilmesActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButtonFilmesActionPerformed
+
+    private void jRadioButtonPlanosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPlanosActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButtonPlanosActionPerformed
+
+    private void jRadioButtonContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonContratosActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButtonContratosActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        try {
+            atualizarGrid(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -325,10 +467,12 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSistema;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButtonCategorias;
+    private javax.swing.JRadioButton jRadioButtonContratos;
+    private javax.swing.JRadioButton jRadioButtonFilmes;
+    private javax.swing.JRadioButton jRadioButtonPlanos;
+    private javax.swing.JRadioButton jRadioButtonUsuarios;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablePrincipal;
     // End of variables declaration//GEN-END:variables
 }
