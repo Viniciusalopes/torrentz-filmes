@@ -3,29 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/Where.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/util/TemporizadorJProgressBar.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppCategoria.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/bll/BllUsuario.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/BDConfig.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalUsuario.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppFilmes.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppVisualizacoes.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppTelaPrincipal.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalGeneric.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppLogin.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppPlano.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/BDConn.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/model/Plano.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppUsuario.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalCategoria.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppRedefinirSenha.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppVisualizar.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/model/Usuario.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/Principal.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppContrato.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/app/AppNovaSenha.java</file>
-            <file>file:/home/calebaum/git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalPlano.java</file>
+            <file>file:/C:/Users/lucas/Git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalUsuario.java</file>
+            <file>file:/C:/Users/lucas/Git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/dal/DalPlano.java</file>
+            <file>file:/C:/Users/lucas/Git/torrentz-filmes/TorrentzFilmes/src/br/com/torrentz/generic/DalGeneric.java</file>
         </group>
     </open-files>
 </project-private>
