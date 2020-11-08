@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.torrentz.interfaces;
-
-import br.com.torrentz.model.Usuario;
+package br.com.torrentz.model;
 
 /**
  *
  * @author vovolinux
  */
-public interface IAppPrincipal {
-
-    void setUsuario(Usuario usuario) throws Exception;
-
+public class Contrato {
+    
 }

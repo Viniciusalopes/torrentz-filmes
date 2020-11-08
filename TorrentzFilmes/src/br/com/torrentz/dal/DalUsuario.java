@@ -4,6 +4,7 @@ package br.com.torrentz.dal;
 import br.com.torrentz.generic.Where;
 import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
+import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public abstract class DalUsuario extends DalGeneric<Usuario> {
 
     protected DalUsuario() throws Exception {
-        super("Usuarios", "usu_id");
+        super("usuarios", "usu_id");
 
         sqlInsert = "INSERT INTO " + table
                 + " (usu_nome, usu_cpf, usu_email, usu_senha, usu_cup_porcentagem, usu_cup_data_geracao, usu_perfil) "
@@ -68,7 +69,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             new Where("OR", "usu_email", "=", login)
         });
         for (Usuario usuario : consulta) {
-            if(usuario.getSenha().equals(password))
+            if(usuario.getSenha().equals(getHexStringSha256(password)))
                 return usuario;
         }
         return null;
@@ -90,6 +91,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             usuario.getNome(),
             usuario.getCpf(),
             usuario.getEmail(),
+            usuario.getSenha(),
             usuario.getPorcentagem(),
             usuario.getDataGeracao(),
             usuario.getPerfil()
@@ -103,6 +105,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             usuario.getNome(),
             usuario.getCpf(),
             usuario.getEmail(),
+            usuario.getSenha(),
             usuario.getPorcentagem(),
             usuario.getDataGeracao(),
             usuario.getPerfil(),

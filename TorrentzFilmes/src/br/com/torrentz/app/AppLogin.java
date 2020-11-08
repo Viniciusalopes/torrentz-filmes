@@ -8,7 +8,7 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 public class AppLogin extends javax.swing.JFrame {
 
     private BllUsuario bll = null;
+    private ArrayList<Usuario> usuarios = null;
     private AppRedefinirSenha modal = null;
 
     /**
@@ -29,6 +30,7 @@ public class AppLogin extends javax.swing.JFrame {
 
         try {
             bll = new BllUsuario();
+            usuarios = bll.getAll();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -57,9 +59,18 @@ public class AppLogin extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jTextFieldLogin.setText("suporte@viniciusalopes.com.br");
+        jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldLoginKeyReleased(evt);
+            }
+        });
+
         jLabel1.setText("Login");
 
         jLabel2.setText("Senha");
+
+        jPasswordField.setText("1111");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,10 +149,12 @@ public class AppLogin extends javax.swing.JFrame {
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         try {
-            Usuario u = bll.validUser(jTextFieldLogin.getText(), jPasswordField.getPassword() + "");
+            Usuario u = bll.validUser(jTextFieldLogin.getText(), new String(jPasswordField.getPassword()));
             if (u != null) {
-                AppTelaPrincipal tela = new AppTelaPrincipal();
+                AppPrincipal tela = new AppPrincipal();
                 tela.setUsuario(u);
+                tela.setVisible(true);
+                this.dispose();
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -152,6 +165,7 @@ public class AppLogin extends javax.swing.JFrame {
     private void jMenuItemRedefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedefinirSenhaActionPerformed
         try {
             modal = new AppRedefinirSenha(this, true);
+            modal.setUsuarios(usuarios);
 
             // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
             if (jTextFieldLogin.getText().trim().length() > 0) {
@@ -161,12 +175,20 @@ public class AppLogin extends javax.swing.JFrame {
             }
             modal.setVisible(true);
             jTextFieldLogin.setText(modal.jTextFieldEmail.getText());
-            jPasswordField.setText(null);
-            jPasswordField.requestFocus();
+            jPasswordField.setText(new String(modal.jPasswordField.getPassword()));
+            jButtonEntrarActionPerformed(evt);
         } catch (Exception e) {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jMenuItemRedefinirSenhaActionPerformed
+
+    private void jTextFieldLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLoginKeyReleased
+        try {
+            jTextFieldLogin.setText(jTextFieldLogin.getText().toLowerCase());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTextFieldLoginKeyReleased
 
     /**
      * @param args the command line arguments

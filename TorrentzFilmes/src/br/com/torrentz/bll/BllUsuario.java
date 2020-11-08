@@ -1,7 +1,9 @@
-                                           package br.com.torrentz.bll;
+package br.com.torrentz.bll;
 
 import br.com.torrentz.dal.DalUsuario;
 import br.com.torrentz.model.Usuario;
+import br.com.torrentz.util.UtilSenha;
+import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
 import java.util.ArrayList;
 
 /**
@@ -15,23 +17,23 @@ public class BllUsuario extends DalUsuario {
     }
 
     public void validate(Usuario usuario) throws Exception {
-
-        validatePassword(usuario.getSenha());
+        usuario.setSenha(validatedPassword(usuario.getSenha()));
     }
 
-    public void validatePassword(String password) throws Exception{
+    public String validatedPassword(String password) throws Exception {
         int tamanho = password.trim().length();
-        if(tamanho < 2) {
+        if (tamanho < 2) {
             throw new Exception("Senha muito curta!");
         }
-        if(tamanho > super.getMaxLength("usu_senha")){
+        if (tamanho > super.getMaxLength("usu_senha")) {
             throw new Exception("Senha muito longa!");
         }
-        if(password.equals("123")){
+        if (password.equals("123")) {
             throw new Exception("Senha da Nasa não é permitida!");
         }
+        return getHexStringSha256(password);
     }
-    
+
     @Override
     public void add(Usuario usuario) throws Exception {
         validate(usuario);
@@ -60,5 +62,4 @@ public class BllUsuario extends DalUsuario {
         ArrayList<Usuario> ret = search(login);
         return (ret.size() > 0) ? ret.get(0) : null;
     }
-    
 }

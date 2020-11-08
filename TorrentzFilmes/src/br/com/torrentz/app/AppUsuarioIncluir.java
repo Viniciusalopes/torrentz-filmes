@@ -5,21 +5,68 @@
  */
 package br.com.torrentz.app;
 
-import static br.com.torrentz.generic.GenMensagem.mensagemErro;
+import br.com.torrentz.bll.BllPlano;
+import static br.com.torrentz.generic.GenMensagem.*;
+import br.com.torrentz.model.Plano;
 
 /**
  *
  * @author vovostudio
  */
-public class AppUsuario extends javax.swing.JDialog {
+public class AppUsuarioIncluir extends javax.swing.JDialog {
+
+    public Iterable<Plano> planos;
 
     /**
      * Creates new form AppUsuario
      */
-    public AppUsuario(java.awt.Frame parent, boolean modal) {
+    public AppUsuarioIncluir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        try {
+            String mensagem = "Impossível cadastrar um usuário sem planos cadastrados.";
+            popularComboBoxPlanos();
+            if (!planos.iterator().hasNext()) {
+                int resposta = mensagemEscolher(
+                        "Nenhum plano cadastrado no sistema.\n"
+                        + "Deseja cadastrar um plano agora?",
+                        new String[]{"Não", "Sim"});
+
+                if (resposta == 0) {
+                    throw new Exception(mensagem);
+                } else {
+                    new AppPlano(null, true).setVisible(true);
+                    planos = new BllPlano().getAll();
+                }
+            }
+            if (!planos.iterator().hasNext()) {
+                throw new Exception(mensagem);
+            }
+            super.setVisible(b);
+        } catch (Exception e) {
+            mensagemErro(e);
+            this.dispose();
+        }
+
+    }
+
+    private void popularComboBoxPlanos() throws Exception {
+        jComboBoxPlano.removeAllItems();
+        for (Plano plano : planos) {
+            int acessos = plano.getPla_acesso_simultaneo();
+            String plural = (acessos == 1) ? " " : "s";
+            jComboBoxPlano.addItem(
+                    String.format("%04d", plano.getPla_id() + " - ")
+                    + plano.getPla_nome() + " - "
+                    + acessos + " Acesso" + plural + " - "
+                    + String.format("R$ %.2f", plano.getPla_preco())
+            );
+        }
     }
 
     /**
@@ -43,6 +90,7 @@ public class AppUsuario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jButtonIncluirContrato = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
+        jComboBoxPlano = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -101,7 +149,7 @@ public class AppUsuario extends javax.swing.JDialog {
             jTablePlanos.getColumnModel().getColumn(7).setMaxWidth(130);
         }
 
-        jLabel6.setText("Planos Contratados");
+        jLabel6.setText("Plano");
 
         jButtonIncluirContrato.setText("Incluir Contrato");
         jButtonIncluirContrato.addActionListener(new java.awt.event.ActionListener() {
@@ -116,17 +164,29 @@ public class AppUsuario extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBoxPlano, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -137,18 +197,8 @@ public class AppUsuario extends javax.swing.JDialog {
                                 .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonIncluirContrato))
-                            .addComponent(jLabel5))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButtonSalvar))
-                            .addComponent(jScrollPane1))
-                        .addGap(20, 20, 20))))
+                            .addComponent(jLabel5))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,10 +219,12 @@ public class AppUsuario extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSalvar)
-                .addGap(20, 20, 20))
+                .addContainerGap())
         );
 
         pack();
@@ -182,7 +234,7 @@ public class AppUsuario extends javax.swing.JDialog {
         try {
             AppContrato modal = new AppContrato(null, true);
             modal.setVisible(true);
-            
+
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -205,20 +257,21 @@ public class AppUsuario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioIncluir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioIncluir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioIncluir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioIncluir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AppUsuario dialog = new AppUsuario(new javax.swing.JFrame(), true);
+                AppUsuarioIncluir dialog = new AppUsuarioIncluir(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -233,6 +286,7 @@ public class AppUsuario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIncluirContrato;
     private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JComboBox<String> jComboBoxPlano;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
