@@ -24,9 +24,10 @@ public class Categoria {
     
     //----------------------------------------------------------------------------------------------
     //contrutor com parametros
-    public Categoria(String cat_nome, int cat_id) {
-        this.cat_nome = cat_nome;
+    public Categoria(int cat_id, String cat_nome) {
         this.cat_id = cat_id;
+        this.cat_nome = cat_nome;
+        
     }
     //get e set
 
