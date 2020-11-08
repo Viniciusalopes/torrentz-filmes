@@ -8,6 +8,7 @@ package br.com.torrentz.bll;
 import br.com.principal.model.EmailServer;
 import br.com.torrentz.model.Usuario;
 import br.com.torrentz.util.UtilEmail;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -16,12 +17,12 @@ import java.util.Random;
  */
 public class BllRedefinirSenha {
 
-    
     public static boolean emailValido(String email) throws Exception {
         UtilEmail.validarEmail(email);
         return true;
     }
 
+    
     public static String redefinir(String email) throws Exception {
         try {
             Usuario u = null;
@@ -30,12 +31,17 @@ public class BllRedefinirSenha {
                 throw new Exception("Nenhum usuário cadastrado com este e-mail!");
             } else {
                 // Enviar e-mail com código de verificação
-                String codigo = new Random(9999).nextInt() + "";
+                String codigo = String.format("%04d",new Random().nextInt(4));
 
                 EmailServer mail = new EmailServer();
-                mail.enviar(email, "Recuperação de Senha",
-                        "Seu código de verificação é: " + codigo);
-
+                mail.enviar(email, "Torrentz Filmes - Recuperação de Senha",
+                        "Olá, " + u.getNome().split(" ")[0] + "!\n"
+                        + "O código de verificação para redefinir sua de senha é : " + codigo
+                        + "\n\n"
+                        + "Caso você não tenha solicitado a recuperação de senha no sistema da Torrentz Filmes, "
+                        + "apenas ignore este mensagem que seu cadastro não será afetado."
+                        + "\n\nAtenciosamente,\nTorrentz Filmes"
+                );
                 return codigo;
             }
         } catch (Exception e) {

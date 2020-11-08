@@ -97,6 +97,20 @@ public abstract class DalGeneric<T> {
     }
 
     /**
+     * Executa uma consulta de todos os registros de uma tabela e converte para uma lista de <br>
+     * objetos da classe filha.
+     *
+     * @return
+     * @throws Exception
+     */
+    public ArrayList<T> getAll() throws Exception {
+        sql = "SELECT * FROM " + table;
+        args = new Object[]{};
+        return select();
+    }
+    
+    
+    /**
      * Executa uma consulta em uma tabela.
      *
      * @return
