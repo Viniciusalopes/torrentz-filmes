@@ -224,6 +224,7 @@
     <Component class="javax.swing.JButton" name="jButtonIncluir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Incluir"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIncluirActionPerformed"/>
@@ -231,6 +232,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButtonUsuarios">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Usu&#xe1;rios"/>
         <Property name="actionCommand" type="java.lang.String" value="Usuario"/>
       </Properties>

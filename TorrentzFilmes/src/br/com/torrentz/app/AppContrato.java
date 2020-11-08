@@ -17,6 +17,7 @@ public class AppContrato extends javax.swing.JDialog {
     public AppContrato(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
     }
 
     /**

@@ -18,9 +18,9 @@ import javax.swing.table.DefaultTableModel;
 public class AppGridPrincipal<T> {
 
     Object object = null;
-    String[] colunas = null;
-    int[] larguras = null;
-    Object[][] linhas = null;
+    String[] colunas = new String[]{};
+    int[] larguras = new int[]{};
+    Object[][] linhas = new Object[][]{};
 
     public void preencherGrid(Iterable<T> colecao, JTable grid) throws Exception {
 
