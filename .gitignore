@@ -2,3 +2,10 @@
 /TorrentzFilmes/manifest.mf
 /TorrentzFilmes/nbproject
 /TorrentzFilmes/test
+<<<<<<< HEAD
+=======
+/EmailService/build*
+/EmaliService/manifest.mf
+/EmailService/nbproject/
+/TorrentzFilmes/dist/TorrentzFilmes.jar
+>>>>>>> main

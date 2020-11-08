@@ -25,12 +25,21 @@ public class Categoria {
         this(0,"");
     }
     
+<<<<<<< HEAD
     /**
      * 
      * @param nome 
      */
     public Categoria(String nome){
         this(0,nome);
+=======
+    //----------------------------------------------------------------------------------------------
+    //contrutor com parametros
+    public Categoria(int cat_id, String cat_nome) {
+        this.cat_id = cat_id;
+        this.cat_nome = cat_nome;
+        
+>>>>>>> main
     }
     
     /**

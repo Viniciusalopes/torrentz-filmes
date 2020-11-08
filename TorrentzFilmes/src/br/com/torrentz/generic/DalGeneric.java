@@ -97,6 +97,19 @@ public abstract class DalGeneric<T> {
     }
 
     /**
+     * Executa uma consulta de todos os registros de uma tabela e converte para uma lista de <br>
+     * objetos da classe filha.
+     *
+     * @return
+     * @throws Exception
+     */
+    public ArrayList<T> getAll() throws Exception {
+        sql = "SELECT * FROM " + table;
+        args = new Object[]{};
+        return select();
+    }
+
+    /**
      * Executa uma consulta em uma tabela.
      *
      * @return
@@ -287,7 +300,12 @@ public abstract class DalGeneric<T> {
                 + "FROM information_schema.columns "
                 + "WHERE table_name = ? AND column_name = ?";
         args = new Object[]{table, column_name};
-        return executeQuery().getInt("maxLength");
+        
+        ResultSet rs = executeQuery();
+        if (rs.next()) {
+            return rs.getInt("maxLength");
+        }
+        return 0;
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
