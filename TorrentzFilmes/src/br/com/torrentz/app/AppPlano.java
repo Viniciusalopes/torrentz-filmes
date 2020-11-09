@@ -8,8 +8,11 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllPlano;
 import static br.com.torrentz.generic.GenMensagem.mensagemErro;
 import br.com.torrentz.model.Plano;
+import java.awt.event.ComponentAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,8 +27,47 @@ public class AppPlano extends javax.swing.JDialog {
     public AppPlano(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);  
+        setLocationRelativeTo(null);
+        jTextFieldNome.setText("");
+         jTextFieldPreco.setText("");
+
     }
+    
+    public void validanome(){
+ {
+    String st = "Informe seu nome:";
+    st = JOptionPane.showInputDialog(null,st);
+    
+    if (st.length() < 5 && st.length() > 50)
+    {
+        st = "Nome invalido";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    
+    if(st.substring(0,st.indexOf(" "))     == null && st.substring(st.lastIndexOf(" ") + 1) == null)
+    {
+        st = "O nome deve contre o seu nome e sobrenome";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    
+    
+    if(st.substring(0,st.indexOf(" ")).length() < 2 && st.substring(st.lastIndexOf(" ") + 1).length() < 2)
+    {
+        st = "O nome e o sobrenome deve contrer pelo menos 2 caracteres";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    st = "Nome valido: " + st;
+    JOptionPane.showMessageDialog(null,st,"mensagem",1);
+    System.exit(0);
+ }
+}
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,6 +84,7 @@ public class AppPlano extends javax.swing.JDialog {
         jSpinnerAcessos = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         jTextFieldPreco = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -68,6 +111,8 @@ public class AppPlano extends javax.swing.JDialog {
 
         jLabel2.setText("Preço do plano ");
 
+        jLabel3.setText("Quantidade de acessos ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,7 +128,9 @@ public class AppPlano extends javax.swing.JDialog {
                                 .addComponent(jLabel2)
                                 .addGap(37, 37, 37)
                                 .addComponent(jTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jSpinnerAcessos, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(20, 20, 20))
@@ -99,7 +146,8 @@ public class AppPlano extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinnerAcessos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinnerAcessos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jButtonSalvar)
                 .addGap(20, 20, 20))
@@ -113,22 +161,19 @@ public class AppPlano extends javax.swing.JDialog {
         Plano plano = new Plano();
 
         plano.setPla_nome(jTextFieldNome.getText());
-        
+        validanome();
         //PLAconjuntoPlano_nome(jTextFieldNome.PegueOTexto());
-        
         plano.setPla_acesso_simultaneo((int) jSpinnerAcessos.getValue());
-        
+
         //plano.conjuntoPla_acesso_simultaneo((int) jSpinnerAcessos.PegueOValor());
-        
         plano.setPla_preco(Float.parseFloat(jTextFieldPreco.getText()));
-        
-        
+
         //plano.comjuntoPla_preco(Float.parseFloat(jTextFieldPreco.pegueOTexto
         try {
             BllPlano bllPlano = new BllPlano();
             bllPlano.add(plano);
-            JOptionPane.showMessageDialog(rootPane,"Plano adcionado com sucesso ");
-            
+            JOptionPane.showMessageDialog(rootPane, "Plano adcionado com sucesso ");
+
         } catch (Exception ex) {
             mensagemErro(ex);
         }
@@ -185,6 +230,7 @@ public class AppPlano extends javax.swing.JDialog {
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JSpinner jSpinnerAcessos;
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldPreco;
