@@ -46,7 +46,7 @@ public class BllPlano extends DalPlano {
     //_______________________________________________________________________________________________
     //add
     @Override
-    protected void add(Plano plano) throws Exception {
+    public void add(Plano plano) throws Exception {
        //metodo herdado 
        //metodo prtegido 
         super.add(plano); 
@@ -59,7 +59,7 @@ public class BllPlano extends DalPlano {
     //_______________________________________________________________________________________________
     //update 
     @Override
-    protected void update(Plano plano) throws Exception {
+    public  void update(Plano plano) throws Exception {
 
         super.update(plano); //To change body of generated methods, choose Tools | Templates.
     }

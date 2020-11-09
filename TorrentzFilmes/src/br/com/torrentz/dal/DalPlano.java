@@ -47,8 +47,8 @@ public class DalPlano extends DalGeneric<Plano> {
         super("planos ", "pla_id");
 
         sqlInsert = "INSERT INTO " + table
-                + "(pla_id, pla_acesso_simultaneo, pla_nome, pla_preco"
-                + "VALUES (?, ?, ?, ?)";
+                + "(pla_acesso_simultaneo, pla_nome, pla_preco)"
+                + "VALUES (?, ?, ?)";
 
         sqlSelect = "SELECT * FROM " + table + " ";
 
@@ -132,7 +132,6 @@ Exceção {
 
     protected void add(Plano plano) throws Exception {
         args = new Object[]{
-            plano.getPla_id(),
             plano.getPla_acesso_simultaneo(),
             plano.getPla_nome(),
             plano.getPla_preco()

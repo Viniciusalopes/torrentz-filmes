@@ -54,8 +54,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         switch (objectName) {
             case "Plano":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Lucas!");
+                colecao = (Iterable) planos;
+                break;
 
             case "Categoria":
             case "Filme":
@@ -80,13 +80,19 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void incluirCadastro() {
         try {
-
+            
             switch (cadastro) {
                 case "Usuario":
                     AppUsuarioIncluir modal = new AppUsuarioIncluir(this, true);
                     modal.setTitle("Incluir cadastro de Usuário");
                     modal.planos = planos;
                     modal.setVisible(true);
+                    break;
+                    
+                case "Plano":
+                    AppPlano modalPlano = new AppPlano(this, true);
+                    modalPlano.setTitle("incluir cadastro de plano");
+                    modalPlano.setVisible(true);
                     break;
             }
             atualizarColecoes();
