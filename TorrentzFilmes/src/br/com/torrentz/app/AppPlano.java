@@ -24,6 +24,7 @@ public class AppPlano extends javax.swing.JDialog {
     public AppPlano(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);  
     }
 
     /**
