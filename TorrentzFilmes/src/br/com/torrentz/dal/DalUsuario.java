@@ -70,7 +70,8 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             new Where("OR", "usu_email", "=", login)
         });
         for (Usuario usuario : consulta) {
-            if(usuario.getSenha().equals(getHexStringSha256(password)))
+            String hexpwd = getHexStringSha256(password);
+            if(usuario.getSenha().equals(hexpwd))
                 return usuario;
         }
         return null;

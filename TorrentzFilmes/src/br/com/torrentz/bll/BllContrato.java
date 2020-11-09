@@ -19,12 +19,18 @@ public class BllContrato extends DalContrato {
     }
 
     public void validate(Contrato contrato) throws Exception {
-
+        
     }
 
+    public void validateDataInicio(String data) throws Exception{
+        
+        
+    }
     public void add(Contrato contrato) throws Exception {
         validate(contrato);
         super.add(contrato);
     }
+    
+    
 
 }
