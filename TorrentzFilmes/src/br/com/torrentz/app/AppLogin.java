@@ -59,7 +59,6 @@ public class AppLogin extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextFieldLogin.setText("suporte@viniciusalopes.com.br");
         jTextFieldLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextFieldLoginKeyReleased(evt);
@@ -69,8 +68,6 @@ public class AppLogin extends javax.swing.JFrame {
         jLabel1.setText("Login");
 
         jLabel2.setText("Senha");
-
-        jPasswordField.setText("123456");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
