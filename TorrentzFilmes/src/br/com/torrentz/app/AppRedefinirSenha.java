@@ -20,10 +20,18 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     private String email = "";
     private String codigo = "";
     private Usuario usuario = null;
-    private ArrayList<Usuario> usuarios = null;
+    public Iterable<Usuario> usuarios = null;
+    public boolean emailChecked = false;
 
-    public void setUsuarios(ArrayList<Usuario> usuarios) {
+    public void setUpToCheckEmail(String email, Iterable<Usuario> usuarios) {
+        this.email = email;
         this.usuarios = usuarios;
+        emailChecked = false;
+        jButtonRedefinir.setText("Validar");
+        jLabelInstrucao.setText("Informe o código de verificação");
+        jTextFieldEmail.setVisible(false);
+        jTextFieldCodigo.setVisible(true);
+        jPasswordField.setVisible(false);
     }
 
     /**
@@ -136,6 +144,18 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     private void jButtonRedefinirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRedefinirActionPerformed
         try {
             switch (jButtonRedefinir.getText()) {
+                case "Validar":
+                    codigo = redefinir(email, usuarios);
+                    if (jTextFieldCodigo.getText().trim().equalsIgnoreCase(codigo)) {
+                        emailChecked = true;
+                        mensagem("Sucesso!", "Sua senha foi redefinida com sucesso!");
+                        this.setVisible(false);
+                    } else {
+                        jButtonReenviar.setVisible(true);
+                        throw new Exception("Código de verificação não confere com o enviado por e-mail!");
+                    }
+                    break;
+
                 case "Redefinir":
                     if (emailValido(jTextFieldEmail.getText())) {
                         email = jTextFieldEmail.getText().trim();
@@ -202,7 +222,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         } catch (Exception e) {
             mensagemErro(e);
         }
-        
+
     }//GEN-LAST:event_jButtonReenviarActionPerformed
 
     /**
@@ -249,11 +269,11 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonRedefinir;
+    public javax.swing.JButton jButtonRedefinir;
     private javax.swing.JButton jButtonReenviar;
-    private javax.swing.JLabel jLabelInstrucao;
+    public javax.swing.JLabel jLabelInstrucao;
     public javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JTextField jTextFieldCodigo;
+    public javax.swing.JTextField jTextFieldCodigo;
     public javax.swing.JTextField jTextFieldEmail;
     // End of variables declaration//GEN-END:variables
 }

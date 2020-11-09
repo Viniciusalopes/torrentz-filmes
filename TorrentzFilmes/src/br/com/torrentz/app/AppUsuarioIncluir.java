@@ -7,15 +7,17 @@ package br.com.torrentz.app;
 
 import br.com.torrentz.bll.BllContrato;
 import br.com.torrentz.bll.BllPlano;
+import br.com.torrentz.bll.BllRedefinirSenha;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import static br.com.torrentz.util.UtilData.validateFormatDate;
-import static br.com.torrentz.util.UtilString.somenteNumeros;
+import static br.com.torrentz.util.UtilString.textoSoComNumeros;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -23,6 +25,7 @@ import java.util.Calendar;
  */
 public class AppUsuarioIncluir extends javax.swing.JDialog {
 
+    public Iterable<Usuario> usuarios = null;
     public Iterable<Plano> planos = null;
     public Iterable<Contrato> contratos = null;
     private BllUsuario bllUsuario = null;
@@ -44,10 +47,11 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
     @Override
     public void setVisible(boolean b) {
         try {
+
             bllPlano = new BllPlano();
             String mensagem = "Impossível cadastrar um usuário sem planos cadastrados.";
             formatoData.setLenient(false);
-            jLabelFim.setText("");
+
             popularComboBoxPlanos();
             if (!planos.iterator().hasNext()) {
                 int resposta = mensagemEscolher(
@@ -65,6 +69,8 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
             if (!planos.iterator().hasNext()) {
                 throw new Exception(mensagem);
             }
+            jFormattedTextFieldInicio.setText(formatoData.format(new Date()));
+            jFormattedTextFieldInicioFocusLost(null);
             bllUsuario = new BllUsuario();
             bllContrato = new BllContrato();
             super.setVisible(b);
@@ -72,7 +78,6 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
             mensagemErro(e);
             this.dispose();
         }
-
     }
 
     private void popularComboBoxPlanos() throws Exception {
@@ -157,7 +162,7 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextFieldInicio.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jFormattedTextFieldInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextFieldInicio.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFormattedTextFieldInicioFocusLost(evt);
@@ -281,7 +286,7 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
             usuario = new Usuario(
                     0,
                     jTextFieldNome.getText(),
-                    somenteNumeros(jTextFieldCpf.getText()),
+                    textoSoComNumeros(jTextFieldCpf.getText()),
                     jTextFieldEmail.getText(),
                     new String(jPasswordField.getPassword()),
                     (float) ((perfil == 'A') ? 0 : jSpinnerDesconto.getValue()),
@@ -289,6 +294,14 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
                     perfil
             );
             bllUsuario.validate(usuario);
+
+            AppRedefinirSenha modal = new AppRedefinirSenha(null, true);
+            modal.setUpToCheckEmail(usuario.getEmail(), usuarios);
+            modal.setVisible(true);
+            if (!modal.emailChecked) {
+                throw new Exception("O e-mail não foi verificado!");
+            }
+            modal.dispose();
 
             if (perfil == 'U') {
                 int pla_id = Integer.parseInt(jComboBoxPlano.getSelectedItem().toString().split(" ")[0]);
@@ -300,7 +313,6 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
                         pla_id
                 );
                 bllContrato.validate(contrato);
-
                 bllUsuario.add(usuario);
                 usuario = bllUsuario.searchByCPF(jTextFieldCpf.getText());
                 contrato.setUsuarioId(usuario.getId());

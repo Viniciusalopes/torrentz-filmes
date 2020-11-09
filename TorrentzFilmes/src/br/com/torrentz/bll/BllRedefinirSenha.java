@@ -23,11 +23,10 @@ public class BllRedefinirSenha {
     }
 
     public static boolean emailValido(String email) throws Exception {
-        UtilEmail.validarEmail(email);
-        return true;
+        return UtilEmail.isValid(email);
     }
 
-    public static String redefinir(String email, ArrayList<Usuario> usuarios) throws Exception {
+    public static String redefinir(String email, Iterable<Usuario> usuarios) throws Exception {
         try {
             usuario = null;
             for (Usuario u : usuarios) {
@@ -35,7 +34,7 @@ public class BllRedefinirSenha {
                     usuario = u;
                 }
             }
-            
+
             if (usuario == null) {
                 throw new Exception("Nenhum usuário cadastrado com este e-mail!");
             } else {
@@ -44,8 +43,7 @@ public class BllRedefinirSenha {
                 int maxValor = 9999;
                 String codigo = String.format("%d", (int) (Math.random() * (maxValor - minValor) + minValor));
 
-                EmailServer mail = new EmailServer();
-                mail.enviar(email, "Torrentz Filmes - Recuperação de Senha",
+                UtilEmail.sendEmail(email, "Torrentz Filmes - Recuperação de Senha",
                         "Olá, " + usuario.getNome().split(" ")[0] + "!\n"
                         + "O código de verificação para redefinir sua de senha é : " + codigo
                         + "\n\n"

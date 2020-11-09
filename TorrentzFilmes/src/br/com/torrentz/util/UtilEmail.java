@@ -5,6 +5,7 @@
  */
 package br.com.torrentz.util;
 
+import br.com.principal.model.EmailServer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,11 +21,11 @@ public class UtilEmail {
      * @param email Endereço de e-mail válido.
      * @throws Exception
      */
-    public static void validarEmail(String email) throws Exception {
+    public static boolean isValid(String email) throws Exception {
         // FONTE: https://receitasdecodigo.com.br/java/validar-email-em-java
         boolean emailValido = false;
         email = email.trim();
-        
+
         if (email != null && email.length() > 0) {
             String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -34,8 +35,11 @@ public class UtilEmail {
             }
         }
 
-        if (!emailValido) {
-            throw new Exception("E-mail inválido!");
-        }
+        return emailValido;
+    }
+
+    public static void sendEmail(String emailRecipient, String subject, String message) {
+        EmailServer mail = new EmailServer();
+        mail.enviar(emailRecipient, subject, message);
     }
 }
