@@ -11,6 +11,8 @@ import br.com.torrentz.model.Plano;
 import java.awt.event.ComponentAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,9 +28,46 @@ public class AppPlano extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-       
+        jTextFieldNome.setText("");
+         jTextFieldPreco.setText("");
 
     }
+    
+    public void validanome(){
+ {
+    String st = "Informe seu nome:";
+    st = JOptionPane.showInputDialog(null,st);
+    
+    if (st.length() < 5 && st.length() > 50)
+    {
+        st = "Nome invalido";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    
+    if(st.substring(0,st.indexOf(" "))     == null && st.substring(st.lastIndexOf(" ") + 1) == null)
+    {
+        st = "O nome deve contre o seu nome e sobrenome";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    
+    
+    if(st.substring(0,st.indexOf(" ")).length() < 2 && st.substring(st.lastIndexOf(" ") + 1).length() < 2)
+    {
+        st = "O nome e o sobrenome deve contrer pelo menos 2 caracteres";
+        JOptionPane.showMessageDialog(null,st,"Erro",0);
+        System.exit(0);
+    }
+    
+    st = "Nome valido: " + st;
+    JOptionPane.showMessageDialog(null,st,"mensagem",1);
+    System.exit(0);
+ }
+}
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,7 +161,7 @@ public class AppPlano extends javax.swing.JDialog {
         Plano plano = new Plano();
 
         plano.setPla_nome(jTextFieldNome.getText());
-
+        validanome();
         //PLAconjuntoPlano_nome(jTextFieldNome.PegueOTexto());
         plano.setPla_acesso_simultaneo((int) jSpinnerAcessos.getValue());
 
