@@ -6,6 +6,7 @@
 package br.com.torrentz.app;
 
 import br.com.torrentz.model.Contrato;
+import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -35,7 +36,33 @@ public class AppGridPrincipal<T> {
             switch (lista.get(0).getClass().getSimpleName()) {
 
                 case "Plano":
-                    throw new Exception("Pergunte ao Lucas!");
+                    //_____________________________________________________________________________
+                    colunas = new String[]{"ID", "Nome do Plano", "Acessos", "Preço Do Plano"};
+                    //nomes das colunas 
+                    larguras = new int[]{80, -1, -1, -1};
+                    //largura da coluna
+
+                    //matriz de linhas 
+                    linhas = new Object[lista.size()][colunas.length];
+                    //_____________________________________________________________________________
+
+                    //ate esta parte do codigo a matriz esta vazia, sera criada a estrutura de repetiçao 
+                    //para preenche-la
+                    //inclusao das linhas dentro da matriz
+                    //____________________________________________________________________________
+                    for (int i = 0; i < lista.size(); i++) {
+                        Plano p = (Plano) lista.get(i);
+                        Object[] linha = new Object[]{
+                            p.getPla_id(),
+                            p.getPla_nome(),
+                            p.getPla_acesso_simultaneo(),
+                            p.getPla_preco()
+                        };
+                        linhas[i] = linha;
+
+                    }
+                    break;
+                //_________________________________________________________________________________
 
                 case "Categoria":
                 case "Filme":
