@@ -5,9 +5,17 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllContrato;
 import br.com.torrentz.bll.BllPlano;
+import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
+import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Plano;
+import br.com.torrentz.model.Usuario;
+import static br.com.torrentz.util.UtilData.validateFormatDate;
+import static br.com.torrentz.util.UtilString.somenteNumeros;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -15,7 +23,14 @@ import br.com.torrentz.model.Plano;
  */
 public class AppUsuarioIncluir extends javax.swing.JDialog {
 
-    public Iterable<Plano> planos;
+    public Iterable<Plano> planos = null;
+    public Iterable<Contrato> contratos = null;
+    private BllUsuario bllUsuario = null;
+    private BllPlano bllPlano = null;
+    private BllContrato bllContrato = null;
+    private Usuario usuario = null;
+    private Contrato contrato = null;
+    SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Creates new form AppUsuario
@@ -29,7 +44,10 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
     @Override
     public void setVisible(boolean b) {
         try {
+            bllPlano = new BllPlano();
             String mensagem = "Impossível cadastrar um usuário sem planos cadastrados.";
+            formatoData.setLenient(false);
+            jLabelFim.setText("");
             popularComboBoxPlanos();
             if (!planos.iterator().hasNext()) {
                 int resposta = mensagemEscolher(
@@ -41,12 +59,14 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
                     throw new Exception(mensagem);
                 } else {
                     new AppPlano(null, true).setVisible(true);
-                    planos = new BllPlano().getAll();
+                    planos = bllPlano.getAll();
                 }
             }
             if (!planos.iterator().hasNext()) {
                 throw new Exception(mensagem);
             }
+            bllUsuario = new BllUsuario();
+            bllContrato = new BllContrato();
             super.setVisible(b);
         } catch (Exception e) {
             mensagemErro(e);
@@ -61,7 +81,7 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
             int acessos = plano.getPla_acesso_simultaneo();
             String plural = (acessos == 1) ? " " : "s";
             jComboBoxPlano.addItem(
-                    String.format("%04d", plano.getPla_id() + " - ")
+                    String.format("%04d", plano.getPla_id()) + " - "
                     + plano.getPla_nome() + " - "
                     + acessos + " Acesso" + plural + " - "
                     + String.format("R$ %.2f", plano.getPla_preco())
@@ -85,12 +105,18 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
         jTextFieldEmail = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePlanos = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        jButtonIncluirContrato = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jComboBoxPlano = new javax.swing.JComboBox<>();
+        jSpinnerDesconto = new javax.swing.JSpinner();
+        jLabelDesconto = new javax.swing.JLabel();
+        jLabelPercent = new javax.swing.JLabel();
+        jComboBoxPerfil = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jFormattedTextFieldInicio = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabelFim = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,103 +128,96 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
 
         jLabel5.setText("Senha");
 
-        jTablePlanos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nome do Plano", "Acessos simultâneos", "Preço do Plano", "Nº Cupom", "% Desconto", "Desconto (R$)", "Valor Mensalidade"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTablePlanos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTablePlanos);
-        if (jTablePlanos.getColumnModel().getColumnCount() > 0) {
-            jTablePlanos.getColumnModel().getColumn(0).setMinWidth(60);
-            jTablePlanos.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTablePlanos.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTablePlanos.getColumnModel().getColumn(2).setMinWidth(140);
-            jTablePlanos.getColumnModel().getColumn(2).setPreferredWidth(140);
-            jTablePlanos.getColumnModel().getColumn(2).setMaxWidth(140);
-            jTablePlanos.getColumnModel().getColumn(3).setMinWidth(100);
-            jTablePlanos.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTablePlanos.getColumnModel().getColumn(3).setMaxWidth(100);
-            jTablePlanos.getColumnModel().getColumn(4).setMinWidth(80);
-            jTablePlanos.getColumnModel().getColumn(4).setPreferredWidth(80);
-            jTablePlanos.getColumnModel().getColumn(4).setMaxWidth(80);
-            jTablePlanos.getColumnModel().getColumn(5).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(5).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(5).setMaxWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setMaxWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setMaxWidth(130);
-        }
-
         jLabel6.setText("Plano");
 
-        jButtonIncluirContrato.setText("Incluir Contrato");
-        jButtonIncluirContrato.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIncluirContratoActionPerformed(evt);
+                jButtonSalvarActionPerformed(evt);
             }
         });
 
-        jButtonSalvar.setText("Salvar");
+        jSpinnerDesconto.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(30.0f), Float.valueOf(1.0f), Float.valueOf(60.0f), Float.valueOf(1.0f)));
+
+        jLabelDesconto.setText("Desconto do Cupom");
+
+        jLabelPercent.setText("%");
+
+        jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuário", "Administrador" }));
+        jComboBoxPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPerfilActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Perfil");
+
+        try {
+            jFormattedTextFieldInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldInicio.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jFormattedTextFieldInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextFieldInicioFocusLost(evt);
+            }
+        });
+
+        jLabel1.setText("Início");
+
+        jLabelFim.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabelFim.setText("jLabelFim");
+
+        jLabel7.setText("Fim do contrato:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonSalvar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBoxPlano, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelFim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jComboBoxPlano, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonIncluirContrato))
-                            .addComponent(jLabel5))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jSpinnerDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelPercent))
+                            .addComponent(jLabelDesconto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jFormattedTextFieldInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,39 +225,108 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonIncluirContrato))
+                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabelDesconto)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSalvar)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPercent)
+                    .addComponent(jFormattedTextFieldInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabelFim))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonIncluirContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirContratoActionPerformed
+    private void jComboBoxPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerfilActionPerformed
         try {
-            AppContrato modal = new AppContrato(null, true);
-            modal.setVisible(true);
-
+            boolean visible = (jComboBoxPerfil.getSelectedIndex() == 0);
+            jLabelDesconto.setVisible(visible);
+            jSpinnerDesconto.setVisible(visible);
+            jLabelPercent.setVisible(visible);
         } catch (Exception e) {
             mensagemErro(e);
         }
-    }//GEN-LAST:event_jButtonIncluirContratoActionPerformed
+    }//GEN-LAST:event_jComboBoxPerfilActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        try {
+            char perfil = jComboBoxPerfil.getSelectedItem().toString().charAt(0);
+            usuario = new Usuario(
+                    0,
+                    jTextFieldNome.getText(),
+                    somenteNumeros(jTextFieldCpf.getText()),
+                    jTextFieldEmail.getText(),
+                    new String(jPasswordField.getPassword()),
+                    (float) ((perfil == 'A') ? 0 : jSpinnerDesconto.getValue()),
+                    formatoData.parse(jFormattedTextFieldInicio.getText()),
+                    perfil
+            );
+            bllUsuario.validate(usuario);
+
+            if (perfil == 'U') {
+                int pla_id = Integer.parseInt(jComboBoxPlano.getSelectedItem().toString().split(" ")[0]);
+                contrato = new Contrato(
+                        'A',
+                        formatoData.parse(jFormattedTextFieldInicio.getText()),
+                        formatoData.parse(jLabelFim.getText()),
+                        0,
+                        pla_id
+                );
+                bllContrato.validate(contrato);
+
+                bllUsuario.add(usuario);
+                usuario = bllUsuario.searchByCPF(jTextFieldCpf.getText());
+                contrato.setUsuarioId(usuario.getId());
+                bllContrato.add(contrato);
+            } else {
+                bllUsuario.add(usuario);
+            }
+            mensagem("Sucesso!", "O usuário foi cadastrado com sucesso!");
+            this.dispose();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jFormattedTextFieldInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextFieldInicioFocusLost
+        try {
+            validateFormatDate(jFormattedTextFieldInicio.getText());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(formatoData.parse(jFormattedTextFieldInicio.getText()));
+            calendar.add(Calendar.YEAR, 1);
+            jLabelFim.setText(formatoData.format(calendar.getTime()));
+        } catch (Exception e) {
+            jLabelFim.setText("");
+            mensagemErro(new Exception("Data de início inválida!\n" + e.getMessage()));
+        }
+    }//GEN-LAST:event_jFormattedTextFieldInicioFocusLost
 
     /**
      * @param args the command line arguments
@@ -284,17 +372,23 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonIncluirContrato;
     private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JComboBox<String> jComboBoxPerfil;
     private javax.swing.JComboBox<String> jComboBoxPlano;
+    private javax.swing.JFormattedTextField jFormattedTextFieldInicio;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabelDesconto;
+    private javax.swing.JLabel jLabelFim;
+    private javax.swing.JLabel jLabelPercent;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablePlanos;
+    private javax.swing.JSpinner jSpinnerDesconto;
     private javax.swing.JTextField jTextFieldCpf;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNome;

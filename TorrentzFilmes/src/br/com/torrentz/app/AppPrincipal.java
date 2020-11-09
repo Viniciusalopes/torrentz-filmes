@@ -31,6 +31,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
+        jLabelPerfil.setText(usuario.getPerfil() == 'U' ? "USUÁRIO:" : "ADMINISTRADOR:");
         jLabelUsuario.setText(usuario.getNome());
     }
 
@@ -54,8 +55,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         switch (objectName) {
             case "Plano":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Lucas!");
+                colecao = (Iterable) planos;
+                break;
 
             case "Categoria":
             case "Filme":
@@ -80,13 +81,19 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void incluirCadastro() {
         try {
-
+            
             switch (cadastro) {
                 case "Usuario":
                     AppUsuarioIncluir modal = new AppUsuarioIncluir(this, true);
-                    modal.setTitle("Cadastro de Usuários");
+                    modal.setTitle("Incluir cadastro de Usuário");
                     modal.planos = planos;
                     modal.setVisible(true);
+                    break;
+                    
+                case "Plano":
+                    AppPlano modalPlano = new AppPlano(this, true);
+                    modalPlano.setTitle("incluir cadastro de plano");
+                    modalPlano.setVisible(true);
                     break;
             }
             atualizarColecoes();
@@ -129,8 +136,8 @@ public class AppPrincipal extends javax.swing.JFrame {
         jRadioButtonPlanos = new javax.swing.JRadioButton();
         jRadioButtonContratos = new javax.swing.JRadioButton();
         jLabelUsuario = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
+        jLabelPerfil = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSistema = new javax.swing.JMenu();
         jMenuItemNovoLogin = new javax.swing.JMenuItem();
@@ -225,8 +232,6 @@ public class AppPrincipal extends javax.swing.JFrame {
         jLabelUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabelUsuario.setText("jLabelUsuario");
 
-        jLabel1.setText("USUÁRIO:");
-
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Visualizações");
         jRadioButton1.setActionCommand("Visualizacoes");
@@ -235,6 +240,8 @@ public class AppPrincipal extends javax.swing.JFrame {
                 jRadioButton1ActionPerformed(evt);
             }
         });
+
+        jLabelPerfil.setText("PERFIL:");
 
         jMenuSistema.setText("Sistema");
 
@@ -315,7 +322,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(jLabelPerfil)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelUsuario))
                             .addGroup(layout.createSequentialGroup()
@@ -352,7 +359,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelUsuario)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabelPerfil))
                 .addContainerGap())
         );
 
@@ -456,7 +463,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonIncluir;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelPerfil;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFilmes;

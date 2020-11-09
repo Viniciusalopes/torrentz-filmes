@@ -26,7 +26,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jButtonRedefinir" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jButtonReenviar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonRedefinir" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPasswordField" min="-2" pref="300" max="-2" attributes="0"/>
                       <Component id="jTextFieldCodigo" min="-2" pref="300" max="-2" attributes="0"/>
@@ -50,7 +54,10 @@
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="jPasswordField" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButtonRedefinir" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonRedefinir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonReenviar" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="20" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -90,6 +97,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Informe seu e-mail"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonReenviar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enviar um novo c&#xf3;digo"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReenviarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
