@@ -40,6 +40,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         jTextFieldEmail.setVisible(true);
         jTextFieldCodigo.setVisible(false);
         jPasswordField.setVisible(false);
+        jButtonReenviar.setVisible(false);
     }
 
     /**
@@ -55,6 +56,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         jTextFieldCodigo = new javax.swing.JTextField();
         jTextFieldEmail = new javax.swing.JTextField();
         jLabelInstrucao = new javax.swing.JLabel();
+        jButtonReenviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,6 +87,13 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
 
         jLabelInstrucao.setText("Informe seu e-mail");
 
+        jButtonReenviar.setText("Enviar um novo código");
+        jButtonReenviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReenviarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,7 +101,10 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonRedefinir)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonReenviar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonRedefinir))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -112,7 +124,9 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
                 .addGap(0, 0, 0)
                 .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRedefinir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonRedefinir)
+                    .addComponent(jButtonReenviar))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -142,9 +156,11 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
                         jTextFieldEmail.setVisible(false);
                         jTextFieldCodigo.setVisible(false);
                         jPasswordField.setVisible(true);
+                        jButtonReenviar.setVisible(false);
                         jButtonRedefinir.setText("Confirmar");
                         jPasswordField.requestFocus();
                     } else {
+                        jButtonReenviar.setVisible(true);
                         throw new Exception("Código de verificação não confere com o enviado por e-mail!");
                     }
                     break;
@@ -163,7 +179,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonRedefinirActionPerformed
 
     private void jTextFieldEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmailKeyReleased
-        try{ 
+        try {
             jTextFieldEmail.setText(jTextFieldEmail.getText().toLowerCase());
         } catch (Exception e) {
             mensagemErro(e);
@@ -177,6 +193,17 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     private void jTextFieldCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCodigoActionPerformed
+
+    private void jButtonReenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReenviarActionPerformed
+        try {
+            codigo = redefinir(email, usuarios);
+            mensagem("Código enviado", "Outro código de verificação foi enviado\n"
+                    + "Verifique sua caixa de entrada de e-maisl.");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+        
+    }//GEN-LAST:event_jButtonReenviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,6 +250,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonRedefinir;
+    private javax.swing.JButton jButtonReenviar;
     private javax.swing.JLabel jLabelInstrucao;
     public javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldCodigo;
