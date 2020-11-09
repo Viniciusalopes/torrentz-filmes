@@ -9,7 +9,6 @@ import static br.com.torrentz.generic.GenMensagem.*;
 import static br.com.torrentz.bll.BllRedefinirSenha.*;
 import br.com.torrentz.bll.BllUsuario;
 import br.com.torrentz.model.Usuario;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,8 +22,8 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
     public Iterable<Usuario> usuarios = null;
     public boolean emailChecked = false;
 
-    public void setUpToCheckEmail(String email, Iterable<Usuario> usuarios) {
-        this.email = email;
+    public void setUpToCheckEmail(Usuario usuario, Iterable<Usuario> usuarios) throws Exception {
+        this.usuario = usuario;
         this.usuarios = usuarios;
         emailChecked = false;
         jButtonRedefinir.setText("Validar");
@@ -32,6 +31,8 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         jTextFieldEmail.setVisible(false);
         jTextFieldCodigo.setVisible(true);
         jPasswordField.setVisible(false);
+        codigo = enviarCodigo(usuario.getNome().split(" ")[0], usuario.getEmail(), "validar");
+
     }
 
     /**
@@ -145,13 +146,13 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
         try {
             switch (jButtonRedefinir.getText()) {
                 case "Validar":
-                    codigo = redefinir(email, usuarios);
                     if (jTextFieldCodigo.getText().trim().equalsIgnoreCase(codigo)) {
                         emailChecked = true;
-                        mensagem("Sucesso!", "Sua senha foi redefinida com sucesso!");
+                        mensagem("Sucesso!", "Seu cadastro foi validado com sucesso!");
                         this.setVisible(false);
                     } else {
                         jButtonReenviar.setVisible(true);
+                        jTextFieldCodigo.setText(null);
                         throw new Exception("Código de verificação não confere com o enviado por e-mail!");
                     }
                     break;
@@ -181,6 +182,7 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
                         jPasswordField.requestFocus();
                     } else {
                         jButtonReenviar.setVisible(true);
+                        jTextFieldCodigo.setText(null);
                         throw new Exception("Código de verificação não confere com o enviado por e-mail!");
                     }
                     break;
@@ -216,9 +218,13 @@ public class AppRedefinirSenha extends javax.swing.JDialog {
 
     private void jButtonReenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReenviarActionPerformed
         try {
-            codigo = redefinir(email, usuarios);
+
+            codigo = (jButtonRedefinir.getText().equals("Validar"))
+                    ? enviarCodigo(usuario.getNome().split(" ")[0], usuario.getEmail(), "validar")
+                    : redefinir(email, usuarios);
+
             mensagem("Código enviado", "Outro código de verificação foi enviado\n"
-                    + "Verifique sua caixa de entrada de e-maisl.");
+                    + "Verifique sua caixa de entrada de e-mails.");
         } catch (Exception e) {
             mensagemErro(e);
         }

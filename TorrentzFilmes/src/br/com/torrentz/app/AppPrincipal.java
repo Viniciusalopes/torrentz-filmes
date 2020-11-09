@@ -154,6 +154,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTablePrincipal.setAutoCreateRowSorter(true);
         jTablePrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

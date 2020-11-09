@@ -28,6 +28,7 @@ public class BllUsuario extends DalUsuario {
             throw new Exception("O CPF é inválido!");
         }
         usuario.setCpf(textoSoComNumeros(usuario.getCpf()));
+        
         if (!UtilEmail.isValid(usuario.getEmail())) {
             throw new Exception("O e-mail é inválido!");
         }
@@ -95,7 +96,7 @@ public class BllUsuario extends DalUsuario {
     }
 
     public Usuario searchByCPF(String cpf) throws Exception {
-        ArrayList<Usuario> ret = search(cpf);
+        ArrayList<Usuario> ret = search(textoSoComNumeros(cpf));
         return (ret.size() > 0) ? ret.get(0) : null;
     }
 }
