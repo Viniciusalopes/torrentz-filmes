@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class DalContrato extends DalGeneric<Contrato> {
 
     public DalContrato() throws Exception {
-        super("Contratos", "con_usu_id, con_pla_id");
+        super("contratos", "con_usu_id, con_pla_id");
         sqlInsert = "INSERT INTO Contratos (con_status, con_inicio, con_fim, con_usu_id, con_pla_id) "
                 + "VALUES (?, ?, ?, ?, ?) ";
     }

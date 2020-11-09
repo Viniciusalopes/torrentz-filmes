@@ -8,6 +8,7 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Usuario;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -68,6 +69,12 @@ public class AppLogin extends javax.swing.JFrame {
         jLabel1.setText("Login");
 
         jLabel2.setText("Senha");
+
+        jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,7 +169,7 @@ public class AppLogin extends javax.swing.JFrame {
     private void jMenuItemRedefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedefinirSenhaActionPerformed
         try {
             modal = new AppRedefinirSenha(this, true);
-            modal.setUsuarios(usuarios);
+            modal.usuarios = usuarios;
 
             // Aproveita o preenchimento do e-mail para a tela de recuperação de senha
             if (jTextFieldLogin.getText().trim().length() > 0) {
@@ -182,10 +189,19 @@ public class AppLogin extends javax.swing.JFrame {
     private void jTextFieldLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLoginKeyReleased
         try {
             jTextFieldLogin.setText(jTextFieldLogin.getText().toLowerCase());
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                jPasswordField.requestFocus();
+            }
         } catch (Exception e) {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jTextFieldLoginKeyReleased
+
+    private void jPasswordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButtonEntrarActionPerformed(null);
+        }
+    }//GEN-LAST:event_jPasswordFieldKeyReleased
 
     /**
      * @param args the command line arguments

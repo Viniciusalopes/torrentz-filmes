@@ -1,4 +1,3 @@
-
 package br.com.torrentz.dal;
 
 import br.com.torrentz.generic.Where;
@@ -27,12 +26,12 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
         sqlUpdate = " UPDATE " + table + " SET "
                 + "usu_nome = ?, usu_cpf = ?, usu_email = ?, usu_senha = ?, usu_cup_porcentagem = ?, "
                 + "usu_cup_data_geracao = ?, usu_perfil = ? " + sqlWhere;
-        
+
         orderBy = " ORDER BY usu_nome";
     }
 
     @Override
-    protected ArrayList<Usuario> build(ResultSet rs) throws Exception  {
+    protected ArrayList<Usuario> build(ResultSet rs) throws Exception {
         ArrayList<Usuario> ret = new ArrayList<>();
         while (rs.next()) {
             ret.add(new Usuario(
@@ -64,19 +63,21 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
         return getByFields(where);
     }
 
-    protected Usuario getByLoginPassword(String login, String password) throws Exception{
+    protected Usuario getByLoginPassword(String login, String password) throws Exception {
         ArrayList<Usuario> consulta = getBy(new Where[]{
             new Where("", "usu_cpf", "=", login),
-            new Where("OR", "usu_email", "=", login)
+            new Where("OR", "usu_email", "=", login),
+            new Where("OR", "usu_id", "=", Integer.parseInt(login))
         });
         for (Usuario usuario : consulta) {
             String hexpwd = getHexStringSha256(password);
-            if(usuario.getSenha().equals(hexpwd))
+            if (usuario.getSenha().equals(hexpwd)) {
                 return usuario;
+            }
         }
         return null;
     }
-    
+
     public ArrayList<Usuario> search(String text) throws Exception {
         String t = "%" + text.toLowerCase().trim() + "%";
         sql = sqlSelect

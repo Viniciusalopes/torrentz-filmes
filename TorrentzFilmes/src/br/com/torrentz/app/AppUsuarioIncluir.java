@@ -124,6 +124,7 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Nome");
 
@@ -296,7 +297,7 @@ public class AppUsuarioIncluir extends javax.swing.JDialog {
             bllUsuario.validate(usuario);
 
             AppRedefinirSenha modal = new AppRedefinirSenha(null, true);
-            modal.setUpToCheckEmail(usuario.getEmail(), usuarios);
+            modal.setUpToCheckEmail(usuario, usuarios);
             modal.setVisible(true);
             if (!modal.emailChecked) {
                 throw new Exception("O e-mail não foi verificado!");

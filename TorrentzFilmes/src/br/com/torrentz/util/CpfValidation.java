@@ -34,7 +34,7 @@ public class CpfValidation {
         }
 
         for (int j = 0; j < 10; j++) {
-            if ((String.format("%11d", 0).replace("0", j + "")).equals(cpf)) {
+            if ((String.format("%011d", 0).replace("0", (j + ""))).equals(cpf)) {
                 return false;
             }
         }

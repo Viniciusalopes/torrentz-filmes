@@ -26,6 +26,45 @@ public class BllRedefinirSenha {
         return UtilEmail.isValid(email);
     }
 
+    private static String getCodigo() {
+        int minValor = 1000;
+        int maxValor = 9999;
+        return String.format("%d", (int) (Math.random() * (maxValor - minValor) + minValor));
+    }
+
+    public static String enviarCodigo(String nome, String email, String finalidade) throws Exception {
+        // Enviar e-mail com código de verificação 
+        String codigo = getCodigo();
+        System.out.println(codigo);
+        String assunto = "Torrentz Filmes - ";
+        String[] linhas = new String[3];
+        linhas[0] = "Olá, " + nome + "\nO código de verificação para ";
+        linhas[1] = "\n\nCaso você não tenha ";
+        linhas[2] = "\n\nAtenciosamente,\nTorrentz Filmes";
+
+        switch (finalidade) {
+            case "recuperar":
+                assunto += "Recuperação de Senha";
+                linhas[0] += "redefinir sua de senha é : " + codigo;
+                linhas[1] += "solicitado a recuperação de senha no sistema da Torrentz Filmes, "
+                        + "apenas ignore este mensagem que seu cadastro não será afetado.";
+                break;
+            case "validar":
+                assunto += "Verificação de Cadastro";
+                linhas[0] += "validar seu cadastro é : " + codigo;
+                linhas[1] += "realizado um cadastro no sistema da Torrentz Filmes, "
+                        + "você pode ignorar essa mensagem.";
+                break;
+        }
+        String mensagem = "";
+        for (String linha : linhas) {
+            mensagem += linha;
+        }
+
+        UtilEmail.sendEmail(email, assunto, mensagem);
+        return codigo;
+    }
+
     public static String redefinir(String email, Iterable<Usuario> usuarios) throws Exception {
         try {
             usuario = null;
@@ -38,20 +77,7 @@ public class BllRedefinirSenha {
             if (usuario == null) {
                 throw new Exception("Nenhum usuário cadastrado com este e-mail!");
             } else {
-                // Enviar e-mail com código de verificação
-                int minValor = 1000;
-                int maxValor = 9999;
-                String codigo = String.format("%d", (int) (Math.random() * (maxValor - minValor) + minValor));
-
-                UtilEmail.sendEmail(email, "Torrentz Filmes - Recuperação de Senha",
-                        "Olá, " + usuario.getNome().split(" ")[0] + "!\n"
-                        + "O código de verificação para redefinir sua de senha é : " + codigo
-                        + "\n\n"
-                        + "Caso você não tenha solicitado a recuperação de senha no sistema da Torrentz Filmes, "
-                        + "apenas ignore este mensagem que seu cadastro não será afetado."
-                        + "\n\nAtenciosamente,\nTorrentz Filmes"
-                );
-                return codigo;
+                return enviarCodigo(usuario.getNome().split(" ")[0], usuario.getEmail(), "recuperar");
             }
         } catch (Exception e) {
             throw e;

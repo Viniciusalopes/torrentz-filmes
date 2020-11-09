@@ -157,10 +157,12 @@ public abstract class DalGeneric<T> {
             } else {
                 objRet = pstm.execute();
 
-                // Armazena o ID gerado
-                ResultSet rs = pstm.getGeneratedKeys();
-                if (rs.next()) {
-                    pk = rs.getInt(1);
+                if(!fieldPK.contains(",")){ //se contém, é chave composta
+                    // Armazena o ID gerado
+                    ResultSet rs = pstm.getGeneratedKeys();
+                    if (rs.next()) {
+                        pk = rs.getInt(1);
+                    }
                 }
             }
         } catch (Exception e) {
