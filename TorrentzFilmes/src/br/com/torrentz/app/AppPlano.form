@@ -35,7 +35,9 @@
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="jTextFieldPreco" min="-2" pref="152" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="jLabel3" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jSpinnerAcessos" min="-2" pref="92" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jTextFieldNome" min="-2" pref="503" max="-2" attributes="0"/>
@@ -58,6 +60,7 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextFieldPreco" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jSpinnerAcessos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="21" max="32767" attributes="0"/>
               <Component id="jButtonSalvar" min="-2" max="-2" attributes="0"/>
@@ -98,6 +101,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldPreco">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Quantidade de acessos "/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
