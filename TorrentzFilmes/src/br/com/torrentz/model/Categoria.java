@@ -34,28 +34,28 @@ public class Categoria {
     /**
      * @return the cat_nome
      */
-    public String getCat_nome() {
+    public String getNome() {
         return cat_nome;
     }
 
     /**
      * @param cat_nome the cat_nome to set
      */
-    public void setCat_nome(String cat_nome) {
+    public void setNome(String cat_nome) {
         this.cat_nome = cat_nome;
     }
 
     /**
      * @return the cat_id
      */
-    public int getCat_id() {
+    public int getId() {
         return cat_id;
     }
 
     /**
      * @param cat_id the cat_id to set
      */
-    public void setCat_id(int cat_id) {
+    public void setId(int cat_id) {
         this.cat_id = cat_id;
     }
     

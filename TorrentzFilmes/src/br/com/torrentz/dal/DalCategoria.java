@@ -77,13 +77,13 @@ public class DalCategoria extends DalGeneric<Categoria> {
 
     protected void add(Categoria categoria) throws Exception {
         sql = sqlInsert;
-        args = new Object[]{categoria.getCat_nome()};
+        args = new Object[]{categoria.getNome()};
         execute();
     }
 
     protected void update(Categoria categoria) throws Exception {
         sql = sqlUpdate;
-        args = new Object[]{categoria.getCat_nome()};
+        args = new Object[]{categoria.getNome()};
         execute();
     }
 

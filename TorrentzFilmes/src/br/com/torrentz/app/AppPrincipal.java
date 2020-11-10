@@ -9,12 +9,14 @@ import br.com.torrentz.bll.BllCategoria;
 import br.com.torrentz.bll.BllFilme;
 import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
+import br.com.torrentz.bll.BllVisualizacao;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
+import br.com.torrentz.model.Visualizacao;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
@@ -36,6 +38,8 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Plano> planos = null;
     private Iterable<Filme> filmes = null;
     private Iterable<Categoria> categoria = null;
+    private Iterable<Visualizacao> visualizacoes = null;
+
 
     private String cadastro = "";
 
@@ -50,6 +54,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         planos = (Iterable) new BllPlano().getAll();
         filmes = (Iterable) new BllFilme().getAll();
         categoria = (Iterable) new BllCategoria().getAll();
+        visualizacoes = (Iterable) new BllVisualizacao().getAll();
     }
 
     private void jRadioButtonActionPerformed(ActionEvent evt) {
@@ -83,8 +88,8 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
                 
             case "Visualizacoes":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Marcos Paulo!");
+                colecao = (Iterable) visualizacoes;
+                break;
 
             case "Usuario":
                 if(usuario.getPerfil() == 'U'){  
@@ -185,7 +190,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jRadioButtonPlanos = new javax.swing.JRadioButton();
         jRadioButtonContratos = new javax.swing.JRadioButton();
         jLabelUsuario = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButtonVisualizacoes = new javax.swing.JRadioButton();
         jLabelPerfil = new javax.swing.JLabel();
         jButtonAssistir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -288,12 +293,12 @@ public class AppPrincipal extends javax.swing.JFrame {
         jLabelUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabelUsuario.setText("jLabelUsuario");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Visualizações");
-        jRadioButton1.setActionCommand("Visualizacoes");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(jRadioButtonVisualizacoes);
+        jRadioButtonVisualizacoes.setText("Visualizações");
+        jRadioButtonVisualizacoes.setActionCommand("Visualizacoes");
+        jRadioButtonVisualizacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jRadioButtonVisualizacoesActionPerformed(evt);
             }
         });
 
@@ -401,7 +406,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButtonContratos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)
+                        .addComponent(jRadioButtonVisualizacoes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAssistir)))
                 .addContainerGap())
@@ -417,7 +422,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                     .addComponent(jRadioButtonPlanos)
                     .addComponent(jRadioButtonContratos)
                     .addComponent(jRadioButtonUsuarios)
-                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButtonVisualizacoes)
                     .addComponent(jButtonAssistir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
@@ -485,9 +490,9 @@ public class AppPrincipal extends javax.swing.JFrame {
         jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonContratosActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jRadioButtonVisualizacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonVisualizacoesActionPerformed
         jRadioButtonActionPerformed(evt);
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_jRadioButtonVisualizacoesActionPerformed
 
     private void jButtonAssistirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssistirActionPerformed
         // TODO add your handling code here:
@@ -559,12 +564,12 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSistema;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButtonCategorias;
     private javax.swing.JRadioButton jRadioButtonContratos;
     private javax.swing.JRadioButton jRadioButtonFilmes;
     private javax.swing.JRadioButton jRadioButtonPlanos;
     private javax.swing.JRadioButton jRadioButtonUsuarios;
+    private javax.swing.JRadioButton jRadioButtonVisualizacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePrincipal;
     // End of variables declaration//GEN-END:variables
