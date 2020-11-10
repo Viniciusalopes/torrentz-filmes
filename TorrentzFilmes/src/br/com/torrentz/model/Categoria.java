@@ -34,7 +34,7 @@ public class Categoria {
     /**
      * @return the cat_nome
      */
-    public String geNome() {
+    public String getNome() {
         return cat_nome;
     }
 
