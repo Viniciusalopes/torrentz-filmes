@@ -7,6 +7,7 @@
 package br.com.torrentz.dal;
 
 import br.com.torrentz.generic.DalGeneric;
+import br.com.torrentz.generic.Where;
 import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Filme;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author marcos
  */
-public abstract class DalFilme extends DalGeneric<Filme>{
+public abstract class DalFilme extends DalGeneric<Filme> {
     
     public DalFilme() throws Exception{
         super("filmes","fil_id");
@@ -29,26 +30,9 @@ public abstract class DalFilme extends DalGeneric<Filme>{
                   + "JOIN categorias ON filmes.fil_cat_id = categorias.cat_id ";
 
         sqlUpdate = "UPDATE " + table + " SET "
-                + "fil_sinopse = ?, fil_titulo = ?, fil_ano = ?, fil_cat_id = ? " + sqlWhere;
+                + "fil_sinopse = ?, fil_titulo = ?, fil_ano = ?, fil_cat_id = ?";
         
         orderBy = " ORDER BY fil_titulo";   
-    }
-  /**
-     * 
-     * @return
-     * @throws Exception 
-     */
-    public ArrayList<Filme> getAll() throws Exception{
-        try {
-            
-            sql = sqlSelect + orderBy;
-            args = new Object[]{};
-            ArrayList<Filme> list = select();
-            
-            return list;
-        } catch (RuntimeException e) {
-             throw e;
-        }
     }
      
     /**
@@ -73,4 +57,97 @@ public abstract class DalFilme extends DalGeneric<Filme>{
         return ret;
     }
     
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws Exception 
+     */
+    public Filme getById(int id) throws Exception {
+        sql = sqlSelect + sqlWhere;
+        args = new Object[]{id};
+        ArrayList<Filme> ret = select();
+        if (ret.isEmpty()) {
+            throw new Exception("Nenhum Filme cadastrado com o id [" + id + "] !");
+        }
+        return ret.get(0);
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws Exception 
+     */
+    public ArrayList<Filme> getAll() throws Exception{
+        try {
+            
+            sql = sqlSelect + orderBy;
+            args = new Object[]{};
+            ArrayList<Filme> list = select();
+            
+            return list;
+        } catch (RuntimeException e) {
+             throw e;
+        }
+    }
+    /**
+     * 
+     * @param where
+     * @return
+     * @throws Exception 
+     */
+    protected ArrayList<Filme> getBy(Where[] where) throws Exception {
+        sql = sqlSelect;
+        return getByFields(where);
+    }
+
+    /**
+     * 
+     * @param text
+     * @return
+     * @throws Exception 
+     */
+    public ArrayList<Filme> search(String text) throws Exception {
+        String t = "%" + text.toLowerCase().trim() + "%";
+        sql = sqlSelect
+                + " WHERE LOWER(fil_titulo) LIKE ? "
+                + "   OR LOWER(fil_sinopse) LIKE ? "
+                + orderBy;
+        args = new Object[]{t, t};
+        return select();
+    }
+    
+    /**
+     * 
+     * @param filme
+     * @throws Exception 
+     */
+    protected void add(Filme filme) throws Exception {
+        args = new Object[]{
+            filme.getSinopse(),
+            filme.getTitulo(),
+            filme.getAno(),
+            filme.getCategoria().getId(),
+        };
+        sql = sqlInsert;
+        execute();
+    }
+    
+    /**
+     * 
+     * @param filme
+     * @throws Exception 
+     */
+    protected void update(Filme filme) throws Exception {
+         args = new Object[]{
+            filme.getSinopse(),
+            filme.getTitulo(),
+            filme.getAno(),
+            filme.getCategoria().getId(),
+            filme.getId()
+        };
+        sql = sqlUpdate + sqlWhere;
+        execute();
+    }
+
 }

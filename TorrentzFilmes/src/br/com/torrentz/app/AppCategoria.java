@@ -116,7 +116,7 @@ public class AppCategoria extends javax.swing.JFrame {
 //                mensagem("Reposta","repondeu talvez");
 //            }
            Categoria categoria = new Categoria();
-           categoria.setCat_nome(jTextFieldNome.getText());
+           categoria.setNome(jTextFieldNome.getText());
            new BllCategoria().add(categoria);
             mensagem("Sucesso", "Categoria incluida com sucesso!");
             this.dispose();
@@ -130,8 +130,8 @@ public class AppCategoria extends javax.swing.JFrame {
     private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveActionPerformed
         try {
             Categoria categoria = new Categoria();
-            categoria.setCat_nome(jTextFieldNome.getText());
-            categoria.setCat_id(ABORT);
+            categoria.setNome(jTextFieldNome.getText());
+            categoria.setId(ABORT);
             new BllCategoria().delete(ABORT);
             
         } catch (Exception e) {
