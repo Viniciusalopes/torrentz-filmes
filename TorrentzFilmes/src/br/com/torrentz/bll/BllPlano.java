@@ -28,6 +28,7 @@ package br.com.torrentz.bll;
 
 import br.com.torrentz.dal.DalPlano;
 import br.com.torrentz.model.Plano;
+import static br.com.torrentz.util.UtilString.soTemLetras;
 import java.util.ArrayList;
 
 /**
@@ -39,6 +40,15 @@ public class BllPlano extends DalPlano {
     public BllPlano() throws Exception {
         super();
     }
+    //metodo validate
+    
+    public void validate (Plano plano ) throws Exception{
+        if(!soTemLetras(plano.getPla_nome())){
+            throw  new Exception("O nome do plano possui caracteres invalidos!");
+            
+        }
+    }
+    
     
     
     //metoddo herdado da classe DalPlano 
