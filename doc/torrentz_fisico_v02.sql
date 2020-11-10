@@ -157,6 +157,32 @@ CREATE TABLE Filmes
 	CONSTRAINT FK_filme_categoria FOREIGN KEY (fil_cat_id) REFERENCES Categorias (cat_id)
 );
 
+INSERT INTO filmes 
+(
+	fil_titulo, 
+	fil_sinopse, 
+	fil_ano, 
+	fil_cat_id
+) VALUES
+(
+	'Vingadores: Ultimato',
+	'Em Vingadores: Ultimato, após Thanos eliminar metade das criaturas vivas em Vingadores: Guerra Infinita, os heróis precisam lidar com a dor da perda de amigos e seus entes queridos. Com Tony Stark (Robert Downey Jr.) vagando perdido no espaço sem água nem comida, o Capitão América/Steve Rogers (Chris Evans) e a Viúva Negra/Natasha Romanov (Scarlett Johansson) precisam liderar a resistência contra o titã louco.',
+	2019,
+	1
+),
+(
+	'Velozes & Furiosos 7',
+	'Ian Shaw (Jason Statham), um assassino profissional, quer vingança pela morte de seu irmão. Com a tranqüilidade destruída, o grupo precisa se reunir novamente para impedir que o pior aconteça. Mas, desta vez, a questão não é só ser veloz. A luta é também pela sobrevivência.',
+	2015,
+	1
+),
+(
+	'Matrix',
+	'The Matrix acompanha a aventura de Neo, um jovem hacker que é chamado para o movimento de resistência liderado por Morpheus, na luta contra a dominação dos humanos pelas máquinas. ... Neo descobre que a resistência acredita que ele é o Escolhido, um messias que virá libertar a humanidade da escravidão da Matrix.',
+	1999,
+	18
+);
+
 CREATE TABLE Visualizacoes
 (
 	vis_data DATE NOT NULL

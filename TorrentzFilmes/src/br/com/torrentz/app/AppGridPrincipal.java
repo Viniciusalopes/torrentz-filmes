@@ -6,6 +6,7 @@
 package br.com.torrentz.app;
 
 import br.com.torrentz.model.Contrato;
+import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class AppGridPrincipal<T> {
         ArrayList<T> lista = (ArrayList<T>) colecao;
         if (colecao == null) {
             model = new DefaultTableModel();
-        } else if (lista.size() == 0) {
+        } else if (lista.isEmpty()) {
             model = new DefaultTableModel();
         } else {
 
@@ -65,9 +66,26 @@ public class AppGridPrincipal<T> {
                 //_________________________________________________________________________________
 
                 case "Categoria":
+                    throw new Exception("Pergunte ao Calebson!");
                 case "Filme":
-                    throw new Exception("Pergunte ao Calebe!");
-
+                    colunas = new String[]{"ID","TITULO","ANO","CATEGORIA"};
+                    larguras = new int[]{80, -1, -1, -1};
+                    linhas = new Object[lista.size()][colunas.length];
+                    int i = 0;
+                    
+                    for (T f : lista) {                        
+                        Filme filme = (Filme) f;
+                        Object[] linha = new Object[]{
+                           filme.getId(),
+                            filme.getTitulo(),
+                            filme.getAno(),
+                            filme.getCategoria().getCat_nome()
+                        };
+                        linhas[i] = linha;
+                        i++;
+                    }
+                    break;
+                    
                 case "Visualizacoes":
                     throw new Exception("Pergunte ao Marcos Paulo!");
 
