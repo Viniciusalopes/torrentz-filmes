@@ -481,7 +481,8 @@ public class AppPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if(jTablePrincipal.getSelectedRow() == -1)throw new RuntimeException("Selecione o filme que deseja assistir!");
-            
+            new AppVisualizar(usuario, (Filme) new ArrayList((Collection) filmes).get(jTablePrincipal.getSelectedRow())).setVisible(true);
+            this.dispose();
         } catch (RuntimeException error) {
             mensagemErro(error);
         }
