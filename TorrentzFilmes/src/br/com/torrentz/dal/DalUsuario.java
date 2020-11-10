@@ -4,6 +4,8 @@ import br.com.torrentz.generic.Where;
 import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
 import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
+import br.com.torrentz.util.UtilString;
+import static br.com.torrentz.util.UtilString.textoSoComNumeros;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,11 +66,24 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
     }
 
     protected Usuario getByLoginPassword(String login, String password) throws Exception {
-        ArrayList<Usuario> consulta = getBy(new Where[]{
-            new Where("", "usu_cpf", "=", login),
-            new Where("OR", "usu_email", "=", login),
-            new Where("OR", "usu_id", "=", Integer.parseInt(login))
-        });
+        ArrayList<Usuario> consulta;
+
+        if (login.contains("@")) {
+            consulta = getBy(new Where[]{new Where("", "usu_email", "=", login.trim())});
+        } else {
+            String numeros = textoSoComNumeros(login).trim();
+            try {
+                consulta = getBy(new Where[]{
+                    new Where("", "usu_cpf", "=", login),
+                    new Where("OR", "usu_id", "=", Integer.parseInt(login))
+                });
+            } catch (Exception e) {
+                consulta = getBy(new Where[]{
+                    new Where("", "usu_cpf", "=", login)
+                });
+            }
+        }
+
         for (Usuario usuario : consulta) {
             String hexpwd = getHexStringSha256(password);
             if (usuario.getSenha().equals(hexpwd)) {
