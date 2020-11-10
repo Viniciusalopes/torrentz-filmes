@@ -15,6 +15,10 @@ import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import static java.util.Arrays.asList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,7 +36,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private String cadastro = "";
 
-    public void setUsuario(Usuario usuario) throws Exception {
+    private void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
         jLabelPerfil.setText(usuario.getPerfil() == 'U' ? "USUÁRIO:" : "ADMINISTRADOR:");
         jLabelUsuario.setText(usuario.getNome());
@@ -47,6 +51,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jRadioButtonActionPerformed(ActionEvent evt) {
         try {
             jButtonAssistir.setVisible(evt.getActionCommand().equals("Filme"));
+            jButtonAssistir.setEnabled(false);
             atualizarGrid(evt.getActionCommand());
             jButtonIncluir.setEnabled(usuario.getPerfil() == 'A');
             cadastro = evt.getActionCommand();
@@ -76,7 +81,11 @@ public class AppPrincipal extends javax.swing.JFrame {
                 throw new Exception("Pergunte ao Marcos Paulo!");
 
             case "Usuario":
-                colecao = (Iterable) usuarios;
+                if(usuario.getPerfil() == 'U'){  
+                    colecao = (Iterable) new ArrayList(asList(usuario));
+                }else{
+                    colecao = (Iterable) usuarios;
+                }
                 break;
 
             case "Contrato":
@@ -115,13 +124,31 @@ public class AppPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form AppTelaPrincipal
      */
-    public AppPrincipal() {
+    private AppPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
         try {
             atualizarColecoes();
-            atualizarGrid("Filme");
-            jRadioButtonFilmes.setSelected(true);
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+    /**
+     * Creates new form AppTelaPrincipal
+     */
+    public AppPrincipal(Usuario usuario) {
+        this();
+        try {
+            this.setUsuario(usuario);
+            
+            if(usuario.getPerfil() == 'U'){
+                jButtonAssistir.setVisible(true);
+                jRadioButtonFilmes.setSelected(true);
+                atualizarGrid("Filme");
+            }else{
+                jButtonAssistir.setVisible(false);
+                atualizarGrid("");
+            }
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -179,6 +206,11 @@ public class AppPrincipal extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTablePrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTablePrincipalMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jTablePrincipal);
@@ -256,6 +288,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jLabelPerfil.setText("PERFIL:");
 
         jButtonAssistir.setText("Assistir");
+        jButtonAssistir.setEnabled(false);
         jButtonAssistir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAssistirActionPerformed(evt);
@@ -454,6 +487,11 @@ public class AppPrincipal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButtonAssistirActionPerformed
+
+    private void jTablePrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePrincipalMouseReleased
+        // TODO add your handling code here:
+        jButtonAssistir.setEnabled(usuario.getPerfil() == 'U');
+    }//GEN-LAST:event_jTablePrincipalMouseReleased
 
     /**
      * @param args the command line arguments

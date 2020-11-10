@@ -154,10 +154,9 @@ public class AppLogin extends javax.swing.JFrame {
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         try {
-            Usuario u = bll.validUser(jTextFieldLogin.getText(), new String(jPasswordField.getPassword()));
-            if (u != null) {
-                AppPrincipal tela = new AppPrincipal();
-                tela.setUsuario(u);
+            Usuario usuario = bll.validUser(jTextFieldLogin.getText(), new String(jPasswordField.getPassword()));
+            if (usuario != null) {
+                AppPrincipal tela = new AppPrincipal(usuario);
                 tela.setVisible(true);
                 this.dispose();
             }

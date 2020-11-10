@@ -218,6 +218,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTablePrincipalMouseReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -318,6 +321,7 @@
     <Component class="javax.swing.JButton" name="jButtonAssistir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Assistir"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAssistirActionPerformed"/>
