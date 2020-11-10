@@ -5,6 +5,7 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
@@ -66,7 +67,33 @@ public class AppGridPrincipal<T> {
                 //_________________________________________________________________________________
 
                 case "Categoria":
-                    throw new Exception("Pergunte ao Calebson!");
+//                    throw new Exception("Pergunte ao Calebson!");
+                    
+                     //_____________________________________________________________________________
+                    colunas = new String[]{"ID", "Nome da Categoria"};
+                    //nomes das colunas 
+                    larguras = new int[]{80, -1};
+                    //largura da coluna
+
+                    //matriz de linhas 
+                    linhas = new Object[lista.size()][colunas.length];
+                    //_____________________________________________________________________________
+
+                    //ate esta parte do codigo a matriz esta vazia, sera criada a estrutura de repetiçao 
+                    //para preenche-la
+                    //inclusao das linhas dentro da matriz
+                    //____________________________________________________________________________
+                    for (int i = 0; i < lista.size(); i++) {
+                        Categoria c = (Categoria) lista.get(i);
+                        Object[] linha = new Object[]{
+                            c.getCat_id(),
+                            c.getCat_nome(),
+                            
+                        };
+                        linhas[i] = linha;
+
+                    }
+                    break;
                 case "Filme":
                     colunas = new String[]{"ID","TITULO","ANO","CATEGORIA"};
                     larguras = new int[]{80, -1, -1, -1};

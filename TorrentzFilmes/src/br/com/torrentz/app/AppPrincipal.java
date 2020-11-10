@@ -5,10 +5,12 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllCategoria;
 import br.com.torrentz.bll.BllFilme;
 import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
+import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
@@ -33,6 +35,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Contrato> contratos = null;
     private Iterable<Plano> planos = null;
     private Iterable<Filme> filmes = null;
+    private Iterable<Categoria> categoria = null;
 
     private String cadastro = "";
 
@@ -46,6 +49,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         usuarios = (Iterable) new BllUsuario().getAll();
         planos = (Iterable) new BllPlano().getAll();
         filmes = (Iterable) new BllFilme().getAll();
+        categoria = (Iterable) new BllCategoria().getAll();
     }
 
     private void jRadioButtonActionPerformed(ActionEvent evt) {
@@ -69,8 +73,10 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
 
             case "Categoria":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Calebison!");
+                colecao = (Iterable) categoria;
+                break;
+//                jTablePrincipal.setModel(new DefaultTableModel());
+//                throw new Exception("Pergunte ao Calebison!");
                 
             case "Filme":
                 colecao = (Iterable) filmes;
@@ -113,6 +119,12 @@ public class AppPrincipal extends javax.swing.JFrame {
                     modalPlano.setTitle("incluir cadastro de plano");
                     modalPlano.setVisible(true);
                     break;
+                    
+//                case "Categoria":
+//                    AppCategoria modalCategoria = new AppCategoria();
+//                    modalCategoria.setTitle("incluir cadastro de categoria");
+//                    modalCategoria.setVisible(true);
+//                    break;
             }
             atualizarColecoes();
             atualizarGrid("");

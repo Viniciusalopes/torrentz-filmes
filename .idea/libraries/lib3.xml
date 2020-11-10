@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/EmailService/src/br/com/principal/lib/smtp-1.4.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/EmailService/src/br/com/principal/lib/commons-email-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/EmailService/src/br/com/principal/lib/mail-1.4.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
