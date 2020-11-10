@@ -93,13 +93,15 @@ public class AppGridPrincipal<T> {
                     colunas = new String[]{"ID", "Nome", "CPF", "E-mail"};
                     larguras = new int[]{80, -1, -1, -1};
                     linhas = new Object[lista.size()][colunas.length];
-
+                    
+                    
                     for (int l = 0; l < lista.size(); l++) {
                         Usuario u = (Usuario) lista.get(l);
+                        String cpf =u.getCpf();
                         Object[] linha = new Object[]{
                             u.getId(),
                             u.getNome(),
-                            u.getCpf(),
+                            cpf.subSequence(0, 3) + "." + cpf.subSequence(3, 6) + "." + cpf.subSequence(6, 9) + "-" + cpf.subSequence(9, 11),
                             u.getEmail()
                         };
                         linhas[l] = linha;
