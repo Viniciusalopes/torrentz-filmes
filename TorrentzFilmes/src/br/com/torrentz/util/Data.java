@@ -57,7 +57,7 @@ public class Data {
      * @return
      */
     public String get() {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");	
             Date d = calendar.getTime();
             return df.format(d);		
     }

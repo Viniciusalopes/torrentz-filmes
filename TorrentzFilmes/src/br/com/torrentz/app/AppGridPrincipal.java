@@ -9,6 +9,7 @@ import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
+import br.com.torrentz.model.Visualizacao;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +35,8 @@ public class AppGridPrincipal<T> {
             model = new DefaultTableModel();
         } else {
 
+            int l = 0;
             switch (lista.get(0).getClass().getSimpleName()) {
-
                 case "Plano":
                     //_____________________________________________________________________________
                     colunas = new String[]{"ID", "Nome do Plano", "Acessos", "Preço Do Plano"};
@@ -51,15 +52,15 @@ public class AppGridPrincipal<T> {
                     //para preenche-la
                     //inclusao das linhas dentro da matriz
                     //____________________________________________________________________________
-                    for (int i = 0; i < lista.size(); i++) {
-                        Plano p = (Plano) lista.get(i);
+                    for (l = 0; l < lista.size(); l++) {
+                        Plano p = (Plano) lista.get(l);
                         Object[] linha = new Object[]{
                             p.getPla_id(),
                             p.getPla_nome(),
                             p.getPla_acesso_simultaneo(),
                             p.getPla_preco()
                         };
-                        linhas[i] = linha;
+                        linhas[l] = linha;
 
                     }
                     break;
@@ -71,7 +72,7 @@ public class AppGridPrincipal<T> {
                     colunas = new String[]{"ID","TITULO","ANO","CATEGORIA"};
                     larguras = new int[]{80, -1, -1, -1};
                     linhas = new Object[lista.size()][colunas.length];
-                    int i = 0;
+                    l = 0;
                     
                     for (T f : lista) {                        
                         Filme filme = (Filme) f;
@@ -81,21 +82,36 @@ public class AppGridPrincipal<T> {
                             filme.getAno(),
                             filme.getCategoria().getNome()
                         };
-                        linhas[i] = linha;
-                        i++;
+                        linhas[l] = linha;
+                        l++;
                     }
                     break;
                     
-                case "Visualizacoes":
-                    throw new Exception("Pergunte ao Marcos Paulo!");
-
+                case "Visualizacao":
+                    colunas = new String[]{"DATA","COMPLETO","USUARIO","FILME"};
+                    larguras = new int[]{80, -1, -1, -1};
+                    linhas = new Object[lista.size()][colunas.length];
+                    l = 0;
+                    
+                    for (T v : lista) {                        
+                        Visualizacao visualizacao = (Visualizacao) v;
+                        Object[] linha = new Object[]{
+                           visualizacao.getData().get(),
+                            visualizacao.isCompleto(),
+                            visualizacao.getUsuario().getNome(),
+                            visualizacao.getFilme().getTitulo()
+                        };
+                        linhas[l] = linha;
+                        l++;
+                    }
+                    break;
                 case "Usuario":
                     colunas = new String[]{"ID", "Nome", "CPF", "E-mail"};
                     larguras = new int[]{80, -1, -1, -1};
                     linhas = new Object[lista.size()][colunas.length];
                     
                     
-                    for (int l = 0; l < lista.size(); l++) {
+                    for (l = 0; l < lista.size(); l++) {
                         Usuario u = (Usuario) lista.get(l);
                         String cpf =u.getCpf();
                         Object[] linha = new Object[]{
@@ -113,7 +129,7 @@ public class AppGridPrincipal<T> {
                     larguras = new int[]{80, -1, -1, -1, -1};
                     linhas = new Object[lista.size()][colunas.length];
 
-                    for (int l = 0; l < lista.size(); l++) {
+                    for (l = 0; l < lista.size(); l++) {
                         Contrato c = (Contrato) lista.get(l);
                         Object[] linha = new Object[]{
                             "",

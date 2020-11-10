@@ -1,8 +1,11 @@
 package br.com.torrentz.app;
 
 
+import static br.com.torrentz.generic.GenMensagem.mensagemErro;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Usuario;
+import br.com.torrentz.model.Visualizacao;
+import br.com.torrentz.util.Data;
 import br.com.torrentz.util.TemporizadorJProgressBar;
 import java.awt.Image;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class AppVisualizar extends javax.swing.JFrame {
         
         jProgressBar1.setStringPainted(true); 
         modelBarra = new TemporizadorJProgressBar(jProgressBar1);
+       
         //p.setValue(50); 
         
     }
@@ -236,9 +240,13 @@ public class AppVisualizar extends javax.swing.JFrame {
         if(jProgressBar1.getValue() == 0){
             try {
                 modelBarra.start();
+                modelBarra.salvarVisuzalizacao(new Visualizacao(new Data(), false, usuario, filme));
                 setIconPlayPause("../assets/simbolo-de-pausa.png");
+                
             } catch (IOException ex) {
-                Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+                mensagemErro(ex);
+            } catch (Exception ex) {
+                mensagemErro(ex);
             }
         }else{
             if(modelBarra.isPausa()){
@@ -246,14 +254,14 @@ public class AppVisualizar extends javax.swing.JFrame {
                     modelBarra.resumir();                
                     setIconPlayPause("../assets/simbolo-de-pausa.png");
                 } catch (IOException ex) {
-                    Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+                    mensagemErro(ex);
                 }
             }else{
                 try {
                     setIconPlayPause("../assets/botao-play.png");
                     modelBarra.suspender();
                 } catch (IOException ex) {
-                    Logger.getLogger(AppVisualizar.class.getName()).log(Level.SEVERE, null, ex);
+                    mensagemErro(ex);
                 }
             }
         }
