@@ -127,6 +127,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 //                    break;
             }
             atualizarColecoes();
+          
             atualizarGrid("");
         } catch (Exception e) {
             mensagemErro(e);

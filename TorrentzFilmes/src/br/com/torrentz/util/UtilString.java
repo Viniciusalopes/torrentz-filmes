@@ -22,7 +22,6 @@ public class UtilString {
      * @param texto Texto a ser tratado.
      * @return
      */
-    
     public static boolean digitouTexto(char caractere) {
         return (EnumCaracteres.Todos.getCaracteres().contains(caractere + ""));
     }
@@ -176,5 +175,11 @@ public class UtilString {
         }
         return texto;
     }
-}
 
+    public static void removeEspacos(String texto) {
+        while (texto.contains("  ")) {
+            texto = texto.replace("  ", " ");
+        }
+
+    }
+}

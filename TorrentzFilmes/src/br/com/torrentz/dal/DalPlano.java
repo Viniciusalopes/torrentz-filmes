@@ -44,7 +44,7 @@ public class DalPlano extends DalGeneric<Plano> {
      * outras classes fora do pacote em que foram declarados.
      */
     protected DalPlano() throws Exception {
-        super("planos ", "pla_id");
+        super("planos", "pla_id");
 
         sqlInsert = "INSERT INTO " + table
                 + "(pla_acesso_simultaneo, pla_nome, pla_preco)"
