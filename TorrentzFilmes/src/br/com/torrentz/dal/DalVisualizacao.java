@@ -97,7 +97,48 @@ public abstract class DalVisualizacao {
             throw error;
         }
     }
-    
+    public ArrayList<Visualizacao> buscaPorUsuario(Usuario usuario) throws SQLException, Exception{
+    String sql = "SELECT *  FROM visualizacoes " +
+                     "JOIN usuarios ON visualizacoes.vis_usu_id = usuarios.usu_id " +
+                     "JOIN filmes ON visualizacoes.vis_fil_id = filmes.fil_id " +
+                     "JOIN categorias ON filmes.fil_cat_id = categorias.cat_id " +
+                     "WHERE vis_usu_id = ?";
+                    
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, usuario.getId());
+            ResultSet rs = pstm.executeQuery();
+          
+            ArrayList<Visualizacao> list = new ArrayList<>();
+            while(rs.next()){
+                list.add(new Visualizacao(
+                        new Data(rs.getString("vis_data")),
+                        rs.getBoolean("vis_completo"),
+                        new Usuario(
+                            rs.getInt("usu_id"),
+                            rs.getString("usu_nome"),
+                            rs.getString("usu_cpf"),
+                            rs.getString("usu_email"),
+                            rs.getString("usu_senha"),
+                            rs.getFloat("usu_cup_porcentagem"),
+                            rs.getDate("usu_cup_data_geracao"),
+                            rs.getString("usu_perfil").charAt(0)),
+                        new Filme(
+                            rs.getInt("fil_id"),
+                            rs.getString("fil_titulo"),
+                            rs.getString("fil_sinopse"),
+                            rs.getInt("fil_ano"),
+                            new Categoria(
+                                    rs.getInt("cat_id"),
+                                    rs.getString("cat_nome"))
+                        ))
+                );
+            }
+            return list;
+        } catch (SQLException error) {
+            throw error;
+        }
+    }
     private void adicionar(Visualizacao visualizacao) throws Exception{
         String data =  visualizacao.getData().get().replace("-", "/");
         String sql = "INSERT INTO visualizacoes (vis_data, vis_completo, vis_usu_id, vis_fil_id) VALUES(TO_DATE('"+data+"', 'DD/MM/YYYY'),?,?,?)";

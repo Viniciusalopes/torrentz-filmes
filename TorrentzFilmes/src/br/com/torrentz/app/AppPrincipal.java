@@ -21,9 +21,6 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -88,7 +85,12 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
                 
             case "Visualizacoes":
-                colecao = (Iterable) visualizacoes;
+               
+                if(usuario.getPerfil() == 'U'){
+                    colecao = (Iterable) new ArrayList(new BllVisualizacao().buscaPorUsuario(usuario));
+                }else{
+                    colecao = (Iterable) visualizacoes;
+                }
                 break;
 
             case "Usuario":
