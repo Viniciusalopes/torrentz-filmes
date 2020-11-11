@@ -125,6 +125,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                     AppPlano modalPlano = new AppPlano(this, true);
                     modalPlano.setTitle("incluir cadastro de plano");
                     modalPlano.setVisible(true);
+                    
                     break;
                     
 //                case "Categoria":
@@ -165,6 +166,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                 jButtonAssistir.setVisible(true);
                 jRadioButtonFilmes.setSelected(true);
                 atualizarGrid("Filme");
+                
             }else{
                 jButtonAssistir.setVisible(false);
                 atualizarGrid("");

@@ -30,7 +30,8 @@ public class AppPlano extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         jTextFieldNome.setText("");
         jTextFieldPreco.setText("");
-        
+        jButtonSalvar.repaint();
+        jButtonSalvar.validate();
 
     }
 
@@ -124,7 +125,6 @@ public class AppPlano extends javax.swing.JDialog {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         // TODO add your handling code here:
         Plano plano = new Plano();
-        
 
         plano.setPla_nome(jTextFieldNome.getText());
 
