@@ -7,7 +7,6 @@ package br.com.torrentz.app;
 
 import br.com.torrentz.bll.BllContrato;
 import br.com.torrentz.bll.BllPlano;
-import br.com.torrentz.bll.BllRedefinirSenha;
 import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.*;
 import br.com.torrentz.model.Contrato;

@@ -11,6 +11,7 @@ import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import br.com.torrentz.model.Visualizacao;
+import static br.com.torrentz.util.UtilCpf.cpfMask;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -140,11 +141,10 @@ public class AppGridPrincipal<T> {
                     
                     for (l = 0; l < lista.size(); l++) {
                         Usuario u = (Usuario) lista.get(l);
-                        String cpf =u.getCpf();
                         Object[] linha = new Object[]{
                             u.getId(),
                             u.getNome(),
-                            cpf.subSequence(0, 3) + "." + cpf.subSequence(3, 6) + "." + cpf.subSequence(6, 9) + "-" + cpf.subSequence(9, 11),
+                            cpfMask(u.getCpf()),
                             u.getEmail()
                         };
                         linhas[l] = linha;

@@ -37,7 +37,6 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Categoria> categoria = null;
     private Iterable<Visualizacao> visualizacoes = null;
 
-
     private String cadastro = "";
 
     private void setUsuario(Usuario usuario) throws Exception {
@@ -79,24 +78,24 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
 //                jTablePrincipal.setModel(new DefaultTableModel());
 //                throw new Exception("Pergunte ao Calebison!");
-                
+
             case "Filme":
                 colecao = (Iterable) filmes;
                 break;
-                
+
             case "Visualizacoes":
-               
-                if(usuario.getPerfil() == 'U'){
+
+                if (usuario.getPerfil() == 'U') {
                     colecao = (Iterable) new ArrayList(new BllVisualizacao().buscaPorUsuario(usuario));
-                }else{
+                } else {
                     colecao = (Iterable) visualizacoes;
                 }
                 break;
 
             case "Usuario":
-                if(usuario.getPerfil() == 'U'){  
+                if (usuario.getPerfil() == 'U') {
                     colecao = (Iterable) new ArrayList(asList(usuario));
-                }else{
+                } else {
                     colecao = (Iterable) usuarios;
                 }
                 break;
@@ -111,7 +110,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void incluirCadastro() {
         try {
-            
+
             switch (cadastro) {
                 case "Usuario":
                     AppUsuarioIncluir modalUsuario = new AppUsuarioIncluir(this, true);
@@ -120,14 +119,14 @@ public class AppPrincipal extends javax.swing.JFrame {
                     modalUsuario.planos = planos;
                     modalUsuario.setVisible(true);
                     break;
-                    
+
                 case "Plano":
                     AppPlano modalPlano = new AppPlano(this, true);
                     modalPlano.setTitle("incluir cadastro de plano");
                     modalPlano.setVisible(true);
-                    
+
                     break;
-                    
+
 //                case "Categoria":
 //                    AppCategoria modalCategoria = new AppCategoria();
 //                    modalCategoria.setTitle("incluir cadastro de categoria");
@@ -135,7 +134,49 @@ public class AppPrincipal extends javax.swing.JFrame {
 //                    break;
             }
             atualizarColecoes();
-          
+
+            atualizarGrid("");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+
+    private void editarCadastro() {
+        try {
+            int id = 0;
+
+            switch (cadastro) {
+                case "Usuario":
+                    id = Integer.parseInt(jTablePrincipal.getValueAt(jTablePrincipal.getSelectedRow(), 0).toString());
+                    Usuario usuarioEditar = new Usuario();
+                    for (Usuario u : usuarios) {
+                        if (u.getId() == id) {
+                            usuarioEditar = u;
+                            break;
+                        }
+                    }
+                    AppUsuarioEditar modalUsuario = new AppUsuarioEditar(this, true, usuarioEditar);
+                    modalUsuario.setTitle("Editar cadastro de Usuário");
+                    modalUsuario.usuarios = usuarios;
+                    modalUsuario.planos = planos;
+                    modalUsuario.setVisible(true);
+                    break;
+
+                case "Plano":
+                    AppPlano modalPlano = new AppPlano(this, true);
+                    modalPlano.setTitle("incluir cadastro de plano");
+                    modalPlano.setVisible(true);
+
+                    break;
+
+//                case "Categoria":
+//                    AppCategoria modalCategoria = new AppCategoria();
+//                    modalCategoria.setTitle("incluir cadastro de categoria");
+//                    modalCategoria.setVisible(true);
+//                    break;
+            }
+            atualizarColecoes();
+
             atualizarGrid("");
         } catch (Exception e) {
             mensagemErro(e);
@@ -154,6 +195,7 @@ public class AppPrincipal extends javax.swing.JFrame {
             mensagemErro(e);
         }
     }
+
     /**
      * Creates new form AppTelaPrincipal
      */
@@ -161,13 +203,13 @@ public class AppPrincipal extends javax.swing.JFrame {
         this();
         try {
             this.setUsuario(usuario);
-            
-            if(usuario.getPerfil() == 'U'){
+
+            if (usuario.getPerfil() == 'U') {
                 jButtonAssistir.setVisible(true);
                 jRadioButtonFilmes.setSelected(true);
                 atualizarGrid("Filme");
-                
-            }else{
+
+            } else {
                 jButtonAssistir.setVisible(false);
                 atualizarGrid("");
             }
@@ -502,17 +544,21 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jButtonAssistirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssistirActionPerformed
         // TODO add your handling code here:
         try {
-            if(jTablePrincipal.getSelectedRow() == -1)throw new RuntimeException("Selecione o filme que deseja assistir!");
+            if (jTablePrincipal.getSelectedRow() == -1) {
+                throw new RuntimeException("Selecione o filme que deseja assistir!");
+            }
             new AppVisualizar(usuario, (Filme) new ArrayList((Collection) filmes).get(jTablePrincipal.getSelectedRow())).setVisible(true);
             this.dispose();
         } catch (RuntimeException error) {
             mensagemErro(error);
         }
-        
+
     }//GEN-LAST:event_jButtonAssistirActionPerformed
 
     private void jTablePrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePrincipalMouseReleased
-        // TODO add your handling code here:
+        if ((evt.getClickCount() == 2)) {
+            editarCadastro();
+        }
         jButtonAssistir.setEnabled(usuario.getPerfil() == 'U');
     }//GEN-LAST:event_jTablePrincipalMouseReleased
 

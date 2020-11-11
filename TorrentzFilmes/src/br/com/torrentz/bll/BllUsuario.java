@@ -2,7 +2,7 @@ package br.com.torrentz.bll;
 
 import br.com.torrentz.dal.DalUsuario;
 import br.com.torrentz.model.Usuario;
-import br.com.torrentz.util.CpfValidation;
+import br.com.torrentz.util.UtilCpf;
 import br.com.torrentz.util.UtilEmail;
 import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
 import static br.com.torrentz.util.UtilString.soTemLetras;
@@ -24,7 +24,7 @@ public class BllUsuario extends DalUsuario {
         if (!soTemLetras(usuario.getNome())) {
             throw new Exception("O nome possui caracteres inválidos!");
         }
-        if (!CpfValidation.isValid(usuario.getCpf())) {
+        if (!UtilCpf.isValid(usuario.getCpf())) {
             throw new Exception("O CPF é inválido!");
         }
         usuario.setCpf(textoSoComNumeros(usuario.getCpf()));

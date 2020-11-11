@@ -180,6 +180,5 @@ public class UtilString {
         while (texto.contains("  ")) {
             texto = texto.replace("  ", " ");
         }
-
     }
 }

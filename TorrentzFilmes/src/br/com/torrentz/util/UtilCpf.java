@@ -9,8 +9,18 @@ package br.com.torrentz.util;
  *
  * @author vovolinux
  */
-public class CpfValidation {
+public class UtilCpf {
     // FONTE: https://gist.github.com/rdakar/bbcf2262db572ddffd65ba26ddd42e80
+
+    private static String cpf = "";
+    
+    public static String cpfMask(String cpf) throws Exception {
+        if (!isValid(cpf)) {
+            throw new Exception("O CPF [" + cpf + "]é inválido!");
+        }
+        cpf = cpf.trim().replaceAll(".", "").replaceAll("-", "");
+        return cpf.subSequence(0, 3) + "." + cpf.subSequence(3, 6) + "." + cpf.subSequence(6, 9) + "-" + cpf.subSequence(9, 11);
+    }
 
     public static boolean isValid(String value) {
         if (value == null) {
@@ -24,11 +34,12 @@ public class CpfValidation {
     }
 
     private static boolean isCpf(String cpf) {
+        
         int[] multiplicador1 = new int[]{10, 9, 8, 7, 6, 5, 4, 3, 2};
         int[] multiplicador2 = new int[]{11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
-        cpf = cpf.trim().replace(".", "").replace("-", "");
-
+        cpf = cpf.trim().replaceAll(".", "").replaceAll("-", "");
+        
         if (cpf.length() != 11) {
             return false;
         }
@@ -76,4 +87,5 @@ public class CpfValidation {
 
         return cpf.endsWith(digito);
     }
+
 }

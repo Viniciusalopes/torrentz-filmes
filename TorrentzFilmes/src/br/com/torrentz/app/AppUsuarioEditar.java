@@ -5,21 +5,83 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllContrato;
+import br.com.torrentz.bll.BllPlano;
+import br.com.torrentz.bll.BllUsuario;
 import static br.com.torrentz.generic.GenMensagem.mensagemErro;
+import br.com.torrentz.model.Contrato;
+import br.com.torrentz.model.Plano;
+import br.com.torrentz.model.Usuario;
+import static br.com.torrentz.util.UtilCpf.cpfMask;
+import java.text.SimpleDateFormat;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author vovostudio
  */
-public class AppUsuario extends javax.swing.JDialog {
+public class AppUsuarioEditar extends javax.swing.JDialog {
+
+    public Iterable<Usuario> usuarios = null;
+    public Iterable<Plano> planos = null;
+    public Iterable<Contrato> contratos = null;
+    private BllUsuario bllUsuario = null;
+    private BllPlano bllPlano = null;
+    private BllContrato bllContrato = null;
+    private Usuario usuario = null;
+    private Contrato contrato = null;
+    private Plano plano = null;
+
+    SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Creates new form AppUsuario
      */
-    public AppUsuario(java.awt.Frame parent, boolean modal) {
+    private AppUsuarioEditar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+    }
+
+    public AppUsuarioEditar(java.awt.Frame parent, boolean modal, Usuario usuario) {
+        this(parent, modal);
+        try {
+            this.usuario = usuario;
+            bllContrato = new BllContrato();
+            bllPlano = new BllPlano();
+
+            contratos = bllContrato.getByUsuarioId(usuario.getId());
+
+            preencherCampos();
+            preencherGridContratos();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+
+    private void preencherCampos() throws Exception {
+        jTextFieldNome.setText(usuario.getNome());
+        jTextFieldCpf.setText(cpfMask(usuario.getCpf()));
+        jTextFieldEmail.setText(usuario.getEmail());
+    }
+
+    private void preencherGridContratos() throws Exception {
+        DefaultTableModel model = (DefaultTableModel) jTableContratos.getModel();
+        model.setRowCount(0);
+        for (Contrato c : contratos) {
+            plano = bllPlano.getById(contrato.getPlanoId());
+
+            model.addRow(new Object[]{
+                c.getUsuarioId() + "." + c.getPlanoId(),
+                plano.getPla_nome(),
+                plano.getPla_acesso_simultaneo(),
+                plano.getPla_preco(),
+                formatoData.format(c.getInicio()) + "." + c.getUsuarioId() + "." + c.getPlanoId(),
+                String.format("%.0f%%", usuario.getPorcentagem()),
+                String.format("%.2f", (plano.getPla_preco() / 100) * usuario.getPorcentagem()),
+                String.format("R$ %.2f", plano.getPla_preco())
+            });
+        }
     }
 
     /**
@@ -39,7 +101,7 @@ public class AppUsuario extends javax.swing.JDialog {
         jPasswordField = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePlanos = new javax.swing.JTable();
+        jTableContratos = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jButtonIncluirContrato = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
@@ -54,7 +116,7 @@ public class AppUsuario extends javax.swing.JDialog {
 
         jLabel5.setText("Senha");
 
-        jTablePlanos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableContratos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -75,30 +137,30 @@ public class AppUsuario extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jTablePlanos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTablePlanos);
-        if (jTablePlanos.getColumnModel().getColumnCount() > 0) {
-            jTablePlanos.getColumnModel().getColumn(0).setMinWidth(60);
-            jTablePlanos.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTablePlanos.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTablePlanos.getColumnModel().getColumn(2).setMinWidth(140);
-            jTablePlanos.getColumnModel().getColumn(2).setPreferredWidth(140);
-            jTablePlanos.getColumnModel().getColumn(2).setMaxWidth(140);
-            jTablePlanos.getColumnModel().getColumn(3).setMinWidth(100);
-            jTablePlanos.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTablePlanos.getColumnModel().getColumn(3).setMaxWidth(100);
-            jTablePlanos.getColumnModel().getColumn(4).setMinWidth(80);
-            jTablePlanos.getColumnModel().getColumn(4).setPreferredWidth(80);
-            jTablePlanos.getColumnModel().getColumn(4).setMaxWidth(80);
-            jTablePlanos.getColumnModel().getColumn(5).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(5).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(5).setMaxWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(6).setMaxWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setMinWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setPreferredWidth(130);
-            jTablePlanos.getColumnModel().getColumn(7).setMaxWidth(130);
+        jTableContratos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTableContratos);
+        if (jTableContratos.getColumnModel().getColumnCount() > 0) {
+            jTableContratos.getColumnModel().getColumn(0).setMinWidth(60);
+            jTableContratos.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTableContratos.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTableContratos.getColumnModel().getColumn(2).setMinWidth(140);
+            jTableContratos.getColumnModel().getColumn(2).setPreferredWidth(140);
+            jTableContratos.getColumnModel().getColumn(2).setMaxWidth(140);
+            jTableContratos.getColumnModel().getColumn(3).setMinWidth(100);
+            jTableContratos.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTableContratos.getColumnModel().getColumn(3).setMaxWidth(100);
+            jTableContratos.getColumnModel().getColumn(4).setMinWidth(80);
+            jTableContratos.getColumnModel().getColumn(4).setPreferredWidth(80);
+            jTableContratos.getColumnModel().getColumn(4).setMaxWidth(80);
+            jTableContratos.getColumnModel().getColumn(5).setMinWidth(130);
+            jTableContratos.getColumnModel().getColumn(5).setPreferredWidth(130);
+            jTableContratos.getColumnModel().getColumn(5).setMaxWidth(130);
+            jTableContratos.getColumnModel().getColumn(6).setMinWidth(130);
+            jTableContratos.getColumnModel().getColumn(6).setPreferredWidth(130);
+            jTableContratos.getColumnModel().getColumn(6).setMaxWidth(130);
+            jTableContratos.getColumnModel().getColumn(7).setMinWidth(130);
+            jTableContratos.getColumnModel().getColumn(7).setPreferredWidth(130);
+            jTableContratos.getColumnModel().getColumn(7).setMaxWidth(130);
         }
 
         jLabel6.setText("Planos Contratados");
@@ -182,7 +244,7 @@ public class AppUsuario extends javax.swing.JDialog {
         try {
             AppContrato modal = new AppContrato(null, true);
             modal.setVisible(true);
-            
+
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -202,23 +264,29 @@ public class AppUsuario extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioEditar.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioEditar.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioEditar.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AppUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppUsuarioEditar.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AppUsuario dialog = new AppUsuario(new javax.swing.JFrame(), true);
+                AppUsuarioEditar dialog = new AppUsuarioEditar(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -240,7 +308,7 @@ public class AppUsuario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablePlanos;
+    private javax.swing.JTable jTableContratos;
     private javax.swing.JTextField jTextFieldCpf;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNome;

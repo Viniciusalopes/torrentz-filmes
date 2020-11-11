@@ -4,10 +4,8 @@ import br.com.torrentz.generic.Where;
 import br.com.torrentz.generic.DalGeneric;
 import br.com.torrentz.model.Usuario;
 import static br.com.torrentz.util.UtilSenha.getHexStringSha256;
-import br.com.torrentz.util.UtilString;
 import static br.com.torrentz.util.UtilString.textoSoComNumeros;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -119,6 +117,7 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
     }
 
     protected void update(Usuario usuario) throws Exception {
+        sql = sqlUpdate;
         args = new Object[]{
             usuario.getNome(),
             usuario.getCpf(),
@@ -129,7 +128,6 @@ public abstract class DalUsuario extends DalGeneric<Usuario> {
             usuario.getPerfil(),
             usuario.getId()
         };
-        sql = sqlUpdate;
         execute();
     }
 }
