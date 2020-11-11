@@ -172,7 +172,5 @@ public abstract class DalVisualizacao {
         } catch (SQLException error) {
             throw error;
         }
-    } 
-        
-   
+    }        
 }
