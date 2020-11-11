@@ -29,45 +29,11 @@ public class AppPlano extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         jTextFieldNome.setText("");
-         jTextFieldPreco.setText("");
+        jTextFieldPreco.setText("");
+        jButtonSalvar.repaint();
+        jButtonSalvar.validate();
 
     }
-    
-    public void validanome(){
- {
-    String st = "Informe seu nome:";
-    st = JOptionPane.showInputDialog(null,st);
-    
-    if (st.length() < 5 && st.length() > 50)
-    {
-        st = "Nome invalido";
-        JOptionPane.showMessageDialog(null,st,"Erro",0);
-        System.exit(0);
-    }
-    
-    
-    if(st.substring(0,st.indexOf(" "))     == null && st.substring(st.lastIndexOf(" ") + 1) == null)
-    {
-        st = "O nome deve contre o seu nome e sobrenome";
-        JOptionPane.showMessageDialog(null,st,"Erro",0);
-        System.exit(0);
-    }
-    
-    
-    
-    if(st.substring(0,st.indexOf(" ")).length() < 2 && st.substring(st.lastIndexOf(" ") + 1).length() < 2)
-    {
-        st = "O nome e o sobrenome deve contrer pelo menos 2 caracteres";
-        JOptionPane.showMessageDialog(null,st,"Erro",0);
-        System.exit(0);
-    }
-    
-    st = "Nome valido: " + st;
-    JOptionPane.showMessageDialog(null,st,"mensagem",1);
-    System.exit(0);
- }
-}
- 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -161,22 +127,30 @@ public class AppPlano extends javax.swing.JDialog {
         Plano plano = new Plano();
 
         plano.setPla_nome(jTextFieldNome.getText());
-        validanome();
+
         //PLAconjuntoPlano_nome(jTextFieldNome.PegueOTexto());
         plano.setPla_acesso_simultaneo((int) jSpinnerAcessos.getValue());
 
         //plano.conjuntoPla_acesso_simultaneo((int) jSpinnerAcessos.PegueOValor());
-        plano.setPla_preco(Float.parseFloat(jTextFieldPreco.getText()));
-
+        try {
+            plano.setPla_preco(Float.parseFloat(jTextFieldPreco.getText()));
+        } catch (Exception e) {
+            mensagemErro(new Exception("Preço invalido!\n" + e.getMessage()));
+            return;
+        }
         //plano.comjuntoPla_preco(Float.parseFloat(jTextFieldPreco.pegueOTexto
         try {
             BllPlano bllPlano = new BllPlano();
             bllPlano.add(plano);
             JOptionPane.showMessageDialog(rootPane, "Plano adcionado com sucesso ");
+            this.dispose();
 
         } catch (Exception ex) {
             mensagemErro(ex);
+            return;
         }
+
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jSpinnerAcessosAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jSpinnerAcessosAncestorAdded

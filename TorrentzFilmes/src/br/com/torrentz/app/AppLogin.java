@@ -28,8 +28,8 @@ public class AppLogin extends javax.swing.JFrame {
         super("Login");
         initComponents();
         this.setLocationRelativeTo(null);
-        jTextFieldLogin.setText("contato.marcospaulo1@gmail.com");
-        jPasswordField.setText("123456");
+        jTextFieldLogin.setText("3");
+        jPasswordField.setText("lad159io");
         try {
             bll = new BllUsuario();
             usuarios = bll.getAll();
