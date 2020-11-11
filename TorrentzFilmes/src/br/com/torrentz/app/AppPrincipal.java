@@ -34,7 +34,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Contrato> contratos = null;
     private Iterable<Plano> planos = null;
     private Iterable<Filme> filmes = null;
-    private Iterable<Categoria> categoria = null;
+    private Iterable<Categoria> categorias = null;
     private Iterable<Visualizacao> visualizacoes = null;
 
     private String cadastro = "";
@@ -49,7 +49,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         usuarios = (Iterable) new BllUsuario().getAll();
         planos = (Iterable) new BllPlano().getAll();
         filmes = (Iterable) new BllFilme().getAll();
-        categoria = (Iterable) new BllCategoria().getAll();
+        categorias = (Iterable) new BllCategoria().getAll();
         visualizacoes = (Iterable) new BllVisualizacao().getAll();
     }
 
@@ -74,7 +74,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
 
             case "Categoria":
-                colecao = (Iterable) categoria;
+                colecao = (Iterable) categorias;
                 break;
 //                jTablePrincipal.setModel(new DefaultTableModel());
 //                throw new Exception("Pergunte ao Calebison!");
@@ -127,11 +127,18 @@ public class AppPrincipal extends javax.swing.JFrame {
 
                     break;
 
-//                case "Categoria":
+                case "Categoria":
 //                    AppCategoria modalCategoria = new AppCategoria();
 //                    modalCategoria.setTitle("incluir cadastro de categoria");
 //                    modalCategoria.setVisible(true);
 //                    break;
+                 
+                    AppCateg modalCateg = new AppCateg(this, true, new Categoria());
+                    modalCateg.setTitle("Incluir cadastro de Categoria");
+                    modalCateg.setVisible(true);
+                    break;
+                    
+                 
             }
             atualizarColecoes();
 
@@ -143,11 +150,13 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void editarCadastro() {
         try {
-            int id = 0;
+
+            int id = (jTablePrincipal.getSelectedRow() > -1)
+                    ? Integer.parseInt(jTablePrincipal.getValueAt(jTablePrincipal.getSelectedRow(), 0).toString())
+                    : 0;
 
             switch (cadastro) {
                 case "Usuario":
-                    id = Integer.parseInt(jTablePrincipal.getValueAt(jTablePrincipal.getSelectedRow(), 0).toString());
                     Usuario usuarioEditar = new Usuario();
                     for (Usuario u : usuarios) {
                         if (u.getId() == id) {
@@ -169,11 +178,15 @@ public class AppPrincipal extends javax.swing.JFrame {
 
                     break;
 
-//                case "Categoria":
+                case "Categoria":
 //                    AppCategoria modalCategoria = new AppCategoria();
 //                    modalCategoria.setTitle("incluir cadastro de categoria");
 //                    modalCategoria.setVisible(true);
-//                    break;
+                    Categoria categoria = new BllCategoria().getByid(id);
+                    AppCateg modalCateg = new AppCateg(this, true, categoria);
+                    modalCateg.setTitle("Editar cadastro de Categoria");
+                    modalCateg.setVisible(true);
+                    break;
             }
             atualizarColecoes();
 
@@ -244,12 +257,6 @@ public class AppPrincipal extends javax.swing.JFrame {
         jMenuSistema = new javax.swing.JMenu();
         jMenuItemNovoLogin = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
-        jMenuFilmes = new javax.swing.JMenu();
-        jMenuItemCategorias = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItemContratos = new javax.swing.JMenuItem();
-        jMenuItemPlanos = new javax.swing.JMenuItem();
-        jMenuItemUsuarios = new javax.swing.JMenuItem();
 
         jMenuItem2.setText("jMenuItem2");
 
@@ -381,50 +388,6 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuSistema);
 
-        jMenuFilmes.setText("Cadastro");
-
-        jMenuItemCategorias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
-        jMenuItemCategorias.setText("Categorias");
-        jMenuItemCategorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCategoriasActionPerformed(evt);
-            }
-        });
-        jMenuFilmes.add(jMenuItemCategorias);
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, 0));
-        jMenuItem1.setText("Filmes");
-        jMenuFilmes.add(jMenuItem1);
-
-        jMenuItemContratos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
-        jMenuItemContratos.setText("Contratos");
-        jMenuItemContratos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemContratosActionPerformed(evt);
-            }
-        });
-        jMenuFilmes.add(jMenuItemContratos);
-
-        jMenuItemPlanos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
-        jMenuItemPlanos.setText("Planos");
-        jMenuItemPlanos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPlanosActionPerformed(evt);
-            }
-        });
-        jMenuFilmes.add(jMenuItemPlanos);
-
-        jMenuItemUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, 0));
-        jMenuItemUsuarios.setText("Usuários");
-        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemUsuariosActionPerformed(evt);
-            }
-        });
-        jMenuFilmes.add(jMenuItemUsuarios);
-
-        jMenuBar1.add(jMenuFilmes);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -482,22 +445,6 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
-
-    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
-
-    private void jMenuItemCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCategoriasActionPerformed
-        mensagem("Atenção< DEV!", "Implementar carregamento do grid com o cadastro selecionado!");
-    }//GEN-LAST:event_jMenuItemCategoriasActionPerformed
-
-    private void jMenuItemPlanosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPlanosActionPerformed
-        mensagem("Atenção< DEV!", "Implementar carregamento do grid com os cadastros de Planos");
-    }//GEN-LAST:event_jMenuItemPlanosActionPerformed
-
-    private void jMenuItemContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemContratosActionPerformed
-        mensagem("Atenção< DEV!", "Implementar carregamento do grid com os cadastros de Categorias");
-    }//GEN-LAST:event_jMenuItemContratosActionPerformed
 
     private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
         incluirCadastro();
@@ -605,15 +552,9 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPerfil;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuFilmes;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItemCategorias;
-    private javax.swing.JMenuItem jMenuItemContratos;
     private javax.swing.JMenuItem jMenuItemNovoLogin;
-    private javax.swing.JMenuItem jMenuItemPlanos;
     private javax.swing.JMenuItem jMenuItemSair;
-    private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSistema;
     private javax.swing.JRadioButton jRadioButtonCategorias;
     private javax.swing.JRadioButton jRadioButtonContratos;

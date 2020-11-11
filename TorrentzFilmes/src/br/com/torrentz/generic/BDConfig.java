@@ -26,13 +26,25 @@ public class BDConfig {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     //Conexão Remota                
+//    private static BDConfig config = null;
+//    private final String server = "//18.224.5.197";
+//    private final String port = "5432";
+//    private final String database = "bdtorrentz01";
+//    private final String user = "torrentz";
+//    private final String password = "t0rr3ntz"; // Bem secret mesmo...
+//    private final String driver = "org.postgresql.Driver";
+    
+    //Conexão Local Vinicius                
+    //http://srv-ubuntu-p13/pgadmin4
     private static BDConfig config = null;
-    private final String server = "//18.224.5.197";
+    private final String server = "//srv-ubuntu-p13";
     private final String port = "5432";
     private final String database = "bdtorrentz01";
-    private final String user = "torrentz";
-    private final String password = "t0rr3ntz"; // Bem secret mesmo...
+    private final String user = "postgres";
+    private final String password = "vin"; // Bem secret mesmo...
     private final String driver = "org.postgresql.Driver";
+    
+    
         //Conexão Local                
 
 //    private static BDConfig config = null;
