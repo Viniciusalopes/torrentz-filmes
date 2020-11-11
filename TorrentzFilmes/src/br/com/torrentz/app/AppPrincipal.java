@@ -58,7 +58,7 @@ public class AppPrincipal extends javax.swing.JFrame {
             jButtonAssistir.setVisible(evt.getActionCommand().equals("Filme"));
             jButtonAssistir.setEnabled(false);
             atualizarGrid(evt.getActionCommand());
-            jButtonIncluir.setEnabled(usuario.getPerfil() == 'A');
+            jButtonIncluir.setEnabled(usuario.getPerfil() == 'A' && !evt.getActionCommand().equalsIgnoreCase("Visualizacoes"));
             cadastro = evt.getActionCommand();
         } catch (Exception e) {
             mensagemErro(e);
