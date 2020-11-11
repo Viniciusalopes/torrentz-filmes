@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TorrentzFilmes/src/br/com/torrentz/lib/dist/lib/commons-email-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TorrentzFilmes/src/br/com/torrentz/lib/dist/lib/smtp-1.4.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/TorrentzFilmes/src/br/com/torrentz/lib/dist/lib/mail-1.4.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

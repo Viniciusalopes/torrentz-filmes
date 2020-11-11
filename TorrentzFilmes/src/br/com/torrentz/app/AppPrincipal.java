@@ -5,17 +5,22 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllCategoria;
 import br.com.torrentz.bll.BllFilme;
 import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
+import br.com.torrentz.bll.BllVisualizacao;
 import static br.com.torrentz.generic.GenMensagem.*;
+import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
+import br.com.torrentz.model.Visualizacao;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
+import static java.util.Arrays.asList;
+import java.util.Collection;
 
 /**
  *
@@ -29,10 +34,13 @@ public class AppPrincipal extends javax.swing.JFrame {
     private Iterable<Contrato> contratos = null;
     private Iterable<Plano> planos = null;
     private Iterable<Filme> filmes = null;
+    private Iterable<Categoria> categoria = null;
+    private Iterable<Visualizacao> visualizacoes = null;
+
 
     private String cadastro = "";
 
-    public void setUsuario(Usuario usuario) throws Exception {
+    private void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
         jLabelPerfil.setText(usuario.getPerfil() == 'U' ? "USUÁRIO:" : "ADMINISTRADOR:");
         jLabelUsuario.setText(usuario.getNome());
@@ -42,11 +50,14 @@ public class AppPrincipal extends javax.swing.JFrame {
         usuarios = (Iterable) new BllUsuario().getAll();
         planos = (Iterable) new BllPlano().getAll();
         filmes = (Iterable) new BllFilme().getAll();
+        categoria = (Iterable) new BllCategoria().getAll();
+        visualizacoes = (Iterable) new BllVisualizacao().getAll();
     }
 
     private void jRadioButtonActionPerformed(ActionEvent evt) {
         try {
             jButtonAssistir.setVisible(evt.getActionCommand().equals("Filme"));
+            jButtonAssistir.setEnabled(false);
             atualizarGrid(evt.getActionCommand());
             jButtonIncluir.setEnabled(usuario.getPerfil() == 'A');
             cadastro = evt.getActionCommand();
@@ -64,19 +75,30 @@ public class AppPrincipal extends javax.swing.JFrame {
                 break;
 
             case "Categoria":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Calebison!");
+                colecao = (Iterable) categoria;
+                break;
+//                jTablePrincipal.setModel(new DefaultTableModel());
+//                throw new Exception("Pergunte ao Calebison!");
                 
             case "Filme":
                 colecao = (Iterable) filmes;
                 break;
                 
             case "Visualizacoes":
-                jTablePrincipal.setModel(new DefaultTableModel());
-                throw new Exception("Pergunte ao Marcos Paulo!");
+               
+                if(usuario.getPerfil() == 'U'){
+                    colecao = (Iterable) new ArrayList(new BllVisualizacao().buscaPorUsuario(usuario));
+                }else{
+                    colecao = (Iterable) visualizacoes;
+                }
+                break;
 
             case "Usuario":
-                colecao = (Iterable) usuarios;
+                if(usuario.getPerfil() == 'U'){  
+                    colecao = (Iterable) new ArrayList(asList(usuario));
+                }else{
+                    colecao = (Iterable) usuarios;
+                }
                 break;
 
             case "Contrato":
@@ -103,9 +125,17 @@ public class AppPrincipal extends javax.swing.JFrame {
                     AppPlano modalPlano = new AppPlano(this, true);
                     modalPlano.setTitle("incluir cadastro de plano");
                     modalPlano.setVisible(true);
+                    
                     break;
+                    
+//                case "Categoria":
+//                    AppCategoria modalCategoria = new AppCategoria();
+//                    modalCategoria.setTitle("incluir cadastro de categoria");
+//                    modalCategoria.setVisible(true);
+//                    break;
             }
             atualizarColecoes();
+          
             atualizarGrid("");
         } catch (Exception e) {
             mensagemErro(e);
@@ -115,13 +145,32 @@ public class AppPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form AppTelaPrincipal
      */
-    public AppPrincipal() {
+    private AppPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
         try {
             atualizarColecoes();
-            atualizarGrid("Filme");
-            jRadioButtonFilmes.setSelected(true);
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+    /**
+     * Creates new form AppTelaPrincipal
+     */
+    public AppPrincipal(Usuario usuario) {
+        this();
+        try {
+            this.setUsuario(usuario);
+            
+            if(usuario.getPerfil() == 'U'){
+                jButtonAssistir.setVisible(true);
+                jRadioButtonFilmes.setSelected(true);
+                atualizarGrid("Filme");
+                
+            }else{
+                jButtonAssistir.setVisible(false);
+                atualizarGrid("");
+            }
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -146,7 +195,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jRadioButtonPlanos = new javax.swing.JRadioButton();
         jRadioButtonContratos = new javax.swing.JRadioButton();
         jLabelUsuario = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButtonVisualizacoes = new javax.swing.JRadioButton();
         jLabelPerfil = new javax.swing.JLabel();
         jButtonAssistir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -179,6 +228,11 @@ public class AppPrincipal extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTablePrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTablePrincipalMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jTablePrincipal);
@@ -244,18 +298,19 @@ public class AppPrincipal extends javax.swing.JFrame {
         jLabelUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabelUsuario.setText("jLabelUsuario");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Visualizações");
-        jRadioButton1.setActionCommand("Visualizacoes");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(jRadioButtonVisualizacoes);
+        jRadioButtonVisualizacoes.setText("Visualizações");
+        jRadioButtonVisualizacoes.setActionCommand("Visualizacoes");
+        jRadioButtonVisualizacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jRadioButtonVisualizacoesActionPerformed(evt);
             }
         });
 
         jLabelPerfil.setText("PERFIL:");
 
         jButtonAssistir.setText("Assistir");
+        jButtonAssistir.setEnabled(false);
         jButtonAssistir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAssistirActionPerformed(evt);
@@ -356,7 +411,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButtonContratos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)
+                        .addComponent(jRadioButtonVisualizacoes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAssistir)))
                 .addContainerGap())
@@ -372,7 +427,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                     .addComponent(jRadioButtonPlanos)
                     .addComponent(jRadioButtonContratos)
                     .addComponent(jRadioButtonUsuarios)
-                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButtonVisualizacoes)
                     .addComponent(jButtonAssistir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
@@ -440,20 +495,26 @@ public class AppPrincipal extends javax.swing.JFrame {
         jRadioButtonActionPerformed(evt);
     }//GEN-LAST:event_jRadioButtonContratosActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jRadioButtonVisualizacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonVisualizacoesActionPerformed
         jRadioButtonActionPerformed(evt);
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_jRadioButtonVisualizacoesActionPerformed
 
     private void jButtonAssistirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssistirActionPerformed
         // TODO add your handling code here:
         try {
             if(jTablePrincipal.getSelectedRow() == -1)throw new RuntimeException("Selecione o filme que deseja assistir!");
-            
+            new AppVisualizar(usuario, (Filme) new ArrayList((Collection) filmes).get(jTablePrincipal.getSelectedRow())).setVisible(true);
+            this.dispose();
         } catch (RuntimeException error) {
             mensagemErro(error);
         }
         
     }//GEN-LAST:event_jButtonAssistirActionPerformed
+
+    private void jTablePrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePrincipalMouseReleased
+        // TODO add your handling code here:
+        jButtonAssistir.setEnabled(usuario.getPerfil() == 'U');
+    }//GEN-LAST:event_jTablePrincipalMouseReleased
 
     /**
      * @param args the command line arguments
@@ -508,12 +569,12 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSistema;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButtonCategorias;
     private javax.swing.JRadioButton jRadioButtonContratos;
     private javax.swing.JRadioButton jRadioButtonFilmes;
     private javax.swing.JRadioButton jRadioButtonPlanos;
     private javax.swing.JRadioButton jRadioButtonUsuarios;
+    private javax.swing.JRadioButton jRadioButtonVisualizacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePrincipal;
     // End of variables declaration//GEN-END:variables

@@ -34,6 +34,10 @@ public class BDConfig {
     private final String password = "t0rr3ntz"; // Bem secret mesmo...
     private final String driver = "org.postgresql.Driver";
         //Conexão Local                
+<<<<<<< HEAD
+=======
+
+>>>>>>> e085699d7e1e511fe37da7fc37f444cd65b04241
 //    private static BDConfig config = null;
 //    private final String server = "//127.0.0.1";
 //    private final String port = "5432";

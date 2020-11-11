@@ -34,15 +34,15 @@ public class BllCategoria extends DalCategoria {
     }
 
     public void validate(Categoria categoria) throws Exception {
-        if (categoria.getCat_nome().trim().length() < 2) {
+        if (categoria.getNome().trim().length() < 2) {
             throw new Exception("Nome da categoria muito curto");
         }
-        if (categoria.getCat_nome().trim().length() > super.getMaxLength("cat_nome")) {
+        if (categoria.getNome().trim().length() > super.getMaxLength("cat_nome")) {
             throw new Exception("Nome da categoria muito longo ");
         }
 
-        if (super.alreadyExists(categoria.getCat_nome(), categoria.getCat_id())) {
-            throw new Exception("Já existe uma categoria com o nome " + categoria.getCat_nome());
+        if (super.alreadyExists(categoria.getNome(), categoria.getId())) {
+            throw new Exception("Já existe uma categoria com o nome " + categoria.getNome());
         }
     }
 }

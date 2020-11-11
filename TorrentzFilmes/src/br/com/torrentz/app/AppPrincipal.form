@@ -148,7 +148,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRadioButtonContratos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRadioButtonVisualizacoes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonAssistir" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -168,7 +168,7 @@
                   <Component id="jRadioButtonPlanos" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jRadioButtonContratos" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jRadioButtonUsuarios" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jRadioButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jRadioButtonVisualizacoes" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonAssistir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -218,6 +218,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTablePrincipalMouseReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -298,7 +301,7 @@
         <Property name="text" type="java.lang.String" value="jLabelUsuario"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+    <Component class="javax.swing.JRadioButton" name="jRadioButtonVisualizacoes">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup1"/>
@@ -307,7 +310,7 @@
         <Property name="actionCommand" type="java.lang.String" value="Visualizacoes"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonVisualizacoesActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelPerfil">
@@ -318,6 +321,7 @@
     <Component class="javax.swing.JButton" name="jButtonAssistir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Assistir"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAssistirActionPerformed"/>

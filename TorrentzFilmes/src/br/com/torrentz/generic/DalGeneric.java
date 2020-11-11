@@ -304,14 +304,15 @@ public abstract class DalGeneric<T> {
      * @throws Exception
      */
     public int getMaxLength(String column_name) throws Exception {
-        sql = "SELECT character_maximum_length AS maxLength "
+        sql = "SELECT character_maximum_length AS maxlength "
                 + "FROM information_schema.columns "
                 + "WHERE table_name = ? AND column_name = ?";
         args = new Object[]{table, column_name};
 
         ResultSet rs = executeQuery();
         if (rs.next()) {
-            return rs.getInt("maxLength");
+            System.out.println(rs.getInt("maxlength"));
+            return rs.getInt("maxlength");
         }
         return 0;
     }

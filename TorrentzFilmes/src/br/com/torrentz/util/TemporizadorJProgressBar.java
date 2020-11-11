@@ -6,6 +6,10 @@
 
 package br.com.torrentz.util;
 
+import br.com.torrentz.bll.BllVisualizacao;
+import br.com.torrentz.model.Visualizacao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 
 /**
@@ -17,13 +21,13 @@ public class TemporizadorJProgressBar extends Thread{
     private JProgressBar jProgressBar = null;
     private boolean paused = false;
     private boolean allDone = false;
+    private Visualizacao visualizacao = null;
     
     /* Métodos */
     /**
      * @default
      */
-    public TemporizadorJProgressBar(){
-        this(new JProgressBar());
+    private TemporizadorJProgressBar(){
     }
     
     /**
@@ -34,6 +38,16 @@ public class TemporizadorJProgressBar extends Thread{
         this.jProgressBar = jProgressBar;
     }
     
+    public void salvarVisuzalizacao(Visualizacao visualizacao) throws Exception{
+        try {
+            this.visualizacao = visualizacao;
+            this.visualizacao.setCompleto(false);
+            new BllVisualizacao().configura(visualizacao);
+           
+        } catch (Exception error) {
+            throw error;
+        }
+    }
     /**
      * Método para incrementar valor do progressbar a cada 1 segundo
      * @void
@@ -45,7 +59,15 @@ public class TemporizadorJProgressBar extends Thread{
                 
                 super.sleep(1000);
                 jProgressBar.setValue(jProgressBar.getValue() +1); 
-                
+                if(jProgressBar.getValue() == 100){
+                    visualizacao.setCompleto(true);
+                    System.out.println(true);
+                    
+                    try {new BllVisualizacao().configura(visualizacao);} 
+                    catch (Exception error) {
+                         System.out.println(error.getMessage());
+                    }
+                }
             } catch (InterruptedException ex) {
                ex.printStackTrace();
             }
