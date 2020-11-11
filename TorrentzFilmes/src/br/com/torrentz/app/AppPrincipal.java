@@ -352,6 +352,11 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, 0));
         jMenuItem1.setText("Filmes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenuFilmes.add(jMenuItem1);
 
         jMenuItemContratos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
@@ -515,6 +520,12 @@ public class AppPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         jButtonAssistir.setEnabled(usuario.getPerfil() == 'U');
     }//GEN-LAST:event_jTablePrincipalMouseReleased
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new AppFilmes(usuario).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
