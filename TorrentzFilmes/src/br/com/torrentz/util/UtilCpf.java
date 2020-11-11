@@ -18,7 +18,7 @@ public class UtilCpf {
         if (!isValid(cpf)) {
             throw new Exception("O CPF [" + cpf + "]é inválido!");
         }
-        cpf = cpf.trim().replaceAll(".", "").replaceAll("-", "");
+        cpf = cpf.trim().replace(".", "").replace("-", "");
         return cpf.subSequence(0, 3) + "." + cpf.subSequence(3, 6) + "." + cpf.subSequence(6, 9) + "-" + cpf.subSequence(9, 11);
     }
 
@@ -38,7 +38,7 @@ public class UtilCpf {
         int[] multiplicador1 = new int[]{10, 9, 8, 7, 6, 5, 4, 3, 2};
         int[] multiplicador2 = new int[]{11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
-        cpf = cpf.trim().replaceAll(".", "").replaceAll("-", "");
+        cpf = cpf.trim().replace(".", "").replace("-", "");
         
         if (cpf.length() != 11) {
             return false;

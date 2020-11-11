@@ -46,7 +46,7 @@ INSERT INTO Usuarios
 	(
 		'Marcos Paulo',
 		'A',
-		'27981108071',
+		'03451728095',
 		'contato.marcospaulo1@gmail.com',
 		'8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92',
 		10.00,
@@ -56,7 +56,7 @@ INSERT INTO Usuarios
 	(
 		'Vinicius Araujo Lopes',
 		'A',
-		'93830651090',
+		'81774803089',
 		'suporte@viniciusalopes.com.br',
 		'8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92',
 		12.00,
@@ -65,7 +65,7 @@ INSERT INTO Usuarios
 	(
 		'Lucas Araujo',
 		'A',
-		'53869888083',
+		'94357576008',
 		'lucasgoias1@gmail.com',
 		'8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92',
 		04.00,
@@ -74,7 +74,7 @@ INSERT INTO Usuarios
 	(
 		'Calebe de Costa',
 		'A',
-		'41164832069',
+		'12738018068',
 		'calebaum@gmail.com',
 		'8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92',
 		20.00,
@@ -249,3 +249,5 @@ CREATE TABLE Contratos
 	CONSTRAINT FK_usuario_contrato FOREIGN KEY (con_usu_id) REFERENCES Usuarios (usu_id),
 	CONSTRAINT FK_plano_contrato FOREIGN KEY (con_pla_id) REFERENCES Planos (pla_id)
 );
+
+select * from usuarios u; 
