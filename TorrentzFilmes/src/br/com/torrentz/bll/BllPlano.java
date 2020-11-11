@@ -52,8 +52,22 @@ public class BllPlano extends DalPlano {
         }
         if (plano.getPla_nome().length() > getMaxLength("pla_nome")) {
             throw new Exception("nome muito grande");
+               
+        } 
+//        if (alreadyExists(plano,(Iterable) super.getAll())) {
+//            
+//        }
+//        return;
+    }
+     public void alreadyExists(Plano plano, Iterable<Plano> usuarios) throws Exception {
+        for (Plano p : usuarios) {
+            if (p.getPla_id()!= plano.getPla_id()) {
+                if (p.getPla_nome().equals(plano.getPla_nome())) {
+                    throw new Exception("Já existe um usuário cadastrado com esse Nome");
+                }
+                
+            }
         }
-        
     }
 
     //metoddo herdado da classe DalPlano 
