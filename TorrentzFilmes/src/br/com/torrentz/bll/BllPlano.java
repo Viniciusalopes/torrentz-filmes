@@ -43,15 +43,26 @@ public class BllPlano extends DalPlano {
     //metodo validate
 
     public void validate(Plano plano) throws Exception {
-
+         //______________________________________________________________________
+         //metodo que valida se o usuario esta usando letras, se o usuario 
+         //retirna com um valor numero ou algum caracter especial 
+        
         if (!soTemLetras(plano.getPla_nome())) {
             throw new Exception("O nome do plano possui caracteres invalidos!");
         }
+        //______________________________________________________________________
+        //metodo que testa se o nome do planoi tem mais de 2 letras 
+        //e se o valor retornado for menor que dois ele revalida 
         if (plano.getPla_nome().length() < 2) {
             throw new Exception("o nome deve ter mais que uma letra ");
         }
+        //______________________________________________________________________
         if (plano.getPla_nome().length() > getMaxLength("pla_nome")) {
             throw new Exception("nome muito grande");
+            
+            // ciramos este metodo pra verificar o tamanho do nome seguindo os 
+            //parametros do modelo do banco de dados 
+        //______________________________________________________________________
                
         } 
 //        if (alreadyExists(plano,(Iterable) super.getAll())) {
