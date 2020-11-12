@@ -57,7 +57,7 @@ public class DalPlano extends DalGeneric<Plano> {
 
         orderBy = " ORDER BY pla_nome";
 
-    }
+    }//metodo que segue a ordenaçao da tabela em anbos os modelos 
 
     @Override //array list palno 
     protected ArrayList<Plano> build(ResultSet rs) throws Exception {
@@ -83,7 +83,7 @@ public class DalPlano extends DalGeneric<Plano> {
             throw new Exception("Nenhum plano cadastrado com o id [ " + id + "] !");
         }
         return ret.get(0);
-
+//valida se existe algum outro campo com este nome 
     }
 
     /*
@@ -104,7 +104,7 @@ Exceção {
 
     }
 
-
+    //__________________________________________________________________________
     /*
     Eu estou com um problema para entender o 
     ArrayList e a aplicação de seus métodos. 
@@ -118,6 +118,9 @@ Exceção {
     “um” (objetodaminhaclasse) através de seu nome. ou seja:  
   
      */
+    //nmetodo search que faz a busca no banco 
+    
+    //__________________________________________________________________________
     public ArrayList<Plano> search(String text) throws Exception {
         String t = "%" + text.toLowerCase().trim() + "%";
         sql = sqlSelect
@@ -129,7 +132,11 @@ Exceção {
         return select();
 
     }
-
+    // nmmetodo que instrui a pesquisa pelos atribbutos 'pla_nome', 
+    //'pla_acesso_simuntaneo', e 'pra preco'
+    //__________________________________________________________________________
+    //metodod add que vai pegar os valores e adicionar no banco 
+    
     protected void add(Plano plano) throws Exception {
         args = new Object[]{
             plano.getPla_acesso_simultaneo(),
@@ -138,9 +145,13 @@ Exceção {
         };
         sql = sqlInsert;
         execute();
-
+     //metodo que tem uam funçao importante em todo o codico pq e dessa classa 
+     //que a bll vai herdar
+     //_________________________________________________________________________
     }
-
+     //_________________________________________________________________________
+     //metodo update que atualiza a tabela plano seguindo cada valor qeu foi digitado no palno 
+     //
     protected void update(Plano plano) throws Exception {
         args = new Object[]{plano.getPla_id(),
             plano.getPla_acesso_simultaneo(),
@@ -149,5 +160,7 @@ Exceção {
         };
         sql = sqlUpdate;
         execute();
+        
     }
+    //__________________________________________________________________________
 }

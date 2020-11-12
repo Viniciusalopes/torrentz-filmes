@@ -27,11 +27,15 @@ public class AppPlano extends javax.swing.JDialog {
     public AppPlano(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
-        jTextFieldNome.setText("");
-        jTextFieldPreco.setText("");
+        //______________________________________________________________________
+        setLocationRelativeTo(null);//cetraliza o jframe de cadastro de plano 
+        //______________________________________________________________________
+        jTextFieldNome.setText(" ");//limpa o campo nome 
+        jTextFieldPreco.setText(" ");//limpa o campo preco 
+        //______________________________________________________________________
         jButtonSalvar.repaint();
         jButtonSalvar.validate();
+        //______________________________________________________________________
 
     }
 
