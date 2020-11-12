@@ -6,6 +6,7 @@
 package br.com.torrentz.app;
 
 import br.com.torrentz.bll.BllCategoria;
+import br.com.torrentz.bll.BllContrato;
 import br.com.torrentz.bll.BllFilme;
 import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
@@ -47,6 +48,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     public void atualizarColecoes() throws Exception {
         usuarios = (Iterable) new BllUsuario().getAll();
+        contratos = (Iterable) new BllContrato().getAll();
         planos = (Iterable) new BllPlano().getAll();
         filmes = (Iterable) new BllFilme().getAll();
         categorias = (Iterable) new BllCategoria().getAll();
@@ -67,7 +69,10 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void atualizarGrid(String objectName) throws Exception {
         colecao = new ArrayList<>();
-
+        if (objectName.trim().length() == 0) {
+            buttonGroup1.clearSelection();
+        }
+        
         switch (objectName) {
             case "Plano":
                 colecao = (Iterable) planos;
@@ -132,13 +137,12 @@ public class AppPrincipal extends javax.swing.JFrame {
 //                    modalCategoria.setTitle("incluir cadastro de categoria");
 //                    modalCategoria.setVisible(true);
 //                    break;
-                 
+
                     AppCateg modalCateg = new AppCateg(this, true, new Categoria());
                     modalCateg.setTitle("Incluir cadastro de Categoria");
                     modalCateg.setVisible(true);
                     break;
-                    
-                 
+
             }
             atualizarColecoes();
 
@@ -190,7 +194,45 @@ public class AppPrincipal extends javax.swing.JFrame {
             }
             atualizarColecoes();
 
-            atualizarGrid("");
+            atualizarGrid(cadastro);
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }
+
+    private void excluirCadastro() {
+        try {
+
+            int id = (jTablePrincipal.getSelectedRow() > -1)
+                    ? Integer.parseInt(jTablePrincipal.getValueAt(jTablePrincipal.getSelectedRow(), 0).toString())
+                    : 0;
+
+            if (mensagemEscolher("Deseja REALMENTE excluir o cadastro?", new String[]{"Não", "Sim"}) > 0) {
+                switch (cadastro) {
+                    case "Usuario":
+                        new BllUsuario().delete(id);
+                        break;
+
+                    case "Categoria":
+                        new BllCategoria().delete(id);
+                        break;
+
+                    case "Filme":
+                        new BllFilme().delete(id);
+
+                    case "Plano":
+                        new BllPlano().delete(id);
+                        break;
+
+                    case "Contrato":
+                        new BllContrato().delete(id);
+                        break;
+                }
+                atualizarColecoes();
+                atualizarGrid(cadastro);
+
+                mensagem("Sucesso!", "Cadastro excluído com sucesso!");
+            }
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -224,7 +266,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
             } else {
                 jButtonAssistir.setVisible(false);
-                atualizarGrid("");
+                atualizarGrid(cadastro);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -282,6 +324,11 @@ public class AppPrincipal extends javax.swing.JFrame {
         jTablePrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jTablePrincipalMouseReleased(evt);
+            }
+        });
+        jTablePrincipal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTablePrincipalKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jTablePrincipal);
@@ -508,6 +555,14 @@ public class AppPrincipal extends javax.swing.JFrame {
         }
         jButtonAssistir.setEnabled(usuario.getPerfil() == 'U');
     }//GEN-LAST:event_jTablePrincipalMouseReleased
+
+    private void jTablePrincipalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTablePrincipalKeyReleased
+        try {
+            excluirCadastro();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTablePrincipalKeyReleased
 
     /**
      * @param args the command line arguments

@@ -8,11 +8,13 @@ package br.com.torrentz.app;
 import br.com.torrentz.bll.BllContrato;
 import br.com.torrentz.bll.BllPlano;
 import br.com.torrentz.bll.BllUsuario;
+import static br.com.torrentz.generic.GenMensagem.mensagem;
 import static br.com.torrentz.generic.GenMensagem.mensagemErro;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import static br.com.torrentz.util.UtilCpf.cpfMask;
+import static br.com.torrentz.util.UtilString.textoSoComNumeros;
 import java.text.SimpleDateFormat;
 import javax.swing.table.DefaultTableModel;
 
@@ -178,6 +180,11 @@ public class AppUsuarioEditar extends javax.swing.JDialog {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuário", "Administrador" }));
         jComboBoxPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -271,12 +278,47 @@ public class AppUsuarioEditar extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonIncluirContratoActionPerformed
 
     private void jComboBoxPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerfilActionPerformed
-         try {
+        try {
             jButtonIncluirContrato.setEnabled(jComboBoxPerfil.getSelectedIndex() == 0);
         } catch (Exception e) {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jComboBoxPerfilActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        try {
+            char perfil = jComboBoxPerfil.getSelectedItem().toString().charAt(0);
+            usuario = new Usuario(
+                    0,
+                    jTextFieldNome.getText(),
+                    textoSoComNumeros(jTextFieldCpf.getText()),
+                    jTextFieldEmail.getText(),
+                    new String(jPasswordField.getPassword()),
+                    0,
+                    usuario.getDataGeracao(),
+                    perfil
+            );
+            bllUsuario.validate(usuario);
+
+            AppRedefinirSenha modal = new AppRedefinirSenha(null, true);
+            modal.setUpToCheckEmail(usuario, usuarios);
+            modal.setVisible(true);
+            if (!modal.emailChecked) {
+                throw new Exception("O e-mail não foi verificado!");
+            }
+            modal.dispose();
+
+            if (perfil == 'U') {
+                mensagem("Opa", "Não implementado.");
+            } else {
+                bllUsuario.add(usuario);
+            }
+            mensagem("Sucesso!", "O usuário foi cadastrado com sucesso!");
+            this.dispose();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
      * @param args the command line arguments

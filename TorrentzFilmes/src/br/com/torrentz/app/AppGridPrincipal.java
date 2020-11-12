@@ -5,6 +5,8 @@
  */
 package br.com.torrentz.app;
 
+import br.com.torrentz.bll.BllPlano;
+import br.com.torrentz.bll.BllUsuario;
 import br.com.torrentz.model.Categoria;
 import br.com.torrentz.model.Contrato;
 import br.com.torrentz.model.Filme;
@@ -12,6 +14,7 @@ import br.com.torrentz.model.Plano;
 import br.com.torrentz.model.Usuario;
 import br.com.torrentz.model.Visualizacao;
 import static br.com.torrentz.util.UtilCpf.cpfMask;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,10 +25,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AppGridPrincipal<T> {
 
-    Object object = null;
-    String[] colunas = new String[]{};
-    int[] larguras = new int[]{};
-    Object[][] linhas = new Object[][]{};
+    private Object object = null;
+    private String[] colunas = new String[]{};
+    private int[] larguras = new int[]{};
+    private Object[][] linhas = new Object[][]{};
+    private SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 
     public void preencherGrid(Iterable<T> colecao, JTable grid) throws Exception {
 
@@ -96,6 +100,7 @@ public class AppGridPrincipal<T> {
 
                     }
                     break;
+                
                 case "Filme":
                     colunas = new String[]{"ID","TITULO","ANO","CATEGORIA"};
                     larguras = new int[]{80, -1, -1, -1};
@@ -133,6 +138,7 @@ public class AppGridPrincipal<T> {
                         l++;
                     }
                     break;
+                
                 case "Usuario":
                     colunas = new String[]{"ID", "Nome", "CPF", "E-mail"};
                     larguras = new int[]{80, -1, -1, -1};
@@ -152,18 +158,29 @@ public class AppGridPrincipal<T> {
                     break;
 
                 case "Contrato":
-                    colunas = new String[]{"ID", "Cliente", "Plano", "Início", "Fim",};
-                    larguras = new int[]{80, -1, -1, -1, -1};
+                    colunas = new String[]{"ID", "Cliente", "Plano", "Início", "Fim", "Status"};
+                    larguras = new int[]{80, -1, -1, 100, 100, 80};
                     linhas = new Object[lista.size()][colunas.length];
-
+                    
+                    BllUsuario bllUsuario = new BllUsuario();
+                    BllPlano bllPlano = new BllPlano();
+                    
                     for (l = 0; l < lista.size(); l++) {
                         Contrato c = (Contrato) lista.get(l);
+                        Plano plano = bllPlano.getById(c.getPlanoId());
+                        int acessos = plano.getPla_acesso_simultaneo();
+                        String plural = (acessos == 1) ? " " : "s";
+                        
                         Object[] linha = new Object[]{
-                            "",
-                            "",
-                            "",
-                            "",
-                            ""
+                            c.getPlanoId() + "." + c.getUsuarioId(),
+                            bllUsuario.getById(c.getUsuarioId()).getNome(),
+                            String.format("%04d", plano.getPla_id()) + " - "
+                            + plano.getPla_nome() + " - "
+                            + acessos + " Acesso" + plural + " - "
+                            + String.format("R$ %.2f", plano.getPla_preco()),
+                            formatoData.format(c.getInicio()),
+                            formatoData.format(c.getFim()),
+                            (c.getStatus() == 'A') ? "Ativo":(c.getStatus() == 'I' ? "Inativo" : "Suspenso")
                         };
                         linhas[l] = linha;
                     }
