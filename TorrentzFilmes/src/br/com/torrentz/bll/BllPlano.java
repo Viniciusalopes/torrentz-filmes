@@ -61,7 +61,7 @@ public class BllPlano extends DalPlano {
             throw new Exception("nome muito grande");
             
             // ciramos este metodo pra verificar o tamanho do nome seguindo os 
-            //parametros do modelo do banco de dados 
+            // parametros do modelo do banco de dados 
         //______________________________________________________________________
                
         } 
